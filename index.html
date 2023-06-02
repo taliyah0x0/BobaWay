@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html style="background-color: rgb(226, 199, 140)" id="background">
+
+  <head>
+    <title>BobaWay</title>
+    <link rel="stylesheet" href="./static/bobaway.css">
+    <link rel="icon" type="image/x-icon" href="./static/flav_9.png" class="favicon">
+    <link rel="apple-touch-icon" sizes="128x128" href="./static/flav_9.png" class="favicon">
+  </head>
+
+  <body class="body-pad">
+    <p id="play" style="display: none">0</p>
+    <div style="display: flex; flex-direction: column">
+      <div style="display: flex; flex: 1" class="bottom">
+        <a href="https://bobaway.taliyahhuang.repl.co/" style="display: flex; flex: 6">
+          <h1 id="title">
+            BobaWay
+          </h1>
+        </a>
+        <div style="display: flex; flex-direction: row">
+          <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(0)">
+            <a href="https://bobaway-about.taliyahhuang.repl.co/">
+              <h3>
+                About
+              </h3>
+            </a>
+          </button>
+          <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(1)">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdP1kMHJXToGtXX_SetKCaZ9E7J5OWDM2fuSyhEXaDIvHLvcA/viewform?usp=sf_link" target="_blank">
+              <h3>
+                Report Bug
+              </h3>
+            </a>
+          </button>
+        </div>
+      </div>
+      <div style="display: flex; flex: 7; flex-direction: column">
+        <div style="display: flex; padding-left: 5vw; padding-right: 5vw; padding-top: 1vw" class="bottom">
+          <img src="./static/portrait.jpg" style="flex: 1" class="portrait">
+          <p style="flex: 6; margin-left: 4vw" class="intro-text">
+            Hi! I'm Taliyah, a proud Taiwanese-American college student and the creator of BobaWay. Thanks for taking the
+            time to try out this Taiwanese translator! If you have any questions, please don't hesitate to use the form
+            below to contact me!
+            <br>
+            <br>
+            嗨！我是造作Bobaway的台灣美國大學生Taliyah. 謝謝您花時間試試這個台語的翻譯機！如果有問題，請不猶豫用下面的表跟我連絡！
+          </p>
+        </div>
+        <div style="display: flex; flex-direction: column; padding-left: 5vw; padding-right: 5vw; margin-top: 3vw">
+          <form>
+            <div style="display: flex;" class="bottom">
+              <div style="display: flex; flex-direction: column">
+                <h3>Contact Me!</h3>
+                <input type="text" id="name" class="text-box small-box" placeholder="Name" required>
+                <input type="email" id="email" class="text-box small-box" placeholder="Email" required>
+              </div>
+              <div style="display: inline-block; position: relative;">
+                <textarea class="text-box large-box" id="message" placeholder="Message" required></textarea>
+                <textarea id="color" name="color" style="display: none">9</textarea>
+                <div id="submit-shadow" class="submit-bt"></div>
+                <a href="" target="_blank" id="submit"><button class="submit-button submit-bt" onmouseover="submitMOV()" onmouseout="submitMOU()" onclick="submitForm()" type="submit">
+                <h3 class="submit-text">Submit</h3>
+                </button></a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+  </body>
+  <script type="text/javascript" src="./static/index.js"></script>
+
+</html>
