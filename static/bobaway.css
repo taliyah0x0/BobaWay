@@ -1,0 +1,384 @@
+@font-face {
+  font-family: Choko;
+  src: url("choko.ttf");
+}
+
+@font-face {
+  font-family: Dosis;
+  src: url("dosis.ttf");
+}
+
+@media (max-aspect-ratio: 1/1) {
+  .body-pad {
+    padding: 3vw;
+  }
+
+  .phone {
+    display: block;
+  }
+
+  .comp {
+    display: block;
+  }
+
+  .comp-inline {
+    display: none;
+  }
+
+  h1 {
+    font-size: 14vw;
+    font-weight: normal;
+  }
+
+  h2 {
+    font-size: 5vw;
+  }
+
+  h3 {
+    font-size: 5vw;
+    font-weight: normal;
+  }
+
+  p {
+    font-size: 3vw;
+  }
+
+  .text-box {
+    font-size: 4vw;
+    -webkit-appearance: none;
+    box-shadow: 1.5vw 1.5vw rgb(60, 20, 0);
+    border-radius: 3vmax;
+  }
+
+  .large-box {
+    width: 85vw;
+    height: 15vh;
+  }
+
+  .small-box {
+    width: 85vw;
+    height: 10vh;
+    margin-bottom: 2vh;
+  }
+
+  .bottom {
+    flex-direction: column;
+    margin-bottom: 1vh;
+  }
+
+  .submit-bt {
+    width: 25vw;
+    height: 8vw;
+    border-radius: 3vmax;
+  }
+
+  .menu-button {
+    border-radius: 3vmax;
+    padding-top: 1vmin;
+  }
+
+  .phone-only {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .drink-straw {
+    background-color: rgb(250, 230, 170);
+    width: 4vw;
+    height: 8vw;
+    position: absolute;
+    right: 12vw;
+    bottom: -5vh;
+  }
+
+  .drink {
+    background-color: rgb(250, 230, 170);
+    border-radius: 0 0 10vw 10vw;
+    margin-bottom: 0.5vw;
+    position: absolute;
+    height: 18vh;
+    width: 30vw;
+    bottom: -23vh;
+    right: 7vw;
+  }
+
+  .drink-box {
+    background-color: rgb(226, 199, 140);
+    border-radius: 0 0 10vw 10vw;
+    margin-bottom: 0.5vw;
+    position: absolute;
+    height: 15vh;
+    width: 26vw;
+    bottom: -22vh;
+    right: 9vw;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .drink-text {
+    bottom: 5vw;
+  }
+
+  .speech-button {
+    background-color: rgb(250, 230, 170);
+    width: 35vw;
+    height: 25vw;
+    bottom: 7vh;
+    right: 12vw;
+    border-radius: 4vw;
+    position: absolute;
+    cursor: pointer;
+    padding: 0.5vw;
+  }
+
+  .speech-text {
+    bottom: 3vh;
+    right: 14vw;
+    width: 30vw;
+    position: absolute;
+    font-size: 2vw;
+  }
+
+  .flavor-text {
+    font-size: 4vw;
+    width: 20vw;
+    display: block;
+    margin: auto;
+    margin-top: 4vh;
+    font-family: Choko;
+  }
+}
+
+@media (min-aspect-ratio: 1/1) {
+  .body-pad {
+    padding: 0;
+  }
+
+  .phone {
+    display: none;
+  }
+
+  .comp {
+    display: flex;
+  }
+
+  .comp-inline {
+    display: inline-block;
+  }
+
+  h1 {
+    font-size: 4vw;
+  }
+
+  h2 {
+    font-size: 3vw;
+  }
+
+  h3 {
+    font-size: 2vw;
+  }
+
+  p {
+    font-size: 1vw;
+  }
+
+  .text-box {
+    -webkit-appearance: none;
+    font-size: 2vw;
+    box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);
+    border-radius: 2vmax;
+  }
+
+  .large-box {
+    width: 40vw;
+    height: 35vh;
+  }
+
+  .small-box {
+    width: 25vw;
+    height: 38vh;
+  }
+
+  .bottom {
+    flex-direction: row;
+    margin-bottom: 0;
+  }
+
+  .submit-bt {
+    width: 10vw;
+    height: 3vw;
+    border-radius: 2vmax;
+  }
+
+  .menu-button {
+    border-radius: 2vmax;
+  }
+
+  .phone-only {
+    display: none;
+  }
+
+  .drink-straw {
+    background-color: rgb(250, 230, 170);
+    width: 2vw;
+    height: 4vw;
+    position: absolute;
+    right: 6vw;
+    bottom: 31vh;
+  }
+
+  .drink {
+    background-color: rgb(250, 230, 170);
+    border-radius: 0 0 5vw 5vw;
+    margin-bottom: 0.5vw;
+    position: absolute;
+    height: 31vh;
+    width: 14vw;
+    bottom: 0.5vw;
+    right: 2vw;
+  }
+
+  .drink-box {
+    background-color: rgb(226, 199, 140);
+    border-radius: 0 0 5vw 5vw;
+    margin-bottom: 0.5vw;
+    position: absolute;
+    height: 26vh;
+    width: 12vw;
+    bottom: 1.5vw;
+    right: 3vw;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .drink-text {
+    bottom: 15vw;
+  }
+
+  .speech-button {
+    background-color: rgb(250, 230, 170);
+    width: 15vw;
+    height: 10vw;
+    bottom: 14vh;
+    right: 2vw;
+    border-radius: 2vw;
+    position: absolute;
+    cursor: pointer;
+    padding: 0.5vw;
+  }
+
+  .speech-text {
+    bottom: 5vh;
+    right: 1vw;
+    width: 17vw;
+    position: absolute;
+    font-size: 1vw;
+  }
+
+  .flavor-text {
+    font-size: 2vw;
+    width: 10vw;
+    display: block;
+    margin: auto;
+    margin-top: 4vh;
+    font-family: Choko;
+  }
+}
+
+h1 {
+  display: flex;
+  flex: 6;
+  margin: 1vw;
+  color: rgb(60, 20, 0);
+  font-family: Choko;
+}
+
+h2 {
+  text-align: center;
+  color: rgb(60, 20, 0);
+  font-family: Choko;
+}
+
+h3 {
+  text-align: center;
+  margin: 1vw;
+  margin-top: -0.2vw;
+  color: rgb(60, 20, 0);
+  font-family: Choko;
+}
+
+a {
+  text-decoration: none;
+}
+
+p {
+  font-family: Dosis;
+  text-align: center;
+  color: rgb(60, 20, 0);
+}
+
+.text-box {
+  font-family: Dosis;
+  border: none;
+  padding: 1vmax;
+  background-color: rgb(250, 230, 170);
+  display: block;
+  resize: none;
+  position: relative;
+  color: rgb(60, 20, 0);
+}
+
+.submit-button {
+  font-size: 2vw;
+  position: absolute;
+  bottom: 1.5vmax;
+  right: 1.5vmax;
+  border: none;
+  background-color: rgb(226, 199, 140);
+  cursor: default;
+}
+
+.submit-button:hover {
+  cursor: pointer;
+}
+
+#submit-shadow {
+  background-color: rgb(60, 20, 0);
+  bottom: 1vmax;
+  right: 1vmax;
+  position: absolute;
+  display: block;
+}
+
+.submit-text {
+  margin-top: 1.5vmin;
+}
+
+.menu-button {
+  font-size: 2vw;
+  padding: 1vw;
+  border: none;
+  height: 3vmax;
+  cursor: default;
+  margin: 0 0.2vw 0 0.5vw;
+  background-color: rgb(226, 199, 140);
+}
+
+.menu-button:hover {
+  cursor: pointer;
+}
+
+.straw {
+  background-color: rgb(250, 230, 170);
+  position: absolute;
+  box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);
+}
+
+#block-shadow {
+  width: 32vw;
+  height: 37vh;
+  background-color: #808080;
+  position: absolute;
+  left: 1.5vw;
+  top: 18.5vh;
+}
