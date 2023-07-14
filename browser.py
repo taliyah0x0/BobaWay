@@ -1,3 +1,9 @@
+# The biggest flaw of BobaWay is the inaccuracies in translation,
+# so I wrote this script that uses an existing Mandarin to Taiwanese translator
+# that provides much better natural-sounding translations and audio
+
+# To use, you'll have to download this file and run with Python in Terminal or Console
+
 # Include libraries
 import asyncio
 from pyppeteer import launch
