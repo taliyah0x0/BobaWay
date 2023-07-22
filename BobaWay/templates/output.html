@@ -4,8 +4,8 @@
   <head>
     <title>BobaWay</title>
     <link rel="stylesheet" href="./static/bobaway.css">
-    <link rel="icon" type="image/x-icon" href="./static/flav_9.png" class="favicon">
-    <link rel="apple-touch-icon" sizes="128x128" href="./static/flav_9.png" class="favicon">
+    <link rel="icon" type="image/x-icon" href="./static/flav_8.png" class="favicon">
+    <link rel="apple-touch-icon" sizes="128x128" href="./static/flav_8.png" class="favicon">
   </head>
 
   <body class="body-pad" onload="setColors()">
@@ -61,7 +61,7 @@
             </div>
             <div style="flex: 1; position: relative;" class="comp-inline">
               <div class="speech-button speech-shadow" style="box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);"></div>
-              <div class="speech-button" onmouseover="speechMOV()" onmouseout="speechMOU()" onclick="playSound({{hour}}, {{key}},0)">
+              <div class="speech-button" onmouseover="speechMOV()" onmouseout="speechMOU()" onclick="playSound(`{{hour}}`, {{key}},0)">
                 <p style="font-size: 1.5vw; margin-bottom: 2vh; font-family: Choko">Play Audio</p>
                 <img src="./static/audio.png" style="display: block; width: 5vw; height: 5vw; margin-left: auto; margin-right: auto; margin-top: 0">
               </div>
@@ -117,7 +117,7 @@
               </div>
               <div style="flex: 1">
                 <div class="speech-button speech-shadow" style="box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);"></div>
-                <div class="speech-button" onmouseover="speechMOV()" onmouseout="speechMOU()" onclick="playSound({{hour}}, {{key}},0)">
+                <div class="speech-button" onmouseover="speechMOV()" onmouseout="speechMOU()" onclick="playSound(`{{hour}}`, {{key}},0)">
                   <p style="font-size: 4vw; margin-bottom: 2vh; font-family: Choko">Play Audio</p>
                   <img src="./static/audio.png" style="display: block; width: 10vw; height: 10vw; margin-left: auto; margin-right: auto; margin-top: 0">
                 </div>
@@ -132,6 +132,7 @@
   <script type="text/javascript" src="./static/index.js"></script>
   <script type="text/javascript">
     function playSound(hour, key, file) {
+      console.log(hour)
       let play = document.getElementById('play').innerHTML;
       let file_count = document.getElementById('file_count').innerHTML;
       if (file == 0) {
@@ -139,7 +140,8 @@
         document.getElementsByClassName("speech-shadow")[1].style.display = "none";
       }
       if ((file > 0 && file < file_count) || (file == 0 && play == 0)) {
-        var audio = new Audio(`./static/${hour}_${key}_${file}.mp3`);
+        console.log(`./static/${hour}_${key}_${file}.wav`)
+        var audio = new Audio(`./static/${hour}_${key}_${file}.wav`);
         audio.load();
         audio.play();
         play = 1
