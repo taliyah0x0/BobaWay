@@ -60,7 +60,7 @@ async def gfg():
         hour = now[11:13]
         files = os.listdir("static")
         for file in files:
-            if file[-3:] == "mp3":
+            if file[-3:] == "wav":
                 if int(file[0:2]) <= int(hour) - 1 or int(file[0:2]) > int(hour):  # Remove files from 1 hour ago
                     os.remove(f"static/{file}")
 
