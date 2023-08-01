@@ -193,9 +193,9 @@ let speed = document.getElementsByClassName("slider")[index].value;
 
     function setColors() {
 
-      let message = Math.ceil(Math.random() * 10);
+      let message = Math.ceil(Math.random() * 5);
 
-      if (message == 1){
+      if (message > 3){
         document.getElementsByClassName("callout")[0].style.display = "none";
       }
 
