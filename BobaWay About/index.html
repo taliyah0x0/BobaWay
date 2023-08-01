@@ -1,72 +1,94 @@
 <!DOCTYPE html>
 <html style="background-color: rgb(226, 199, 140)" id="background">
 
-  <head>
-    <title>BobaWay</title>
-    <link rel="stylesheet" href="./static/bobaway.css">
-    <link rel="icon" type="image/x-icon" href="./static/flav_9.png" class="favicon">
-    <link rel="apple-touch-icon" sizes="128x128" href="./static/flav_9.png" class="favicon">
-  </head>
+<head>
+  <title>BobaWay</title>
+  <link rel="stylesheet" href="./static/bobaway.css">
+  <link rel="icon" type="image/x-icon" href="./static/flav_9.png" class="favicon">
+  <link rel="apple-touch-icon" sizes="128x128" href="./static/flav_9.png" class="favicon">
+</head>
 
-  <body class="body-pad">
-    <p id="play" style="display: none">0</p>
-    <div style="display: flex; flex-direction: column">
-      <div style="display: flex; flex: 1" class="bottom">
-        <a href="https://bobaway.taliyahhuang.repl.co/" style="display: flex; flex: 6">
-          <h1 id="title">
-            BobaWay
-          </h1>
-        </a>
-        <div style="display: flex; flex-direction: row">
-          <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(0)">
-            <a href="https://bobaway-about.taliyahhuang.repl.co/">
+<body class="body-pad">
+  <p id="play" style="display: none">0</p>
+  <div style="display: flex; flex-direction: column">
+    <div style="display: flex; flex: 1" class="bottom">
+      <a href="https://bobaway.taliyahhuang.repl.co/" style="display: flex; flex: 6">
+        <h1 id="title">
+          BobaWay
+        </h1>
+      </a>
+      <div style="display: flex; flex-direction: row">
+        <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(0)">
+          <a href="https://bobaway-about.taliyahhuang.repl.co/">
+            <h3>
+              About
+            </h3>
+          </a>
+        </button>
+        <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(1)">
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSdP1kMHJXToGtXX_SetKCaZ9E7J5OWDM2fuSyhEXaDIvHLvcA/viewform?usp=sf_link"
+            target="_blank">
+            <h3>
+              Report Bug
+            </h3>
+          </a>
+        </button>
+        <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(2)">
+            <a href="https://paypal.me/taliyah0x0" target="_blank">
               <h3>
-                About
+                Tips
               </h3>
             </a>
-          </button>
-          <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(1)">
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdP1kMHJXToGtXX_SetKCaZ9E7J5OWDM2fuSyhEXaDIvHLvcA/viewform?usp=sf_link" target="_blank">
-              <h3>
-                Report Bug
-              </h3>
-            </a>
-          </button>
-        </div>
+        </button>
       </div>
-      <div style="display: flex; flex: 7; flex-direction: column">
-        <div style="display: flex; padding-left: 5vw; padding-right: 5vw; padding-top: 1vw" class="bottom">
-          <img src="./static/portrait.jpg" style="flex: 1" class="portrait">
-          <p style="flex: 6; margin-left: 4vw" class="intro-text">
-            Hi! I'm Taliyah, a proud Taiwanese-American college student and the creator of BobaWay. Thanks for taking the
-            time to try out this Taiwanese translator! If you have any questions, please don't hesitate to use the form
-            below to contact me!
-            <br>
-            <br>
-            嗨！我是造作Bobaway的台灣美國大學生Taliyah. 謝謝您花時間試試這個台語的翻譯機！如果有問題，請不要猶豫用下面的表跟我連絡！
-          </p>
+    </div>
+    <div style="display: flex; flex: 7; flex-direction: column">
+      <div style="display: flex; padding-left: 5vw; padding-right: 5vw; padding-top: 1vw" class="bottom">
+        <div>
+        <img src="./static/portrait.jpg" class="portrait">
+          <div style="display: flex; justify-content: center;">
+            <a href="https://youtube.com/@taliyahengineering" target="_blank">
+            <img src="./static/youtube.png" class="icon"></a>
+            <a href="https://instagram.com/taliyahengineering" target="_blank">
+            <img src="./static/instagram.png" class="icon"></a>
+            <a href="https://facebook.com/taliyahengineering">
+            <img src="./static/facebook.png" class="icon" target="_blank"></a>
+            <a href="https://tiktok.com/@taliyahengineering" target="_blank">
+            <img src="./static/tiktok.png" class="icon"></a>
+          </div>
         </div>
-        <div style="display: flex; flex-direction: column; padding-left: 5vw; padding-right: 5vw; margin-top: 3vw">
-          <form>
-            <div style="display: flex;" class="bottom">
-              <div style="display: flex; flex-direction: column">
-                <h3>Contact Me!</h3>
-                <input type="text" id="name" class="text-box small-box" placeholder="Name" required>
-                <input type="email" id="email" class="text-box small-box" placeholder="Email" required>
-              </div>
-              <div style="display: inline-block; position: relative;">
-                <textarea class="text-box large-box" id="message" placeholder="Message" required></textarea>
-                <textarea id="color" name="color" style="display: none">9</textarea>
-                <div id="submit-shadow" class="submit-bt"></div>
-                <a href="" target="_blank" id="submit"><button class="submit-button submit-bt" onmouseover="submitMOV()" onmouseout="submitMOU()" onclick="submitForm()" type="submit">
-                <h3 class="submit-text">Submit</h3>
-                </button></a>
-              </div>
+        <p style="display: inline-block; margin-left: 4vw; margin-top: 0" class="intro-text">
+          Hi! I'm Taliyah, a Taiwanese-American student and the creator of BobaWay. "Boba" for the world-famous
+          Taiwanese drink, and "Way" for the Taiwanese word for language (uē). Thanks for taking the
+          time to try out my translator! If you have any questions, please don't hesitate to use the form
+          below to contact me!
+          <br>
+          <br>
+          嗨！我是造作Bobaway的台灣美國大學生Taliyah. 謝謝您花時間試試我的翻譯機！“Boba”代表世界著名的台灣飲料波霸茶，“Way”代表【話】的台語發音 (uē)。如果有問題，請不要猶豫用下面的表跟我連絡！
+        </p>
+      </div>
+      <div style="display: flex; flex-direction: column; padding-left: 5vw; padding-right: 5vw; margin-top: 0">
+        <form>
+          <div style="display: flex;" class="bottom">
+            <div style="display: flex; flex-direction: column">
+              <h3>Contact Me!</h3>
+              <input type="text" id="name" class="text-box small-box" placeholder="Name" required>
+              <input type="email" id="email" class="text-box small-box" placeholder="Email" required>
             </div>
-          </form>
-        </div>
+            <div style="display: inline-block; position: relative;">
+              <textarea class="text-box large-box" id="message" placeholder="Message" required></textarea>
+              <textarea id="color" name="color" style="display: none">9</textarea>
+              <div id="submit-shadow" class="submit-bt"></div>
+              <a href="" target="_blank" id="submit"><button class="submit-button submit-bt" onmouseover="submitMOV()"
+                  onmouseout="submitMOU()" onclick="submitForm()" type="submit">
+                  <h3 class="submit-text">Submit</h3>
+                </button></a>
+            </div>
+          </div>
+        </form>
       </div>
-  </body>
-  <script type="text/javascript" src="./static/index.js"></script>
+    </div>
+</body>
+<script type="text/javascript" src="./static/index.js"></script>
 
 </html>
