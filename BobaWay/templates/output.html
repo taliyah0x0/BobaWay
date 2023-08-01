@@ -193,12 +193,6 @@ let speed = document.getElementsByClassName("slider")[index].value;
 
     function setColors() {
 
-      let message = Math.ceil(Math.random() * 5);
-
-      if (message > 3){
-        document.getElementsByClassName("callout")[0].style.display = "none";
-      }
-
       let flav = document.getElementById("color").innerHTML;
       document.getElementById("background").style.backgroundColor = rgb(flavColors[flav - 1][0]);
       document.getElementsByClassName("flavor-text")[0].innerHTML = flavColors[flav - 1][2] + " Milk Tea";
