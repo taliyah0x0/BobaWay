@@ -86,6 +86,15 @@
     display: block;
   }
 
+  .icon {
+    max-width: 3vmax;
+    max-height: 3vmax;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+    padding: 1vmin;
+  }
+
   .intro-text {
     font-size: 1vmax;
   }
@@ -167,6 +176,16 @@
   .portrait {
     width: 20vmax;
     height: 20vmax;
+  }
+
+  
+  .icon {
+    max-width: 3vmax;
+    max-height: 3vmax;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+    padding: 1vmin;
   }
 
   .intro-text {
