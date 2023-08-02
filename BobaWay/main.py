@@ -7,6 +7,7 @@ from datetime import datetime
 import pyppeteer
 from pydub import AudioSegment
 import csv
+import numpy as np
 
 num = ["2", "3", "5", "7", "8"]  # 1, 4, 6, and 9 are never used
 alph = [["a", "e"], ["i", "u"], ["o"]]  # Order of priority to add tone
@@ -19,40 +20,108 @@ vowel_tone = [
     ["ó", "ò", "ô", "ō", "o"],
 ]
 
-exceptions = {}
-# Load in exceptions dictionary
+exceptions = []
+# Load in exceptions dictionary (普通話，國語，台語，Note，Alternative)
 with open("exceptions.csv", "r") as csvfile:
     f = csv.reader(csvfile)
     first = True
     for row in f:
         if first == False:
-            exceptions[row[0]] = row[1]
+            exceptions.append(row)
         else:
             first = False
+exceptions = np.array(exceptions)
+
+def add_tones(word):
+    # Separate syllables in romanization (Example: khak-teng7)
+    syllables = word.split("-")
+
+    # Sometimes syllables are split with space instead of hyphen
+    for syll in syllables:
+        space_split = syll.split(" ")
+        ind = syllables.index(syll)
+        syllables.pop(ind)  # Remove incorrect syllable
+        syllables[ind:ind] = space_split  # Insert corrected syllables
+
+    new_syllables = []
+    tone = 4  # Default tone is 8, which has no indication
+    # Rewrite syllables with proper tone indication
+    for syll in syllables:
+        if syll != "":  # Skip blank syllables in list
+            if syll[-1] in num:  # Check if there is a number at the end of the syllable
+                tone = num.index(syll[-1])  # Map tone number to index number
+                # Append first part of syllable without number at the end
+                syll = syll[:-1]
+            new_syll = syll
+            corrected = False
+            for vowel in alph[0]:
+                if vowel in syll:  # Check if there is an a or e
+                    # Append first part of syllable up to vowel
+                    new_syll = syll[: syll.index(vowel)]
+                    # Add the vowel with corrected tone indication
+                    new_syll += vowel_tone[alph[0].index(vowel)][tone]
+                    # Add the rest of the syllable if vowel is not the last letter
+                    if len(syll) != len(new_syll):
+                        new_syll += syll[syll.index(vowel) + 1 :]
+                    corrected = True
+            if corrected == False:  # Run the following if the vowel hasn't been corrected yet
+                if "o" in syll:  # Next in priority is 'o'
+                    # Append first part of syllable up to 'o'
+                    new_syll = syll[: syll.index("o")]
+                    # Add the 'o' with the corrected tone indication
+                    new_syll += vowel_tone[4][tone]
+                    if len(syll) != len(new_syll):
+                        # Add the rest of the syllable if 'o' is not the last letter
+                        new_syll += syll[syll.index("o") + 1 :]
+                    corrected = True
+            if corrected == False:  # Run the following if the vowel hasn't been corrected yet
+                # Look for the last i or u
+                for y in range(-1, -len(syll), -1):
+                    if syll[y] in alph[1]:
+                        new_syll = syll[:y]
+                        new_syll += vowel_tone[alph[1].index(syll[y]) + 2][tone]
+                        if len(syll) != len(new_syll):
+                            new_syll += syll[y + 1 :]
+            if new_syll[-1] == "N":  # Replace uppercase N with nn
+                new_syll = new_syll[:-1]
+                new_syll += "nn"
+            new_syllables.append(new_syll)
+    return ("-".join(new_syllables))  # Rejoin syllables with hyphens
 
 app = Flask(__name__)
-
 
 @app.route("/", methods=["GET", "POST"])
 async def gfg():
     if request.method == "POST":
-        en = request.form.get("en")
-        cn = request.form.get("cn")
+        path = request.form.get("path")
         color = request.form.get("color")
 
-        mandarin = ""
-        if en != None:
-            mandarin = GoogleTranslator(source="auto", target="zh-TW").translate(en)
-        else:
-            mandarin = cn
-            en = ""
+        if path == "0":
+            en = request.form.get("en")
+            cn = request.form.get("cn")
+            color = request.form.get("color")
 
-        if mandarin not in exceptions.keys():
+            mandarin = ""
+            if en != None:
+                mandarin = GoogleTranslator(source="auto", target="zh-TW").translate(en)
+            else:
+                mandarin = cn
+                en = ""
+
+            # Replace Chinese Mandarin words with Taiwanese Mandarin words
+            for word in exceptions[:, 0]:
+                if word != '':
+                    if word in mandarin:
+                        cn_split = mandarin.split(word)
+                        cn_split[1:1] = exceptions[list(exceptions[:, 0]).index(word), 1]
+                        mandarin = ''.join(cn_split)
+            print(mandarin)
+
             browser = await pyppeteer.launcher.connect(browserWSEndpoint='wss://chrome.browserless.io?token='+'d2810faf-334d-4558-bdf3-c9a3765afe97')
-          # c4943715-11be-48e8-a7fb-3b6536e4b8eb (23)
-          # e4057a02-a262-4d88-9b37-c958c579719c (28)
-          # ec16030a-7686-4132-9116-843d27126bc4 (31)
-          # d2810faf-334d-4558-bdf3-c9a3765afe97 (01)
+            # c4943715-11be-48e8-a7fb-3b6536e4b8eb (23)
+            # e4057a02-a262-4d88-9b37-c958c579719c (28)
+            # ec16030a-7686-4132-9116-843d27126bc4 (31)
+            # d2810faf-334d-4558-bdf3-c9a3765afe97 (01)
             page = await browser.newPage()
 
             # Using this Mandarin to Taiwanese translator
@@ -70,22 +139,58 @@ async def gfg():
             await page.click(bt)
             await page.waitFor(len(mandarin) * 50)
 
-            # Get the romanization and print in console
+            # Get the romanization
             selector = await page.querySelectorAll('#text1')
             valueSelector = await selector[0].getProperty("value")
             romanized = await valueSelector.jsonValue()
-        else:
-            romanized = exceptions[mandarin]
+
+        elif path == "1":
+            en = request.form.get("en")
+            mandarin = GoogleTranslator(source="auto", target="zh-TW").translate(en)
+            cn = request.form.get("cn")
+            romanized = request.form.get("tw")
 
         cleaned = ''
         for letter in romanized:
             if letter != '1' and letter != '4' and letter != '6' and letter != '9':
-               cleaned += letter
+                cleaned += letter
 
         words = cleaned.split(' ')
-        print(cn)
         print(words)
-      
+
+        finals = []
+        for word in words:
+            finals.append(add_tones(word))
+        romanized = " ".join(finals)
+
+        toggle_note = False
+        alternative = ""
+        note = ""
+        # Replace pronunciations
+        for word in exceptions[:, 4]:
+            if word != '':
+                if word in romanized:
+                    romanized_split = romanized.split(word)
+                    romanized_split[1:1] = exceptions[list(exceptions[:, 4]).index(word), 2]
+                    romanized = ''.join(romanized_split)
+                    toggle_note = True
+                    alternative = word
+                    if exceptions[list(exceptions[:, 4]).index(word), 3] != '':
+                        note = exceptions[list(exceptions[:, 4]).index(word), 3]
+
+        # Turn on note if there is alternative available
+        for word in exceptions[:, 2]:
+            if word != '':
+                if word in romanized:
+                    if exceptions[list(exceptions[:, 2]).index(word), 3] != '':
+                        toggle_note = True
+                        note = exceptions[list(exceptions[:, 2]).index(word), 3]
+                        if exceptions[list(exceptions[:, 2]).index(word), 4] != '':
+                            alternative = exceptions[list(exceptions[:, 2]).index(word), 4]
+        alternative = add_tones(alternative)
+
+        print(note, alternative)
+    
         key = random.randint(1, 10000)
         now = str(datetime.now())
         hour = now[11:13]
@@ -106,65 +211,18 @@ async def gfg():
             trimmed = song[300:-400]
             trimmed.export(f"static/{hour}_{key}_{count}.wav", format="wav")
             file_count += 1
-      
-        finals = []
-        for word in words:
-            # Separate syllables in romanization (Example: khak-teng7)
-            syllables = word.split("-")
 
-            # Sometimes syllables are split with space instead of hyphen
-            for syll in syllables:
-                space_split = syll.split(" ")
-                ind = syllables.index(syll)
-                syllables.pop(ind)  # Remove incorrect syllable
-                syllables[ind:ind] = space_split  # Insert corrected syllables
-
-            new_syllables = []
-            tone = 4  # Default tone is 8, which has no indication
-            # Rewrite syllables with proper tone indication
-            for syll in syllables:
-                if syll != "":  # Skip blank syllables in list
-                    if syll[-1] in num:  # Check if there is a number at the end of the syllable
-                        tone = num.index(syll[-1])  # Map tone number to index number
-                        # Append first part of syllable without number at the end
-                        syll = syll[:-1]
-                    new_syll = syll
-                    corrected = False
-                    for vowel in alph[0]:
-                        if vowel in syll:  # Check if there is an a or e
-                            # Append first part of syllable up to vowel
-                            new_syll = syll[: syll.index(vowel)]
-                            # Add the vowel with corrected tone indication
-                            new_syll += vowel_tone[alph[0].index(vowel)][tone]
-                            # Add the rest of the syllable if vowel is not the last letter
-                            if len(syll) != len(new_syll):
-                                new_syll += syll[syll.index(vowel) + 1 :]
-                            corrected = True
-                    if corrected == False:  # Run the following if the vowel hasn't been corrected yet
-                        if "o" in syll:  # Next in priority is 'o'
-                            # Append first part of syllable up to 'o'
-                            new_syll = syll[: syll.index("o")]
-                            # Add the 'o' with the corrected tone indication
-                            new_syll += vowel_tone[4][tone]
-                            if len(syll) != len(new_syll):
-                                # Add the rest of the syllable if 'o' is not the last letter
-                                new_syll += syll[syll.index("o") + 1 :]
-                            corrected = True
-                    if corrected == False:  # Run the following if the vowel hasn't been corrected yet
-                        # Look for the last i or u
-                        for y in range(-1, -len(syll), -1):
-                            if syll[y] in alph[1]:
-                                new_syll = syll[:y]
-                                new_syll += vowel_tone[alph[1].index(syll[y]) + 2][tone]
-                                if len(syll) != len(new_syll):
-                                    new_syll += syll[y + 1 :]
-                    if new_syll[-1] == "N":  # Replace uppercase N with nn
-                        new_syll = new_syll[:-1]
-                        new_syll += "nn"
-                    new_syllables.append(new_syll)
-            final_rev = "-".join(new_syllables)  # Rejoin syllables with hyphens
-            finals.append(final_rev)
-        romanized = " ".join(finals)
+        if path == "1":
+            with open("exceptions.csv", 'a') as csvfile:
+                filewriter = csv.writer(
+                    csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+                row = []
+                row.append(mandarin)
+                row.append(cn)
+                row.append(romanized)
+                row.append("")
+                row.append("")
+                filewriter.writerows([row])
 
         return render_template(
             "output.html",
@@ -176,6 +234,9 @@ async def gfg():
             key=key,
             color=color,
             play=0,
+            toggle_note=toggle_note,
+            alternative=alternative,
+            note=note,
         )
     return render_template("index.html")
 
