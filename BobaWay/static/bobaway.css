@@ -72,6 +72,13 @@
     border-radius: 3vmax;
   }
 
+  .submit-bt2 {
+    width: 25vw;
+    height: 8vw;
+    border-radius: 3vmax;
+    display: none;
+  }
+
   .menu-button {
     border-radius: 3vmax;
     padding-top: 1vmin;
@@ -163,7 +170,7 @@
     -webkit-appearance: none;
     width: 100%;
     height: 2vmax;
-    background: #FAE6AA;
+    background: rgb(250, 230, 170);
     border-radius: 2vw;
     box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);
     display: flex;
@@ -240,6 +247,13 @@
     width: 10vw;
     height: 3vw;
     border-radius: 2vmax;
+  }
+
+  .submit-bt2 {
+    width: 10vw;
+    height: 3vw;
+    border-radius: 2vmax;
+    display: none;
   }
 
   .menu-button {
@@ -331,7 +345,7 @@
     -webkit-appearance: none;
     width: 100%;
     height: 2vmax;
-    background: #FAE6AA;
+    background: rgb(250, 230, 170);
     border-radius: 2vw;
     box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);
     display: flex;
@@ -411,7 +425,6 @@ p {
   bottom: 1vmax;
   right: 1vmax;
   position: absolute;
-  display: block;
 }
 
 .submit-text {
@@ -473,4 +486,16 @@ p {
 
 .closebtn:hover {
   color: white;
+}
+
+.pencil {
+  width: 2vmax;
+  height: 2vmax;
+  position: absolute;
+  top: 1.5vmax;
+  right: 1.5vmax;
+}
+
+.pencil:hover {
+  cursor: pointer;
 }

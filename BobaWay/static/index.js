@@ -20,7 +20,18 @@ var id3 = null;
 var play = 0;
 
 function submitButton() {
+  document.getElementById("path").innerHTML = "0";
   moveBobaBL();
+
+  let submit = document.getElementsByClassName("submit-bt");
+  for (var i = 0; i < submit.length; i++){
+    submit[i].style.display = "none";
+  }
+
+  let shadows = document.getElementsByClassName("submit-shadow");
+  for (var i = 0; i < shadows.length; i++){
+    shadows[i].style.display = "none";
+  }
 }
 
 function moveBobaTR() {
@@ -103,7 +114,7 @@ function moveBobaB() {
 }
 
 function rgb(values) {
-  return "rgb(" + values.join(", ") + ")";
+  return 'rgb(' + values.join(", ") + ')';
 }
 
 function changeFlavor() {
@@ -114,6 +125,7 @@ function changeFlavor() {
   }
   document.getElementById("background").style.backgroundColor = rgb(flavColors[flav - 1][0]);
   document.getElementsByClassName("callout-container")[0].style.backgroundColor = rgb(flavColors[flav - 1][0]);
+  document.getElementsByClassName("callout-container")[1].style.backgroundColor = rgb(flavColors[flav - 1][0]);
   document.getElementsByClassName("flavor-text")[0].innerHTML = flavColors[flav - 1][2] + " Milk Tea";
   document.getElementsByClassName("flavor-text")[1].innerHTML = flavColors[flav - 1][2] + " Milk Tea";
   document.getElementById("color").innerHTML = flav;
@@ -150,6 +162,10 @@ function changeFlavor() {
 
   menuMOU();
   document.getElementsByClassName("submit-button")[0].style.backgroundColor = rgb(flavColors[flav - 1][0]);
+  document.getElementsByClassName("submit-button")[1].style.backgroundColor = rgb(flavColors[flav - 1][0]);
+
+  document.getElementsByClassName("slider")[0].style.backgroundColor = rgb(flavColors[flav - 1][1]);
+  document.getElementsByClassName("slider")[1].style.backgroundColor = rgb(flavColors[flav - 1][1]);
 
   var favicons = document.getElementsByClassName("favicon");
   for (var i = 0; i < favicons.length; i++) {
@@ -157,9 +173,8 @@ function changeFlavor() {
   }
 }
 
-function submitMOV() {
-  document.getElementsByClassName("submit-shadow")[0].style.display = "none";
-  document.getElementsByClassName("submit-shadow")[1].style.display = "none";
+function submitMOV(index) {
+  document.getElementsByClassName("submit-shadow")[index].style.display = "none";
 }
 
 function submitMOU(index) {
@@ -210,22 +225,22 @@ function menuMOV(select) {
   menus[select].style.backgroundColor = rgb(flavColors[flav - 1][1]);
 }
 
+function editText(index) {
+  document.getElementById("path").innerHTML = "1";
+  document.getElementsByClassName("text-box")[index].readOnly = false;
+  document.getElementsByClassName("text-box")[index].focus();
+  document.getElementsByClassName("submit-bt2")[index * 2 - 1].style.display = 'block';
+  document.getElementsByClassName("submit-bt2")[index * 2 - 2].style.display = 'block';
+  document.getElementsByClassName("submit-bt")[0].style.display = 'none';
+  document.getElementsByClassName("submit-bt")[1].style.display = 'none';
+}
 
-function mandarinInput() {
-  if (document.getElementById("cn").value != '') {
-    document.getElementById("en").value = '';
-    document.getElementById("en").disabled = true;
-    document.getElementById("en").placeholder = "Clear the Mandarin input in the box below ↓"
-    document.getElementsByClassName("submit-button")[0].style.display = "none";
-    document.getElementsByClassName("submit-shadow")[0].style.display = "none";
-    document.getElementsByClassName("submit-button")[1].style.display = "block";
-    document.getElementsByClassName("submit-shadow")[1].style.display = "block";
-  } else {
-    document.getElementById("en").disabled = false;
-    document.getElementById("en").placeholder = "Enter English...";
-    document.getElementsByClassName("submit-button")[0].style.display = "block";
-    document.getElementsByClassName("submit-shadow")[0].style.display = "block";
-    document.getElementsByClassName("submit-button")[1].style.display = "none";
-    document.getElementsByClassName("submit-shadow")[1].style.display = "none";
+function submitEdit(index) {
+  document.getElementById("path").innerHTML = "1";
+  document.getElementsByClassName("text-box")[index].readOnly = true;
+  document.getElementsByClassName("text-box")[index].blur();
+  let submit2 = document.getElementsByClassName("submit-bt2");
+  for (var i = 0; i < submit2.length; i++){
+    submit2[i].style.display = "none";
   }
 }
