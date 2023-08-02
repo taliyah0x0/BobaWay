@@ -3,7 +3,7 @@
 
   <head>
     <title>BobaWay</title>
-    <link rel="stylesheet" href="bobaway.css">
+    <link rel="stylesheet" href="./static/bobaway.css">
     <link rel="icon" type="image/x-icon" href="./static/flav_8.png" class="favicon">
     <link rel="apple-touch-icon" sizes="128x128" href="./static/flav_8.png" class="favicon">
   </head>
@@ -49,8 +49,8 @@
               <div style="display: inline-block; position: relative">
                 <textarea class="text-box large-box" name="en" id="en" placeholder="Enter English...">{{en}}</textarea>
                 <textarea id="color" name="color" style="display: none">{{color}}</textarea>
-                <div id="submit-shadow" class="submit-bt"></div>
-                <button class="submit-button submit-bt" onmouseover="submitMOV()" onmouseout="submitMOU()" type="submit" onclick="submitButton()">
+                <div class="submit-shadow submit-bt"></div>
+                <button class="submit-button submit-bt" onmouseover="submitMOV()" onmouseout="submitMOU(0)" type="submit" onclick="submitButton()">
                   <h3 class="submit-text">Submit</h3>
                 </button>
                 <div class="callout">
@@ -81,10 +81,10 @@
                 <p style="font-size: 1.5vw; margin-bottom: 2vh; font-family: Choko">Play Audio</p>
                 <img src="./static/audio.png" style="display: block; width: 5vw; height: 5vw; margin-left: auto; margin-right: auto; margin-top: 0">
               </div>
-               <div class="slider-box">
-                  <input type="range" min="1" max="15" value="5" class="slider" onchange="update(0)">
-                  <h3 class="speed" style="display: flex; flex: 1; margin-top: 1vmin">1x</h3>
-                </div>
+              <div class="slider-box">
+                <input type="range" min="1" max="15" value="5" class="slider" onchange="update(0)">
+                <h3 class="speed" style="display: flex; flex: 1; margin-top: 1vmin">1x</h3>
+              </div>
             </div>
             <div style="flex: 1; position: relative" class="comp-inline">
               <div class="straw" style="width: 16vw; height: 6vw; left: 0.5vw; bottom: 9vw; border-radius: 2vw 6vw 0 2vw">
@@ -109,6 +109,10 @@
             <div style="display: flex; flex: 2">
               <div style="display: inline-block; position: relative">
                 <textarea class="text-box small-box" id="cn" name="cn" placeholder="Or enter Mandarin here..." onchange="mandarinInput()">{{mandarin}}</textarea>
+                <div style="display: none" class="submit-shadow submit-bt"></div>
+                <button style="display: none" class="submit-button submit-bt" onmouseover="submitMOV()" onmouseout="submitMOU(1)" type="submit" onclick="submitButton()">
+                  <h3 class="submit-text">Submit</h3>
+                </button>
               </div>
             </div>
             <div style="flex: 1.5; position: relative" class="comp-inline">
@@ -141,7 +145,7 @@
                   <p style="font-size: 4vw; margin-bottom: 2vh; font-family: Choko">Play Audio</p>
                   <img src="./static/audio.png" style="display: block; width: 10vw; height: 10vw; margin-left: auto; margin-right: auto; margin-top: 0">
                 </div>
-                 <div class="slider-box">
+                <div class="slider-box">
                   <input type="range" min="1" max="15" value="5" class="slider" onchange="update(1)">
                   <h3 class="speed" style="display: flex; flex: 1; margin-top: 1vmin">1x</h3>
                 </div>
@@ -152,18 +156,15 @@
       </form>
     </div>
   </body>
-  <script type="text/javascript" src="index.js"></script>
+  <script type="text/javascript" src="./static/index.js"></script>
   <script type="text/javascript">
-function update(index){
-let speed = document.getElementsByClassName("slider")[index].value;
-  if (index == 0){
-  document.getElementsByClassName("slider")[1].value = speed;
-  }else{
-    document.getElementsByClassName("slider")[0].value = speed;
-  }
-  document.getElementsByClassName("speed")[0].innerHTML = speed / 5 + "x";
-  document.getElementsByClassName("speed")[1].innerHTML = speed / 5 + "x";
-}
+    function update(index){
+      let speed = document.getElementsByClassName("slider")[index].value;
+      document.getElementsByClassName("slider")[1].value = speed;
+      document.getElementsByClassName("slider")[0].value = speed;
+      document.getElementsByClassName("speed")[0].innerHTML = speed / 5 + "x";
+      document.getElementsByClassName("speed")[1].innerHTML = speed / 5 + "x";
+    }
     function playSound(hour, key, file) {
       console.log(hour)
       let play = document.getElementById('play').innerHTML;
@@ -234,18 +235,6 @@ let speed = document.getElementsByClassName("slider")[index].value;
       }
 
       document.getElementsByClassName("submit-button")[0].style.backgroundColor = rgb(flavColors[flav - 1][0]);
-
-    }
-
-    function mandarinInput() {
-      if (document.getElementById("cn").value != '') {
-        document.getElementById("en").value = '';
-        document.getElementById("en").disabled = true;
-        document.getElementById("en").placeholder = "Clear the Mandarin input in the box below ↓"
-      } else {
-        document.getElementById("en").disabled = false;
-        document.getElementById("en").placeholder = "Enter English...";
-      }
     }
 
   </script>
