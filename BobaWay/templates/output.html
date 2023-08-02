@@ -3,7 +3,7 @@
 
   <head>
     <title>BobaWay</title>
-    <link rel="stylesheet" href="./static/bobaway.css">
+    <link rel="stylesheet" href="bobaway.css">
     <link rel="icon" type="image/x-icon" href="./static/flav_8.png" class="favicon">
     <link rel="apple-touch-icon" sizes="128x128" href="./static/flav_8.png" class="favicon">
   </head>
@@ -57,7 +57,9 @@
                   <span class="closebtn" onclick="this.parentElement.style.display='none';">×</span>
                   <div class="callout-container">
                     <h3>Help me keep BobaWay running!</h3>
-                    <p>I'm accepting donations <a href="https://paypal.me/taliyah0x0" target="_blank">here</a> to fund this service. Thank you for your generous contribution to spread and support the Taiwanese language!</p>
+                    <p>
+                      I need your generous support to pay for the cloud API this service uses. Please donate <a href="https://paypal.me/taliyah0x0" target="_blank">here</a>. Thank you for your contribution to spreading Taiwanese!
+                    </p>
                   </div>
                 </div>
               </div>
@@ -150,7 +152,7 @@
       </form>
     </div>
   </body>
-  <script type="text/javascript" src="./static/index.js"></script>
+  <script type="text/javascript" src="index.js"></script>
   <script type="text/javascript">
 function update(index){
 let speed = document.getElementsByClassName("slider")[index].value;
@@ -195,6 +197,7 @@ let speed = document.getElementsByClassName("slider")[index].value;
 
       let flav = document.getElementById("color").innerHTML;
       document.getElementById("background").style.backgroundColor = rgb(flavColors[flav - 1][0]);
+      document.getElementsByClassName("callout-container")[0].style.backgroundColor = rgb(flavColors[flav - 1][0]);
       document.getElementsByClassName("flavor-text")[0].innerHTML = flavColors[flav - 1][2] + " Milk Tea";
       document.getElementsByClassName("flavor-text")[1].innerHTML = flavColors[flav - 1][2] + " Milk Tea";
       document.getElementById("color").innerHTML = flav
