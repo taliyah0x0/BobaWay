@@ -147,6 +147,38 @@
     margin-top: 4vh;
     font-family: Choko;
   }
+
+  .slider-box {
+    display: flex;
+    flex-direction: row;
+    gap: 1vw;
+    position: absolute;
+    bottom: 2vmin;
+    width: 30vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
+  }
+
+  .slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 2vmax;
+    background: #FAE6AA;
+    border-radius: 2vw;
+    box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);
+    display: flex;
+    flex: 7;
+    }
+  
+    .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 2vmax;
+    height: 2vmax;
+    background: #3C1400;
+    cursor: pointer;
+    border-radius: 2vw;
+  }
 }
 
 @media (min-aspect-ratio: 1/1) {
@@ -283,6 +315,38 @@
     margin-top: 4vh;
     font-family: Choko;
   }
+
+  .slider-box {
+    display: flex;
+    flex-direction: row;
+    gap: 1vmax;
+    position: absolute;
+    bottom: 2vmax;
+    width: 100%;
+    padding-left: 2vw;
+    padding-right: 2vw;
+  }
+
+  .slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 2vmax;
+    background: #FAE6AA;
+    border-radius: 2vw;
+    box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);
+    display: flex;
+    flex: 3;
+    }
+  
+    .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 2vmax;
+    height: 2vmax;
+    background: #3C1400;
+    cursor: pointer;
+    border-radius: 2vw;
+  }
 }
 
 h1 {
@@ -342,7 +406,7 @@ p {
   cursor: pointer;
 }
 
-#submit-shadow {
+.submit-shadow {
   background-color: rgb(60, 20, 0);
   bottom: 1vmax;
   right: 1vmax;
@@ -381,4 +445,32 @@ p {
   position: absolute;
   left: 1.5vw;
   top: 18.5vh;
+}
+
+.callout {
+  position: absolute;
+  bottom: 1.5vmax;
+  right: 1.5vmax;
+  max-width: 20vmax;
+}
+
+.callout-container {
+  padding: 15px;
+  background-color: rgb(226, 199, 140);
+  box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);
+  border-radius: 2vw;
+  color: black
+}
+
+.closebtn {
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  color: rgb(60, 20, 0);
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.closebtn:hover {
+  color: white;
 }
