@@ -9,8 +9,9 @@
   </head>
 
   <body class="body-pad" onload="setColors()">
-    <p id="play" style="display: none">{{play}}</p>
-    <p id="file_count" style="display: none">{{file_count}}</p>
+    <textarea id="play" style="display: none">{{play}}</textarea>
+    <textarea id="file_count" style="display: none">{{file_count}}</textarea>
+    <textarea id="key" style="display: none">{{key}}</textarea>
     <div style="display: flex; flex-direction: column">
       <div style="display: flex; flex: 1" class="bottom">
         <a href="https://bobaway.taliyahhuang.repl.co/" style="display: flex; flex: 6">
@@ -49,8 +50,9 @@
               <div style="display: inline-block; position: relative">
                 <textarea class="text-box large-box" name="en" id="en" placeholder="Enter English...">{{en}}</textarea>
                 <textarea id="color" name="color" style="display: none">{{color}}</textarea>
+                <textarea id="path" name="path" style="display: none">0</textarea>
                 <div class="submit-shadow submit-bt"></div>
-                <button class="submit-button submit-bt" onmouseover="submitMOV()" onmouseout="submitMOU(0)" type="submit" onclick="submitButton()">
+                <button class="submit-button submit-bt" onmouseover="submitMOV(0)" onmouseout="submitMOU(0)" type="submit" onclick="submitButton()">
                   <h3 class="submit-text">Submit</h3>
                 </button>
                 <div class="callout">
@@ -58,7 +60,7 @@
                   <div class="callout-container">
                     <h3>Help me keep BobaWay running!</h3>
                     <p>
-                      I need your generous support to pay for the cloud API this service uses. Please donate <a href="https://paypal.me/taliyah0x0" target="_blank">here</a>. Thank you for your contribution to spreading Taiwanese!
+                      I need your generous support to help me pay for the cloud API this service uses. Please donate <a href="https://paypal.me/taliyah0x0" target="_blank">here</a>. Thank you for your contribution to spreading Taiwanese!
                     </p>
                   </div>
                 </div>
@@ -77,7 +79,7 @@
             </div>
             <div style="flex: 1; position: relative;" class="comp-inline">
               <div class="speech-button speech-shadow" style="box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);"></div>
-              <div class="speech-button" onmouseover="speechMOV()" onmouseout="speechMOU()" onclick="playSound(`{{hour}}`, {{key}},0)">
+              <div class="speech-button" onmouseover="speechMOV()" onmouseout="speechMOU()" onclick="playSound(`{{hour}}`, {{key}} , 0)">
                 <p style="font-size: 1.5vw; margin-bottom: 2vh; font-family: Choko">Play Audio</p>
                 <img src="./static/audio.png" style="display: block; width: 5vw; height: 5vw; margin-left: auto; margin-right: auto; margin-top: 0">
               </div>
@@ -108,9 +110,10 @@
             </div>
             <div style="display: flex; flex: 2">
               <div style="display: inline-block; position: relative">
-                <textarea class="text-box small-box" id="cn" name="cn" placeholder="Or enter Mandarin here..." onchange="mandarinInput()">{{mandarin}}</textarea>
-                <div style="display: none" class="submit-shadow submit-bt"></div>
-                <button style="display: none" class="submit-button submit-bt" onmouseover="submitMOV()" onmouseout="submitMOU(1)" type="submit" onclick="submitButton()">
+                <textarea class="text-box small-box" readonly id="cn" name="cn" placeholder="Mandarin translation will appear here...">{{mandarin}}</textarea>
+                <img class="pencil" src="./static/pencil.png" onclick="editText(1)">
+                <div class="submit-shadow submit-bt2"></div>
+                <button class="submit-button submit-bt2" onmouseover="submitMOV(1)" onmouseout="submitMOU(1)" type="submit" onclick="submitEdit(1)">
                   <h3 class="submit-text">Submit</h3>
                 </button>
               </div>
@@ -124,7 +127,20 @@
             </div>
             <div style="display: flex; flex: 2">
               <div style="display: inline-block; position: relative">
-                <textarea class="text-box small-box" id="tw" readonly="readonly" placeholder="Taiwanese Romanization will appear here...">{{romanization}}</textarea>
+                <textarea class="text-box small-box" readonly id="tw" name="tw" placeholder="Taiwanese romanization will appear here...">{{romanization}}</textarea>
+                <img class="pencil" src="./static/pencil.png" onclick="editText(2)">
+                <div class="submit-shadow submit-bt2"></div>
+                <button class="submit-button submit-bt2" onmouseover="submitMOV(2)" onmouseout="submitMOU(2)" type="submit" onclick="submitEdit(2)">
+                  <h3 class="submit-text">Submit</h3>
+                </button>
+                <div class="callout" style="display: none; max-width: 15vmax">
+                  <span class="closebtn" onclick="this.parentElement.style.display='none';">×</span>
+                  <div class="callout-container">
+                    <h3>Note!</h3>
+                    <textarea id="toggle" style="display: none">{{toggle_note}}</textarea>
+                    <p>{{note}} Alternative: <a href="#" target="_blank" id="alt_link">{{alternative}}</a></p>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="phone-only" style="flex: 1;">
@@ -141,7 +157,7 @@
               </div>
               <div style="flex: 1">
                 <div class="speech-button speech-shadow" style="box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);"></div>
-                <div class="speech-button" onmouseover="speechMOV()" onmouseout="speechMOU()" onclick="playSound(`{{hour}}`, {{key}},0)">
+                <div class="speech-button" onmouseover="speechMOV()" onmouseout="speechMOU()" onclick="playSound(`{{hour}}`, {{key}}, 0)">
                   <p style="font-size: 4vw; margin-bottom: 2vh; font-family: Choko">Play Audio</p>
                   <img src="./static/audio.png" style="display: block; width: 10vw; height: 10vw; margin-left: auto; margin-right: auto; margin-top: 0">
                 </div>
@@ -166,7 +182,6 @@
       document.getElementsByClassName("speed")[1].innerHTML = speed / 5 + "x";
     }
     function playSound(hour, key, file) {
-      console.log(hour)
       let play = document.getElementById('play').innerHTML;
       let file_count = document.getElementById('file_count').innerHTML;
       if (file == 0) {
@@ -195,13 +210,21 @@
     }
 
     function setColors() {
+      let toggle_note = document.getElementById("toggle").innerHTML;
+      if (toggle_note == "True"){
+        document.getElementsByClassName("callout")[1].style.display = 'block';
+      }
 
+      let alternative = document.getElementById("alt_link").innerHTML;
+      document.getElementById("alt_link").href = "https://hts.ithuan.tw/文本直接合成?查詢腔口=台語&查詢語句=" + alternative;
+      
       let flav = document.getElementById("color").innerHTML;
       document.getElementById("background").style.backgroundColor = rgb(flavColors[flav - 1][0]);
       document.getElementsByClassName("callout-container")[0].style.backgroundColor = rgb(flavColors[flav - 1][0]);
+      document.getElementsByClassName("callout-container")[1].style.backgroundColor = rgb(flavColors[flav - 1][0]);
       document.getElementsByClassName("flavor-text")[0].innerHTML = flavColors[flav - 1][2] + " Milk Tea";
       document.getElementsByClassName("flavor-text")[1].innerHTML = flavColors[flav - 1][2] + " Milk Tea";
-      document.getElementById("color").innerHTML = flav
+      document.getElementById("color").innerHTML = flav;
 
       var drinks = document.getElementsByClassName("drink");
       for (var i = 0; i < drinks.length; i++) {
@@ -235,6 +258,10 @@
       }
 
       document.getElementsByClassName("submit-button")[0].style.backgroundColor = rgb(flavColors[flav - 1][0]);
+      document.getElementsByClassName("submit-button")[1].style.backgroundColor = rgb(flavColors[flav - 1][0]);
+      
+      document.getElementsByClassName("slider")[0].style.backgroundColor = rgb(flavColors[flav - 1][1]);
+      document.getElementsByClassName("slider")[1].style.backgroundColor = rgb(flavColors[flav - 1][1]);
     }
 
   </script>

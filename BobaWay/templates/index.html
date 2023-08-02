@@ -48,16 +48,17 @@
               <div style="display: inline-block; position: relative">
                 <textarea class="text-box large-box" name="en" id="en" placeholder="Enter English..."></textarea>
                 <textarea id="color" name="color" style="display: none">9</textarea>
+                <textarea id="path" name="path" style="display: none">0</textarea>
                 <div class="submit-shadow submit-bt"></div>
-                <button class="submit-button submit-bt" onmouseover="submitMOV()" onmouseout="submitMOU(0)" type="submit" onclick="submitButton()">
+                <button class="submit-button submit-bt" onmouseover="submitMOV(0)" onmouseout="submitMOU(0)" type="submit" onclick="submitButton()">
                   <h3 class="submit-text">Submit</h3>
                 </button>
-                <div class="callout">
+                <div class="callout" style="display: none">
                   <span class="closebtn" onclick="this.parentElement.style.display='none';">×</span>
                   <div class="callout-container">
                     <h3>Help me keep BobaWay running!</h3>
                     <p>
-                      I need your generous support to pay for the cloud API this service uses. Please donate <a href="https://paypal.me/taliyah0x0" target="_blank">here</a>. Thank you for your contribution to spreading Taiwanese!
+                      I need your generous support to help me pay for the cloud API this service uses. Please donate <a href="https://paypal.me/taliyah0x0" target="_blank">here</a>. Thank you for your contribution to spreading Taiwanese!
                     </p>
                   </div>
                 </div>
@@ -108,9 +109,9 @@
             </div>
             <div style="display: flex; flex: 2">
               <div style="display: inline-block; position: relative">
-                <textarea class="text-box small-box" id="cn" name="cn" placeholder="Or enter Mandarin here..." onchange="mandarinInput()"></textarea>
-                <div style="display: none" class="submit-shadow submit-bt"></div>
-                <button style="display: none" class="submit-button submit-bt" onmouseover="submitMOV()" onmouseout="submitMOU(1)" type="submit" onclick="submitButton()">
+                <textarea class="text-box small-box" readonly id="cn" name="cn" placeholder="Mandarin translation will appear here..."></textarea>
+                <div class="submit-shadow submit-bt2"></div>
+                <button class="submit-button submit-bt2" onmouseover="submitMOV(1)" onmouseout="submitMOU(1)" type="submit" onclick="submitEdit(1)">
                   <h3 class="submit-text">Submit</h3>
                 </button>
               </div>
@@ -124,7 +125,19 @@
             </div>
             <div style="display: flex; flex: 2">
               <div style="display: inline-block; position: relative">
-                <textarea class="text-box small-box" id="tw" readonly="readonly" placeholder="Taiwanese Romanization will appear here..."></textarea>
+                <textarea class="text-box small-box" id="tw" name="tw" readonly placeholder="Taiwanese romanization will appear here..."></textarea>
+                <div class="submit-shadow submit-bt2"></div>
+                <button class="submit-button submit-bt2" onmouseover="submitMOV(2)" onmouseout="submitMOU(2)" type="submit" onclick="submitEdit(2)">
+                  <h3 class="submit-text">Submit</h3>
+                </button>
+                <div class="callout" style="display: none">
+                  <span class="closebtn" onclick="this.parentElement.style.display='none';">×</span>
+                  <div class="callout-container">
+                    <p id="toggle" style="display: none"></p>
+                    <h3>Note!</h3>
+                    <p></p>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="phone-only" style="flex: 1;">
