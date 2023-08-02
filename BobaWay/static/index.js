@@ -1,47 +1,20 @@
 //Watermelon, Strawberry, Thai, Mango, Honeydew Melon, Butterfly Pea, Taro, Sesame, Brown Sugar
 const flavColors = [
-  [
-    [255, 130, 130],
-    [255, 170, 170], "Watermelon"
-  ],
-  [
-    [255, 183, 212],
-    [252, 219, 232], "Strawberry"
-  ],
-  [
-    [252, 163, 116],
-    [255, 196, 165], "Thai"
-  ],
-  [
-    [255, 222, 109],
-    [255, 241, 175], "Mango"
-  ],
-  [
-    [176, 224, 99],
-    [218, 255, 159], "Honeydew Melon"
-  ],
-  [
-    [127, 225, 255],
-    [191, 240, 255], "Butterfly Pea"
-  ],
-  [
-    [239, 178, 255],
-    [247, 216, 255], "Taro"
-  ],
-  [
-    [150, 150, 150],
-    [200, 200, 200], "Sesame"
-  ],
-  [
-    [226, 199, 140],
-    [250, 230, 170], "Brown Sugar"
-  ],
+  [[255, 130, 130], [255, 170, 170], "Watermelon"],
+  [[255, 183, 212], [252, 219, 232], "Strawberry"],
+  [[252, 163, 116], [255, 196, 165], "Thai"],
+  [[255, 222, 109], [255, 241, 175], "Mango"],
+  [[176, 224, 99], [218, 255, 159], "Honeydew Melon"],
+  [[127, 225, 255], [191, 240, 255], "Butterfly Pea"],
+  [[239, 178, 255], [247, 216, 255], "Taro"],
+  [[150, 150, 150], [200, 200, 200], "Sesame"],
+  [[226, 199, 140], [250, 230, 170], "Brown Sugar"],
 ];
 
 var flav = 9;
 
 var id1 = null;
-var id2 = null
+var id2 = null;
 var id3 = null;
 
 var play = 0;
@@ -140,9 +113,10 @@ function changeFlavor() {
     flav = Math.ceil(Math.random() * 9);
   }
   document.getElementById("background").style.backgroundColor = rgb(flavColors[flav - 1][0]);
+  document.getElementsByClassName("callout-container")[0].style.backgroundColor = rgb(flavColors[flav - 1][0]);
   document.getElementsByClassName("flavor-text")[0].innerHTML = flavColors[flav - 1][2] + " Milk Tea";
   document.getElementsByClassName("flavor-text")[1].innerHTML = flavColors[flav - 1][2] + " Milk Tea";
-  document.getElementById("color").innerHTML = flav
+  document.getElementById("color").innerHTML = flav;
 
   var drinks = document.getElementsByClassName("drink");
   for (var i = 0; i < drinks.length; i++) {
@@ -151,6 +125,9 @@ function changeFlavor() {
 
   document.getElementsByClassName("drink-box")[0].style.backgroundColor = rgb(flavColors[flav - 1][0]);
   document.getElementsByClassName("drink-box")[1].style.backgroundColor = rgb(flavColors[flav - 1][0]);
+
+  document.getElementsByClassName("slider")[0].style.backgroundColor = rgb(flavColors[flav - 1][1]);
+  document.getElementsByClassName("slider")[1].style.backgroundColor = rgb(flavColors[flav - 1][1]);
 
   var drinkStraws = document.getElementsByClassName("drink-straw");
   for (var i = 0; i < drinkStraws.length; i++) {
@@ -176,16 +153,17 @@ function changeFlavor() {
 
   var favicons = document.getElementsByClassName("favicon");
   for (var i = 0; i < favicons.length; i++) {
-    favicons[i].href = `./static/flav_${flav - 1}.png`
+    favicons[i].href = `./static/flav_${flav - 1}.png`;
   }
 }
 
 function submitMOV() {
-  document.getElementById("submit-shadow").style.display = "none";
+  document.getElementsByClassName("submit-shadow")[0].style.display = "none";
+  document.getElementsByClassName("submit-shadow")[1].style.display = "none";
 }
 
-function submitMOU() {
-  document.getElementById("submit-shadow").style.display = "block";
+function submitMOU(index) {
+  document.getElementsByClassName("submit-shadow")[index].style.display = "block";
 }
 
 function drinkMOV() {
@@ -203,7 +181,7 @@ function drinkMOU() {
 }
 
 function speechMOV() {
-  play = document.getElementById('play').innerHTML;
+  play = document.getElementById("play").innerHTML;
   if (play == 0) {
     document.getElementsByClassName("speech-shadow")[0].style.display = "none";
     document.getElementsByClassName("speech-shadow")[1].style.display = "none";
@@ -211,7 +189,7 @@ function speechMOV() {
 }
 
 function speechMOU() {
-  play = document.getElementById('play').innerHTML;
+  play = document.getElementById("play").innerHTML;
   if (play == 0) {
     document.getElementsByClassName("speech-shadow")[0].style.display = "block";
     document.getElementsByClassName("speech-shadow")[1].style.display = "block";
@@ -230,4 +208,24 @@ function menuMOV(select) {
   flav = document.getElementById("color").innerHTML;
   menus = document.getElementsByClassName("menu-button");
   menus[select].style.backgroundColor = rgb(flavColors[flav - 1][1]);
+}
+
+
+function mandarinInput() {
+  if (document.getElementById("cn").value != '') {
+    document.getElementById("en").value = '';
+    document.getElementById("en").disabled = true;
+    document.getElementById("en").placeholder = "Clear the Mandarin input in the box below ↓"
+    document.getElementsByClassName("submit-button")[0].style.display = "none";
+    document.getElementsByClassName("submit-shadow")[0].style.display = "none";
+    document.getElementsByClassName("submit-button")[1].style.display = "block";
+    document.getElementsByClassName("submit-shadow")[1].style.display = "block";
+  } else {
+    document.getElementById("en").disabled = false;
+    document.getElementById("en").placeholder = "Enter English...";
+    document.getElementsByClassName("submit-button")[0].style.display = "block";
+    document.getElementsByClassName("submit-shadow")[0].style.display = "block";
+    document.getElementsByClassName("submit-button")[1].style.display = "none";
+    document.getElementsByClassName("submit-shadow")[1].style.display = "none";
+  }
 }
