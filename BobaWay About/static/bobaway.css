@@ -96,7 +96,7 @@
   }
 
   .intro-text {
-    font-size: 1vmax;
+    font-size: 1.5vmax;
   }
 
   .submit-button {
@@ -189,7 +189,7 @@
   }
 
   .intro-text {
-    font-size: 2vmax;
+    font-size: 1.5vmax;
   }
 
   .submit-button {
@@ -273,5 +273,33 @@ p {
 }
 
 .menu-button:hover {
+  cursor: pointer;
+}
+
+.message {
+  display: block;
+  background-color: rgb(250, 230, 170);
+  position: relative;
+  margin: 1vmax;
+  box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);
+  border-radius: 2vmax;
+  padding: 2vmax;
+  margin-left: 4vmax;
+}
+
+.faq {
+  display: inline-block;
+  margin-top: auto;
+  margin-bottom: auto;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 1vw;
+  border-radius: 2vmax;
+  padding: 2vmax 1vmax 0.5vmax 1vmax;
+  background-color: rgb(250, 230, 170);
+}
+
+.faq:hover {
+  background-color: rgb(226, 199, 140);
   cursor: pointer;
 }
