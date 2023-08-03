@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html style="background-color: rgb(226, 199, 140)" id="background">
+
+<head>
+  <title>BobaWay</title>
+  <link rel="stylesheet" href="./static/bobaway.css">
+  <link rel="icon" type="image/x-icon" href="./static/flav_9.png" class="favicon">
+  <link rel="apple-touch-icon" sizes="128x128" href="./static/flav_9.png" class="favicon">
+</head>
+
+<body class="body-pad">
+  <p id="play" style="display: none">0</p>
+  <div style="display: flex; flex-direction: column">
+    <div style="display: flex; flex: 1" class="bottom">
+      <a href="https://bobaway.taliyahhuang.repl.co/" style="display: flex; flex: 6">
+        <h1 id="title">
+          BobaWay
+        </h1>
+      </a>
+      <div style="display: flex; flex-direction: row">
+        <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(0)">
+          <a href="https://bobaway-about.taliyahhuang.repl.co/">
+            <h3>
+              About
+            </h3>
+          </a>
+        </button>
+        <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(1)">
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSdP1kMHJXToGtXX_SetKCaZ9E7J5OWDM2fuSyhEXaDIvHLvcA/viewform?usp=sf_link"
+            target="_blank">
+            <h3>
+              Feedback
+            </h3>
+          </a>
+        </button>
+        <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(2)">
+          <a href="https://paypal.me/taliyah0x0" target="_blank">
+            <h3>
+              Donate
+            </h3>
+          </a>
+        </button>
+      </div>
+    </div>
+    <div style="display: flex; flex: 7; flex-direction: column">
+        <h2>Taiwanese Romanization Writing System</h2>
+        <div class="flex-box">
+            <div style="flex: 1; margin: 0 2vmax 0 2vmax">
+                <p>The official romanization system for Taiwanese Hokkien (Taiwanese) in Taiwan is locally referred to as Tâi-uân Bân-lâm-gí Lô-má-jī Phing-im Hong-àn or Taiwan Minnanyu Luomazi Pinyin Fang'an (lit. 'Taiwanese Hokkien Romanization Solution'), often shortened to Tâi-lô. <a href="https://en.wikipedia.org/wiki/T%C3%A2i-u%C3%A2n_L%C3%B4-m%C3%A1-j%C4%AB_Phing-im_Hong-%C3%A0n" target="_blank">[Wikipedia]</a></p>
+                <h3 style="margin-top: 2vmax">Tone Marks</h3>
+                <table style="margin-left: auto; margin-right: auto; margin-bottom: 2vmax">
+                    <tr class="odd tone">
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                        <th>7</th>
+                        <th>8</th>
+                    </tr>
+                    <tr class="tone">
+                        <td>a</td>
+                        <td>á</td>
+                        <td>à</td>
+                        <td>ah</td>
+                        <td>â</td>
+                        <td>ǎ</td>
+                        <td>ā</td>
+                        <td>a̍</td>
+                    </tr>
+                    <tr class="odd tone">
+                        <td>e</td>
+                        <td>é</td>
+                        <td>è</td>
+                        <td>eh</td>
+                        <td>ê</td>
+                        <td>ě</td>
+                        <td>ē</td>
+                        <td>e̍</td>
+                    </tr>
+                    <tr class="tone">
+                        <td>i</td>
+                        <td>í</td>
+                        <td>ì</td>
+                        <td>ih</td>
+                        <td>î</td>
+                        <td>ǐ</td>
+                        <td>ī</td>
+                        <td>i̍</td>
+                    </tr>
+                    <tr class="odd tone">
+                        <td>o</td>
+                        <td>ó</td>
+                        <td>ò</td>
+                        <td>oh</td>
+                        <td>ô</td>
+                        <td>ǒ</td>
+                        <td>ō</td>
+                        <td>o̍</td>
+                    </tr>
+                    <tr class="tone">
+                        <td>u</td>
+                        <td>ú</td>
+                        <td>ù</td>
+                        <td>uh</td>
+                        <td>û</td>
+                        <td>ǔ</td>
+                        <td>ū</td>
+                        <td>u̍</td>
+                    </tr>
+                    <tr class="odd tone">
+                        <td>m</td>
+                        <td>ḿ</td>
+                        <td>m̀</td>
+                        <td>mh</td>
+                        <td>m̂</td>
+                        <td>m̌</td>
+                        <td>m̄</td>
+                        <td>m̍</td>
+                    </tr>
+                    <tr class="tone">
+                        <td>n</td>
+                        <td>ń</td>
+                        <td>ǹ</td>
+                        <td>nh</td>
+                        <td>ň</td>
+                        <td>ň</td>
+                        <td>n̄</td>
+                        <td>n̍</td>
+                    </tr>
+                </table>
+            </div>
+            <div style="flex: 2;">
+                <h3>Examples</h3>
+                <table style="margin-left: auto; margin-right: auto">
+                    <tr class="odd example">
+                        <th>國語</th>
+                        <th>Numbers</th>
+                        <th>Symbols</th>
+                        <th>Audio</th>
+                    </tr>
+                    <tr class="example">
+                        <td>阿公</td>
+                        <td>a-kong</td>
+                        <td>a-kong</td>
+                        <td><audio controls src="https://hts.ithuan.tw/文本直接合成?查詢腔口=台語&查詢語句=a-kong"></audio></td>
+                    </tr>
+                    <tr class="odd example">
+                        <td>電燈</td>
+                        <td>tian7-hue2</td>
+                        <td>tiān-hué</td>
+                        <td><audio controls src="https://hts.ithuan.tw/文本直接合成?查詢腔口=台語&查詢語句=tian7-hue2"></audio></td>
+                    </tr>
+                    <tr class="example">
+                        <td>暗漠漠</td>
+                        <td>am3-bok8-bok8</td>
+                        <td>àm-bok-bok</td>
+                        <td><audio controls src="https://hts.ithuan.tw/文本直接合成?查詢腔口=台語&查詢語句=am3-bok8-bok8"></audio></td>
+                    </tr>
+                    <tr class="odd example">
+                        <td>強欲</td>
+                        <td>kiong5-beh</td>
+                        <td>kiông-beh</td>
+                        <td><audio controls src="https://hts.ithuan.tw/文本直接合成?查詢腔口=台語&查詢語句=kiong5-beh"></audio></td>
+                    </tr>
+                    <tr class="example">
+                        <td>鐵雞卵</td>
+                        <td>thih-ke-nng7</td>
+                        <td>kiông-beh</td>
+                        <td><audio controls src="https://hts.ithuan.tw/文本直接合成?查詢腔口=台語&查詢語句=thih-ke-nng"></audio></td>
+                    </tr>
+                    <tr class="odd example">
+                        <td>親姆</td>
+                        <td>chhenn-m2</td>
+                        <td>chhenn-ḿ</td>
+                        <td><audio controls src="https://hts.ithuan.tw/文本直接合成?查詢腔口=台語&查詢語句=chhenn-m2"></audio></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="./static/index.js"></script>
+
+</html>
