@@ -9,15 +9,17 @@ from pydub import AudioSegment
 import csv
 import numpy as np
 
-num = ["2", "3", "5", "7", "8"]  # 1, 4, 6, and 9 are never used
-alph = [["a", "e"], ["i", "u"], ["o"]]  # Order of priority to add tone
+num = ["1", "2", "3", "5", "7", "8"]
+alph = [["a", "e"], ["o"], ["i", "u"], ["n"], ["m"]]  # Order of priority to add tone
 # In order of 2, 3, 5, 7, 8
 vowel_tone = [
-    ["á", "à", "â", "ā", "a"],
-    ["é", "è", "ê", "ē", "e"],
-    ["í", "ì", "î", "ī", "i"],
-    ["ú", "ù", "û", "ū", "u"],
-    ["ó", "ò", "ô", "ō", "o"],
+    ["a", "á", "à", "â", "ā", "a̍"],
+    ["e", "é", "è", "ê", "ē", "e̍"],
+    ["i", "í", "ì", "î", "ī", "i̍"],
+    ["u", "ú", "ù", "û", "ū", "u̍"],
+    ["o", "ó", "ò", "ô", "ō", "o̍"],
+    ["m", "ḿ", "m̀", "m̂", "m̄", "m̍"],
+    ["n", "ń", "ǹ", "ň", "n̄", "n̍"],
 ]
 
 exceptions = []
@@ -31,6 +33,7 @@ with open("exceptions.csv", "r") as csvfile:
         else:
             first = False
 exceptions = np.array(exceptions)
+
 
 def add_tones(word):
     # Separate syllables in romanization (Example: khak-teng7)
@@ -52,40 +55,59 @@ def add_tones(word):
                 tone = num.index(syll[-1])  # Map tone number to index number
                 # Append first part of syllable without number at the end
                 syll = syll[:-1]
-            new_syll = syll
-            corrected = False
-            for vowel in alph[0]:
-                if vowel in syll:  # Check if there is an a or e
-                    # Append first part of syllable up to vowel
-                    new_syll = syll[: syll.index(vowel)]
-                    # Add the vowel with corrected tone indication
-                    new_syll += vowel_tone[alph[0].index(vowel)][tone]
-                    # Add the rest of the syllable if vowel is not the last letter
-                    if len(syll) != len(new_syll):
-                        new_syll += syll[syll.index(vowel) + 1 :]
-                    corrected = True
-            if corrected == False:  # Run the following if the vowel hasn't been corrected yet
-                if "o" in syll:  # Next in priority is 'o'
-                    # Append first part of syllable up to 'o'
-                    new_syll = syll[: syll.index("o")]
-                    # Add the 'o' with the corrected tone indication
-                    new_syll += vowel_tone[4][tone]
-                    if len(syll) != len(new_syll):
-                        # Add the rest of the syllable if 'o' is not the last letter
-                        new_syll += syll[syll.index("o") + 1 :]
-                    corrected = True
-            if corrected == False:  # Run the following if the vowel hasn't been corrected yet
-                # Look for the last i or u
-                for y in range(-1, -len(syll), -1):
-                    if syll[y] in alph[1]:
-                        new_syll = syll[:y]
-                        new_syll += vowel_tone[alph[1].index(syll[y]) + 2][tone]
-                        if len(syll) != len(new_syll):
-                            new_syll += syll[y + 1 :]
-            if new_syll[-1] == "N":  # Replace uppercase N with nn
-                new_syll = new_syll[:-1]
-                new_syll += "nn"
-            new_syllables.append(new_syll)
+                new_syll = syll
+                corrected = False
+                for vowel in alph[0]:
+                    if vowel in syll:  # Check if there is an a or e
+                        # Append first part of syllable up to vowel
+                        new_syll = syll[: syll.index(vowel)]
+                        # Add the vowel with corrected tone indication
+                        new_syll += vowel_tone[alph[0].index(vowel)][tone]
+                        # Add the rest of the syllable
+                        new_syll += syll[syll.index(vowel) + 1:]
+                        corrected = True
+                if corrected == False:  # Run the following if the vowel hasn't been corrected yet
+                    if "o" in syll:  # Next in priority is 'o'
+                        # Append first part of syllable up to 'o'
+                        new_syll = syll[: syll.index("o")]
+                        # Add the 'o' with the corrected tone indication
+                        new_syll += vowel_tone[4][tone]
+                        # Add the rest of the syllable
+                        new_syll += syll[syll.index("o") + 1:]
+                        corrected = True
+                if corrected == False:  # Run the following if the vowel hasn't been corrected yet
+                    # Look for the last i or u
+                    for y in range(-1, -len(syll), -1):
+                        if syll[y] in alph[2]:
+                            # Append first part of syllable up to vowel
+                            new_syll = syll[:y]
+                            # Add the vowel with corrected tone indication
+                            new_syll += vowel_tone[alph[2].index(syll[y]) + 2][tone]
+                            # Add the rest of the syllable
+                            new_syll += syll[y + 1:]
+                if corrected == False: # Run the following if the tone hasn't been corrected yet:
+                    if "n" in syll:
+                        # Append first part of syllable up to vowel
+                        new_syll = syll[: syll.index("n")]
+                        # Add the vowel with corrected tone indication
+                        new_syll += vowel_tone[6][tone]
+                        # Add the rest of the syllable
+                        new_syll += syll[syll.index("n") + 1:]
+                        corrected = True
+                if corrected == False: # Run the following if the tone hasn't been corrected yet:
+                    if "m" in syll:
+                        # Append first part of syllable up to vowel
+                        new_syll = syll[: syll.index("m")]
+                        # Add the vowel with corrected tone indication
+                        new_syll += vowel_tone[5][tone]
+                        # Add the rest of the syllable
+                        new_syll += syll[syll.index("m") + 1:]
+                        corrected = True
+                syll = new_syll
+            if syll[-1] == "N":  # Replace uppercase N with nn
+                syll = syll[:-1]
+                syll += "nn"
+            new_syllables.append(syll)
     return ("-".join(new_syllables))  # Rejoin syllables with hyphens
 
 app = Flask(__name__)
@@ -150,18 +172,19 @@ async def gfg():
             cn = request.form.get("cn")
             romanized = request.form.get("tw")
 
-        cleaned = ''
-        for letter in romanized:
-            if letter != '1' and letter != '4' and letter != '6' and letter != '9':
-                cleaned += letter
-
-        words = cleaned.split(' ')
-        print(words)
+        words = romanized.split(' ')
 
         finals = []
         for word in words:
             finals.append(add_tones(word))
         romanized = " ".join(finals)
+
+        cleaned = ''
+        for letter in romanized:
+            if letter != '1' and letter != '4' and letter != '6' and letter != '9':
+                cleaned += letter
+        romanized = cleaned
+        print(romanized)
 
         toggle_note = False
         alternative = ""
