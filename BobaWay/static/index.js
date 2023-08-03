@@ -227,6 +227,7 @@ function menuMOV(select) {
 
 function editText(index) {
   document.getElementById("path").innerHTML = "1";
+  document.getElementsByClassName("info")[index].style.display = "block";
   document.getElementsByClassName("text-box")[index].readOnly = false;
   document.getElementsByClassName("text-box")[index].focus();
   document.getElementsByClassName("submit-bt2")[index * 2 - 1].style.display = 'block';
