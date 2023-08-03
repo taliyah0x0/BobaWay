@@ -51,6 +51,7 @@
                 <textarea class="text-box large-box" name="en" id="en" placeholder="Enter English...">{{en}}</textarea>
                 <textarea id="color" name="color" style="display: none">{{color}}</textarea>
                 <textarea id="path" name="path" style="display: none">0</textarea>
+                <p class="info"></p>
                 <div class="submit-shadow submit-bt"></div>
                 <button class="submit-button submit-bt" onmouseover="submitMOV(0)" onmouseout="submitMOU(0)" type="submit" onclick="submitButton()">
                   <h3 class="submit-text">Submit</h3>
@@ -259,8 +260,12 @@
         menus[i].style.backgroundColor = rgb(flavColors[flav - 1][0]);
       }
 
+      document.getElementsByClassName("submit-bt")[0].style.display = "block";
+      document.getElementsByClassName("submit-bt")[1].style.display = "block";
+
       document.getElementsByClassName("submit-button")[0].style.backgroundColor = rgb(flavColors[flav - 1][0]);
       document.getElementsByClassName("submit-button")[1].style.backgroundColor = rgb(flavColors[flav - 1][0]);
+      document.getElementsByClassName("submit-button")[2].style.backgroundColor = rgb(flavColors[flav - 1][0]);
       
       document.getElementsByClassName("slider")[0].style.backgroundColor = rgb(flavColors[flav - 1][1]);
       document.getElementsByClassName("slider")[1].style.backgroundColor = rgb(flavColors[flav - 1][1]);
