@@ -32,6 +32,7 @@
 
   h2 {
     font-size: 5vw;
+    font-weight: normal;
   }
 
   h3 {
@@ -115,6 +116,27 @@
     right: 2.5vmax;
     position: absolute;
     display: block;
+  }
+
+  .flex-box {
+    display: flex;
+    flex-direction: column;
+    margin: 0 3vmax 0 3vmax;
+  }
+
+  th {
+    color: rgb(60, 20, 0);
+    font-size: 3.5vw;
+    font-family: Choko;
+    text-align: center;
+    font-weight: normal;
+  }
+
+  td {
+    color: rgb(60, 20, 0);
+    font-size: 3vw;
+    font-family: sans-serif;
+    text-align: center;
   }
 }
 
@@ -209,6 +231,26 @@
     position: absolute;
     display: block;
   }
+
+  .flex-box {
+    display: flex;
+    flex-direction: row;
+    margin: 0 3vmax 0 3vmax;
+  }
+
+  th {
+    color: rgb(60, 20, 0);
+    font-size: 1.75vw;
+    font-family: Choko;
+    text-align: center;
+  }
+
+  td {
+    color: rgb(60, 20, 0);
+    font-size: 1.2vw;
+    font-family: sans-serif;
+    text-align: center;
+  }
 }
 
 h1 {
@@ -302,4 +344,32 @@ p {
 .faq:hover {
   background-color: rgb(226, 199, 140);
   cursor: pointer;
+}
+
+.example > th {
+  padding: 0 1vmax 0 1vmax;
+}
+
+.tone > th {
+  padding: 0.5vmax 1.5vmax 0.5vmax 1.5vmax;
+}
+
+.example > td {
+  padding: 0 1vmax 0 1vmax;
+}
+
+.tone > td {
+  padding: 0.5vmax 1.5vmax 0.5vmax 1.5vmax;
+}
+
+.odd {
+  background-color: rgb(250, 230, 170);
+}
+
+audio::-webkit-media-controls-panel {
+  background-color: rgb(226, 199, 140);
+}
+
+.odd audio::-webkit-media-controls-panel {
+  background-color: rgb(250, 230, 170);
 }
