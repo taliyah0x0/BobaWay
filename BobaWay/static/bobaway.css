@@ -32,6 +32,7 @@
 
   h2 {
     font-size: 5vw;
+    font-weight: normal;
   }
 
   h3 {
@@ -185,6 +186,14 @@
     background: #3C1400;
     cursor: pointer;
     border-radius: 2vw;
+  }
+
+  .pencil {
+    width: 3vmax;
+    height: 3vmax;
+    position: absolute;
+    top: 2vmax;
+    right: 2vmax;
   }
 }
 
@@ -361,6 +370,14 @@
     cursor: pointer;
     border-radius: 2vw;
   }
+
+  .pencil {
+    width: 2vmax;
+    height: 2vmax;
+    position: absolute;
+    top: 1.5vmax;
+    right: 1.5vmax;
+  }
 }
 
 h1 {
@@ -488,14 +505,15 @@ p {
   color: white;
 }
 
-.pencil {
-  width: 2vmax;
-  height: 2vmax;
-  position: absolute;
-  top: 1.5vmax;
-  right: 1.5vmax;
-}
-
 .pencil:hover {
   cursor: pointer;
+}
+
+.info {
+  position: absolute;
+  left: 1.5vmax;
+  bottom: 0.5vmax;
+  text-align: left;
+  width: 50vmax;
+  display: none;
 }

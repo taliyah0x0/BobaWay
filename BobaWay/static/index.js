@@ -237,6 +237,8 @@ function editText(index) {
 
 function submitEdit(index) {
   document.getElementById("path").innerHTML = "1";
+  document.getElementsByClassName("info")[index].innerHTML = "Thank you for submitting a correction!";
+  document.getElementsByClassName("info")[index].style.display = "block";
   document.getElementsByClassName("text-box")[index].readOnly = true;
   document.getElementsByClassName("text-box")[index].blur();
   let submit2 = document.getElementsByClassName("submit-bt2");
