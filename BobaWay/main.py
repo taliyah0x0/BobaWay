@@ -64,7 +64,8 @@ def add_tones(word):
                         # Add the vowel with corrected tone indication
                         new_syll += vowel_tone[alph[0].index(vowel)][tone]
                         # Add the rest of the syllable
-                        new_syll += syll[syll.index(vowel) + 1:]
+                        if syll.index(vowel) != -1:
+                            new_syll += syll[syll.index(vowel) + 1:]
                         corrected = True
                 if corrected == False:  # Run the following if the vowel hasn't been corrected yet
                     if "o" in syll:  # Next in priority is 'o'
@@ -73,7 +74,8 @@ def add_tones(word):
                         # Add the 'o' with the corrected tone indication
                         new_syll += vowel_tone[4][tone]
                         # Add the rest of the syllable
-                        new_syll += syll[syll.index("o") + 1:]
+                        if syll.index("o") != -1:
+                            new_syll += syll[syll.index("o") + 1:]
                         corrected = True
                 if corrected == False:  # Run the following if the vowel hasn't been corrected yet
                     # Look for the last i or u
@@ -84,7 +86,9 @@ def add_tones(word):
                             # Add the vowel with corrected tone indication
                             new_syll += vowel_tone[alph[2].index(syll[y]) + 2][tone]
                             # Add the rest of the syllable
-                            new_syll += syll[y + 1:]
+                            if y != -1:
+                                new_syll += syll[y + 1:]
+                            corrected = True
                 if corrected == False: # Run the following if the tone hasn't been corrected yet:
                     if "n" in syll:
                         # Append first part of syllable up to vowel
@@ -92,7 +96,8 @@ def add_tones(word):
                         # Add the vowel with corrected tone indication
                         new_syll += vowel_tone[6][tone]
                         # Add the rest of the syllable
-                        new_syll += syll[syll.index("n") + 1:]
+                        if syll.index("n") != -1:
+                            new_syll += syll[syll.index("n") + 1:]
                         corrected = True
                 if corrected == False: # Run the following if the tone hasn't been corrected yet:
                     if "m" in syll:
@@ -101,7 +106,8 @@ def add_tones(word):
                         # Add the vowel with corrected tone indication
                         new_syll += vowel_tone[5][tone]
                         # Add the rest of the syllable
-                        new_syll += syll[syll.index("m") + 1:]
+                        if syll.index("m") != -1:
+                            new_syll += syll[syll.index("m") + 1:]
                         corrected = True
                 syll = new_syll
             if syll[-1] == "N":  # Replace uppercase N with nn
@@ -117,6 +123,8 @@ async def gfg():
     if request.method == "POST":
         path = request.form.get("path")
         color = request.form.get("color")
+
+        print(path)
 
         if path == "0":
             en = request.form.get("en")
@@ -144,6 +152,7 @@ async def gfg():
             # e4057a02-a262-4d88-9b37-c958c579719c (28)
             # ec16030a-7686-4132-9116-843d27126bc4 (31)
             # d2810faf-334d-4558-bdf3-c9a3765afe97 (01)
+            # e2800453-3673-44d0-a099-3f0b1678bbc4 (02)
             page = await browser.newPage()
 
             # Using this Mandarin to Taiwanese translator
@@ -172,6 +181,12 @@ async def gfg():
             cn = request.form.get("cn")
             romanized = request.form.get("tw")
 
+        cleaned = ''
+        for letter in romanized:
+            if letter != '4' and letter != '6' and letter != '9' and letter != '.' and letter != '?' and letter != '!':
+                cleaned += letter
+        romanized = cleaned
+      
         words = romanized.split(' ')
 
         finals = []
@@ -179,11 +194,6 @@ async def gfg():
             finals.append(add_tones(word))
         romanized = " ".join(finals)
 
-        cleaned = ''
-        for letter in romanized:
-            if letter != '1' and letter != '4' and letter != '6' and letter != '9':
-                cleaned += letter
-        romanized = cleaned
         print(romanized)
 
         toggle_note = False
