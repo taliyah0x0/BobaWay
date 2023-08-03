@@ -21,6 +21,8 @@ var play = 0;
 
 function submitButton() {
   document.getElementById("path").innerHTML = "0";
+  document.getElementsByClassName("info")[index].innerHTML = "Please wait patiently for the translation!";
+  document.getElementsByClassName("info")[index].style.display = "block";
   moveBobaBL();
 
   let submit = document.getElementsByClassName("submit-bt");
@@ -163,6 +165,7 @@ function changeFlavor() {
   menuMOU();
   document.getElementsByClassName("submit-button")[0].style.backgroundColor = rgb(flavColors[flav - 1][0]);
   document.getElementsByClassName("submit-button")[1].style.backgroundColor = rgb(flavColors[flav - 1][0]);
+  document.getElementsByClassName("submit-button")[2].style.backgroundColor = rgb(flavColors[flav - 1][0]);
 
   document.getElementsByClassName("slider")[0].style.backgroundColor = rgb(flavColors[flav - 1][1]);
   document.getElementsByClassName("slider")[1].style.backgroundColor = rgb(flavColors[flav - 1][1]);

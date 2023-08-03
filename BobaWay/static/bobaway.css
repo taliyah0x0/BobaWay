@@ -32,7 +32,6 @@
 
   h2 {
     font-size: 5vw;
-    font-weight: normal;
   }
 
   h3 {
@@ -194,6 +193,15 @@
     position: absolute;
     top: 2vmax;
     right: 2vmax;
+  }
+
+  .info {
+    position: absolute;
+    left: 1.5vmax;
+    bottom: 1.5vmax;
+    text-align: left;
+    width: 30vmax;
+    display: none;
   }
 }
 
@@ -378,6 +386,15 @@
     top: 1.5vmax;
     right: 1.5vmax;
   }
+
+  .info {
+    position: absolute;
+    left: 1.5vmax;
+    bottom: 0.5vmax;
+    text-align: left;
+    width: 15vmax;
+    display: none;
+  }
 }
 
 h1 {
@@ -507,13 +524,4 @@ p {
 
 .pencil:hover {
   cursor: pointer;
-}
-
-.info {
-  position: absolute;
-  left: 1.5vmax;
-  bottom: 0.5vmax;
-  text-align: left;
-  width: 50vmax;
-  display: none;
 }
