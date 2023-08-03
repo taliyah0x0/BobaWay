@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html style="background-color: rgb(226, 199, 140)" id="background">
+
+  <head>
+    <title>BobaWay</title>
+    <link rel="stylesheet" href="./static/bobaway.css">
+    <link rel="icon" type="image/x-icon" href="./static/flav_8.png" class="favicon">
+    <link rel="apple-touch-icon" sizes="128x128" href="./static/flav_8.png" class="favicon">
+  </head>
+
+  <body class="body-pad">
+    <p id="play" style="display: none">0</p>
+    <div style="display: flex; flex-direction: column">
+      <div style="display: flex; flex: 1" class="bottom">
+        <a href="https://bobaway.taliyahhuang.repl.co/" style="display: flex; flex: 6">
+          <h1 id="title">
+            BobaWay
+          </h1>
+        </a>
+        <div style="display: flex; flex-direction: row">
+          <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(0)">
+            <a href="https://bobaway-about.taliyahhuang.repl.co/">
+              <h3>
+                About
+              </h3>
+            </a>
+          </button>
+          <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(1)">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdP1kMHJXToGtXX_SetKCaZ9E7J5OWDM2fuSyhEXaDIvHLvcA/viewform?usp=sf_link" target="_blank">
+              <h3>
+                Report Bug
+              </h3>
+            </a>
+          </button>
+          <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(2)">
+            <a href="https://paypal.me/taliyah0x0" target="_blank">
+              <h3>
+                Donate
+              </h3>
+            </a>
+          </button>
+        </div>
+      </div>
+      <form action="{{ url_for("gfg")}}" method="post">
+        <div style="flex-direction: column; flex: 7">
+          <div style="display: flex; flex-direction: row; flex: 1">
+            <div style="display: flex; flex: 1; margin-bottom: 2vmin">
+              <div style="display: inline-block; position: relative">
+                <textarea class="text-box large-box" name="en" id="en" placeholder="Enter English..."></textarea>
+                <textarea id="color" name="color" style="display: none">9</textarea>
+                <textarea id="path" name="path" style="display: none">0</textarea>
+                <div class="submit-shadow submit-bt"></div>
+                <button class="submit-button submit-bt" onmouseover="submitMOV(0)" onmouseout="submitMOU(0)" type="submit" onclick="submitButton()">
+                  <h3 class="submit-text">Submit</h3>
+                </button>
+                <div class="callout" style="display: none">
+                  <span class="closebtn" onclick="this.parentElement.style.display='none';">×</span>
+                  <div class="callout-container">
+                    <h3>Help me keep BobaWay running!</h3>
+                    <p>
+                      I need your generous support to help me pay for the cloud API this service uses. Please donate <a href="https://paypal.me/taliyah0x0" target="_blank">here</a>. Thank you for your contribution to spreading Taiwanese!
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="flex: 1; position: relative; cursor: pointer" class="comp-inline">
+              <div class="drink-straw drink-shadow" style="box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);"></div>
+              <div class="drink-straw"></div>
+              <div class="drink drink-shadow" style="box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);"></div>
+              <div class="drink"></div>
+              <div class="drink-box" onmouseover="drinkMOV()" onmouseout="drinkMOU()" onclick="changeFlavor()">
+                <p class="flavor-text">
+                  Brown Sugar Milk Tea
+                </p>
+              </div>
+            </div>
+            <div style="flex: 1; position: relative; cursor: pointer" class="comp-inline">
+              <div class="speech-button speech-shadow" style="box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);"></div>
+              <div class="speech-button" onmouseover="speechMOV()" onmouseout="speechMOU()" onclick="clickSpeech()">
+                <p style="font-size: 1.5vw; margin-bottom: 2vh; font-family: Choko">Play Audio</p>
+                <img src="./static/audio.png" style="display: block; width: 5vw; height: 5vw; margin-left: auto; margin-right: auto; margin-top: 0">
+              </div>
+              <div class="slider-box" style="display: none">
+                <input type="range" min="1" max="15" value="5" class="slider" onchange="update(0)">
+                <h3 class="speed" style="display: flex; flex: 1; margin-top: 1vmin">1x</h3>
+              </div>
+              <p class="speech-text" style="display: none">Start with something to translate...</p>
+            </div>
+            <div style="flex: 1; position: relative" class="comp-inline">
+              <div class="straw" style="width: 16vw; height: 6vw; left: 0.5vw; bottom: 9vw; border-radius: 2vw 6vw 0 2vw">
+              </div>
+              <div class="straw" style="width: 6vw; height: 14vw; border-radius: 0 6vw 2vw 2vw; bottom: 1vw; left: 11vw;">
+              </div>
+              <div id="bobatr" style="position: absolute; width: 4vw; height: 6vw; left: 12vw; bottom: 0.5vw; opacity: 0">
+                <img src="./static/boba.png" style="width: 100%; height: auto">
+              </div>
+            </div>
+          </div>
+          <div style="display: flex; flex: 1; margin-top: 1vmin" class="bottom">
+            <div style="flex: 1.5; position: relative" class="comp-inline">
+              <div class="straw" style="width: 6vw; height: 14vw; top: 0; right: 11vw; border-radius: 2vw 2vw 0 6vw">
+              </div>
+              <div class="straw" style="width: 15vw; height: 6vw; top: 8vw; right: 2vw; border-radius: 0 2vw 2vw 6vw">
+              </div>
+              <div id="bobabl" style="position: absolute; width: 4vw; height: 4vw; right: 12vw; top: 1vw; opacity: 0">
+                <img src="./static/boba.png" style="width: 100%; height: auto">
+              </div>
+            </div>
+            <div style="display: flex; flex: 2">
+              <div style="display: inline-block; position: relative">
+                <textarea class="text-box small-box" readonly id="cn" name="cn" placeholder="Mandarin translation will appear here..."></textarea>
+                <div class="submit-shadow submit-bt2"></div>
+                <button class="submit-button submit-bt2" onmouseover="submitMOV(1)" onmouseout="submitMOU(1)" type="submit" onclick="submitEdit(1)">
+                  <h3 class="submit-text">Submit</h3>
+                </button>
+              </div>
+            </div>
+            <div style="flex: 1.5; position: relative" class="comp-inline">
+              <div class="straw" style="width: 18vw; height: 6vw; border-radius: 2vw; left: 1vw; top: 8vw">
+                <div id="bobab" style="position: absolute; width: 4vw; height: 4vw; left: 1vw; top: 1vw; opacity: 0">
+                  <img src="./static/boba.png" style="width: 100%; height: auto">
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; flex: 2">
+              <div style="display: inline-block; position: relative">
+                <textarea class="text-box small-box" id="tw" name="tw" readonly placeholder="Taiwanese romanization will appear here..."></textarea>
+                <div class="submit-shadow submit-bt2"></div>
+                <button class="submit-button submit-bt2" onmouseover="submitMOV(2)" onmouseout="submitMOU(2)" type="submit" onclick="submitEdit(2)">
+                  <h3 class="submit-text">Submit</h3>
+                </button>
+                <div class="callout" style="display: none">
+                  <span class="closebtn" onclick="this.parentElement.style.display='none';">×</span>
+                  <div class="callout-container">
+                    <p id="toggle" style="display: none"></p>
+                    <h3>Note!</h3>
+                    <p></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="phone-only" style="flex: 1;">
+              <div style="flex: 1; position: relative">
+                <div class="drink-straw drink-shadow" style="box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);"></div>
+                <div class="drink-straw"></div>
+                <div class="drink drink-shadow" style="box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);"></div>
+                <div class="drink"></div>
+                <div class="drink-box" onmouseover="drinkMOV()" onmouseout="drinkMOU()" onclick="changeFlavor()">
+                  <p class="flavor-text">
+                    Brown Sugar Milk Tea
+                  </p>
+                </div>
+              </div>
+              <div style="flex: 1">
+                <div class="speech-button speech-shadow" style="box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);"></div>
+                <div class="speech-button" onmouseover="speechMOV()" onmouseout="speechMOU()" onclick="clickSpeech()">
+                  <p style="font-size: 4vw; margin-bottom: 2vh; font-family: Choko">Play Audio</p>
+                  <img src="./static/audio.png" style="display: block; width: 10vw; height: 10vw; margin-left: auto; margin-right: auto; margin-top: 0">
+                </div>
+                <div class="slider-box" style="display: none">
+                  <input type="range" min="1" max="15" value="5" class="slider" onchange="update(1)">
+                  <h3 class="speed" style="display: flex; flex: 1; margin-top: 1vmin">1x</h3>
+                </div>
+                <p class="speech-text" style="display: none">Start with something to translate...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+  <script type="text/javascript" src="./static/index.js"></script>
+  <script type="text/javascript">
+    function clickSpeech() {
+      document.getElementsByClassName("speech-text")[0].style.display = "block";
+      document.getElementsByClassName("speech-text")[1].style.display = "block";
+    }
+  </script>
+
+</html>
