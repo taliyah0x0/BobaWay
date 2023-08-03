@@ -30,7 +30,7 @@
           <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(1)">
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSdP1kMHJXToGtXX_SetKCaZ9E7J5OWDM2fuSyhEXaDIvHLvcA/viewform?usp=sf_link" target="_blank">
               <h3>
-                Feedback
+                Report Bug
               </h3>
             </a>
           </button>
@@ -112,6 +112,7 @@
               <div style="display: inline-block; position: relative">
                 <textarea class="text-box small-box" readonly id="cn" name="cn" placeholder="Mandarin translation will appear here...">{{mandarin}}</textarea>
                 <img class="pencil" src="./static/pencil.png" onclick="editText(1)">
+                <p class="info">Thank you for submitting a correction!</p>
                 <div class="submit-shadow submit-bt2"></div>
                 <button class="submit-button submit-bt2" onmouseover="submitMOV(1)" onmouseout="submitMOU(1)" type="submit" onclick="submitEdit(1)">
                   <h3 class="submit-text">Submit</h3>
@@ -127,8 +128,9 @@
             </div>
             <div style="display: flex; flex: 2">
               <div style="display: inline-block; position: relative">
-                <textarea class="text-box small-box" readonly id="tw" name="tw" placeholder="Taiwanese romanization will appear here...">{{romanization}}</textarea>
+                <textarea class="text-box small-box" readonly id="tw" name="tw" placeholder="Taiwanese romanization will appear here..." style="font-family: sans-serif">{{romanization}}</textarea>
                 <img class="pencil" src="./static/pencil.png" onclick="editText(2)">
+                <p class="info">Click <a href="https://bobaway-about.taliyahhuang.repl.co/romanization.html" target="_blank">here</a> to learn about the romanization system.</p>
                 <div class="submit-shadow submit-bt2"></div>
                 <button class="submit-button submit-bt2" onmouseover="submitMOV(2)" onmouseout="submitMOU(2)" type="submit" onclick="submitEdit(2)">
                   <h3 class="submit-text">Submit</h3>
