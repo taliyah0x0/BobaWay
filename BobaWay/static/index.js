@@ -21,8 +21,8 @@ var play = 0;
 
 function submitButton() {
   document.getElementById("path").innerHTML = "0";
-  document.getElementsByClassName("info")[index].innerHTML = "Please wait patiently for the translation!";
-  document.getElementsByClassName("info")[index].style.display = "block";
+  document.getElementsByClassName("info")[0].innerHTML = "Please wait patiently for the translation!";
+  document.getElementsByClassName("info")[0].style.display = "block";
   moveBobaBL();
 
   let submit = document.getElementsByClassName("submit-bt");
