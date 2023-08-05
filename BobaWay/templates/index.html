@@ -12,7 +12,7 @@
     <p id="play" style="display: none">0</p>
     <div style="display: flex; flex-direction: column">
       <div style="display: flex; flex: 1" class="bottom">
-        <a href="https://bobaway.taliyahhuang.repl.co/" style="display: flex; flex: 6">
+        <a href="https://bobaway.org/" style="display: flex; flex: 6">
           <h1 id="title">
             BobaWay
           </h1>
@@ -28,7 +28,7 @@
           <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(1)">
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSdP1kMHJXToGtXX_SetKCaZ9E7J5OWDM2fuSyhEXaDIvHLvcA/viewform?usp=sf_link" target="_blank">
               <h3>
-                Report Bug
+                Feedback
               </h3>
             </a>
           </button>
@@ -49,6 +49,7 @@
                 <textarea class="text-box large-box" name="en" id="en" placeholder="Enter English..."></textarea>
                 <textarea id="color" name="color" style="display: none">9</textarea>
                 <textarea id="path" name="path" style="display: none">0</textarea>
+                <p class="info"></p>
                 <div class="submit-shadow submit-bt"></div>
                 <button class="submit-button submit-bt" onmouseover="submitMOV(0)" onmouseout="submitMOU(0)" type="submit" onclick="submitButton()">
                   <h3 class="submit-text">Submit</h3>
@@ -125,7 +126,8 @@
             </div>
             <div style="display: flex; flex: 2">
               <div style="display: inline-block; position: relative">
-                <textarea class="text-box small-box" id="tw" name="tw" readonly placeholder="Taiwanese romanization will appear here..."></textarea>
+                <textarea id="tw" name="tw" style="display: none"></textarea>
+                <textarea class="text-box small-box" id="ro" name="ro" readonly placeholder="Taiwanese romanization will appear here..."></textarea>
                 <div class="submit-shadow submit-bt2"></div>
                 <button class="submit-button submit-bt2" onmouseover="submitMOV(2)" onmouseout="submitMOU(2)" type="submit" onclick="submitEdit(2)">
                   <h3 class="submit-text">Submit</h3>
