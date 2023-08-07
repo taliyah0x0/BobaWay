@@ -1,0 +1,491 @@
+@font-face {
+  font-family: Choko;
+  src: url("choko.ttf");
+}
+
+@font-face {
+  font-family: Dosis;
+  src: url("dosis.ttf");
+}
+
+@media (max-aspect-ratio: 1/1) {
+  .body-pad {
+    padding: 3vw;
+  }
+
+  .phone {
+    display: block;
+  }
+
+  .comp {
+    display: block;
+  }
+
+  .comp-inline {
+    display: none;
+  }
+
+  h1 {
+    font-size: 14vw;
+    font-weight: normal;
+  }
+
+  h2 {
+    font-size: 5vw;
+    font-weight: normal;
+  }
+
+  h3 {
+    font-size: 5vw;
+    font-weight: normal;
+  }
+
+  p {
+    font-size: 3vw;
+  }
+
+  .text-box {
+    font-size: 4vw;
+    -webkit-appearance: none;
+    box-shadow: 1.5vw 1.5vw rgb(60, 20, 0);
+    border-radius: 3vmax;
+  }
+
+  .large-box {
+    margin-top: 3vw;
+    width: 75vw;
+    height: 15vh;
+  }
+
+  .small-box {
+    width: 75vw;
+    height: 3vh;
+    margin-top: 3vw;
+  }
+
+  .bottom {
+    flex-direction: column;
+    margin-bottom: 1vh;
+  }
+
+  .submit-bt {
+    width: 25vw;
+    height: 8vw;
+    border-radius: 3vmax;
+  }
+
+  .menu-button {
+    border-radius: 3vmax;
+    padding-top: 1vmin;
+  }
+
+  .portrait {
+    width: 15vmax;
+    height: 15vmax;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+
+  .icon {
+    max-width: 3vmax;
+    max-height: 3vmax;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+    padding: 1vmin;
+  }
+
+  .intro-text {
+    font-size: 1.5vmax;
+  }
+
+  .submit-button {
+    font-size: 2vw;
+    position: absolute;
+    bottom: 1.5vmax;
+    right: 3vmax;
+    border: none;
+    background-color: rgb(226, 199, 140);
+    cursor: default;
+  }
+
+  #submit-shadow {
+    background-color: rgb(60, 20, 0);
+    bottom: 1vmax;
+    right: 2.5vmax;
+    position: absolute;
+    display: block;
+  }
+
+  .flex-box {
+    display: flex;
+    flex-direction: column;
+    margin: 0 3vmax 0 3vmax;
+  }
+
+  th {
+    color: rgb(60, 20, 0);
+    font-size: 3.5vw;
+    font-family: Choko;
+    text-align: center;
+    font-weight: normal;
+  }
+
+  td {
+    color: rgb(60, 20, 0);
+    font-size: 3vw;
+    font-family: sans-serif;
+    text-align: center;
+  }
+
+  .reverse-box {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .arrow {
+    display: none;
+  }
+
+  .down {
+    margin: 1vmax auto 0 auto;
+    display: block;
+    height: 6vmax;
+  }
+
+  .display-text {
+    font-family: Dosis;
+    font-size: 4vw;
+    -webkit-appearance: none;
+    border-radius: 2vmax;
+    border: none;
+    padding: 1vmax;
+    background-color: rgb(250, 230, 170);
+    display: block;
+    resize: none;
+    position: relative;
+    color: rgb(60, 20, 0);
+    width: 85vw;
+    height: 10vh;
+  }
+
+  .display-label {
+    font-size: 3vw;
+  }
+
+  .select-button {
+    font-size: 3vw;
+    font-family: Dosis;
+    border: none;
+    background-color: rgb(226, 199, 140);
+    cursor: default;
+    border-radius: 2vmax;
+    margin: 0.2vmax auto 0.2vmax auto;
+    width: 100%;
+  }
+}
+
+@media (min-aspect-ratio: 1/1) {
+  .body-pad {
+    padding: 0;
+  }
+
+  h1 {
+    font-size: 4vw;
+  }
+
+  h2 {
+    font-size: 3vw;
+  }
+
+  h3 {
+    font-size: 2vw;
+  }
+
+  p {
+    font-size: 1vw;
+  }
+
+  .text-box {
+    -webkit-appearance: none;
+    font-size: 2vw;
+    box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);
+    border-radius: 2vmax;
+  }
+
+  .large-box {
+    margin-left: 3vw;
+    width: 50vw;
+    height: 25vh;
+  }
+
+  .small-box {
+    width: 30vw;
+    height: 5vh;
+    margin-top: 1vw;
+  }
+
+  .bottom {
+    flex-direction: row;
+    margin-bottom: 0;
+  }
+
+  .submit-bt {
+    width: 10vw;
+    height: 3vw;
+    border-radius: 2vmax;
+  }
+
+  .menu-button {
+    border-radius: 2vmax;
+  }
+
+  .portrait {
+    width: 20vmax;
+    height: 20vmax;
+  }
+
+  
+  .icon {
+    max-width: 3vmax;
+    max-height: 3vmax;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+    padding: 1vmin;
+  }
+
+  .intro-text {
+    font-size: 1.5vmax;
+  }
+
+  .submit-button {
+    font-size: 2vw;
+    position: absolute;
+    bottom: 1.5vmax;
+    right: 1.5vmax;
+    border: none;
+    background-color: rgb(226, 199, 140);
+    cursor: default;
+  }
+
+  #submit-shadow {
+    background-color: rgb(60, 20, 0);
+    bottom: 1vmax;
+    right: 1vmax;
+    position: absolute;
+    display: block;
+  }
+
+  .flex-box {
+    display: flex;
+    flex-direction: row;
+    margin: 0 3vmax 0 3vmax;
+  }
+
+  th {
+    color: rgb(60, 20, 0);
+    font-size: 1.75vw;
+    font-family: Choko;
+    text-align: center;
+  }
+
+  td {
+    color: rgb(60, 20, 0);
+    font-size: 1.2vw;
+    font-family: sans-serif;
+    text-align: center;
+  }
+
+  .reverse-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .arrow {
+    margin: 4vmax auto 2vmax auto;
+    display: block;
+    width: 6vmax;
+  }
+
+  .down {
+    display: none;
+  }
+
+  .display-text {
+    font-family: Dosis;
+    font-size: 2vw;
+    -webkit-appearance: none;
+    border-radius: 2vmax;
+    border: none;
+    padding: 1vmax;
+    background-color: rgb(250, 230, 170);
+    display: block;
+    resize: none;
+    position: relative;
+    color: rgb(60, 20, 0);
+    width: 15vw;
+    height: 30vh;
+  }
+
+  .display-label {
+    font-size: 1.5vw;
+    margin-bottom: 1vmin
+  }
+
+  .select-button {
+    font-size: 1.5vw;
+    font-family: Dosis;
+    border: none;
+    background-color: rgb(226, 199, 140);
+    cursor: default;
+    border-radius: 2vmax;
+    margin: 0.2vmax auto 0.2vmax auto;
+    width: 100%;
+  }
+}
+
+h1 {
+  display: flex;
+  flex: 6;
+  margin: 1vw;
+  color: rgb(60, 20, 0);
+  font-family: Choko;
+}
+
+h2 {
+  text-align: center;
+  color: rgb(60, 20, 0);
+  font-family: Choko;
+}
+
+h3 {
+  text-align: center;
+  margin: 1vw;
+  margin-top: -0.2vw;
+  color: rgb(60, 20, 0);
+  font-family: Choko;
+}
+
+a {
+  text-decoration: none;
+}
+
+p {
+  font-family: Dosis;
+  text-align: center;
+  color: rgb(60, 20, 0);
+}
+
+.text-box {
+  font-family: Dosis;
+  border: none;
+  padding: 1vmax;
+  background-color: rgb(250, 230, 170);
+  display: block;
+  resize: none;
+  position: relative;
+  color: rgb(60, 20, 0);
+}
+
+.submit-button:hover {
+  cursor: pointer;
+}
+
+.submit-text {
+  margin-top: 1.5vmin;
+}
+
+.menu-button {
+  font-size: 2vw;
+  padding: 1vw;
+  border: none;
+  height: 3vmax;
+  cursor: default;
+  margin: 0 0.2vw 0 0.5vw;
+  background-color: rgb(226, 199, 140);
+}
+
+.menu-button:hover {
+  cursor: pointer;
+}
+
+.message {
+  display: block;
+  background-color: rgb(250, 230, 170);
+  position: relative;
+  margin: 1vmax;
+  box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);
+  border-radius: 2vmax;
+  padding: 2vmax;
+  margin-left: 4vmax;
+}
+
+.faq {
+  display: inline-block;
+  margin-top: auto;
+  margin-bottom: auto;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 1vw;
+  border-radius: 2vmax;
+  padding: 2vmax 1vmax 0.5vmax 1vmax;
+  background-color: rgb(250, 230, 170);
+}
+
+.faq:hover {
+  background-color: rgb(226, 199, 140);
+  cursor: pointer;
+}
+
+.example > th {
+  padding: 0 1vmax 0 1vmax;
+}
+
+.tone > th {
+  padding: 0.5vmax 1.5vmax 0.5vmax 1.5vmax;
+}
+
+.example > td {
+  padding: 0 1vmax 0 1vmax;
+}
+
+.tone > td {
+  padding: 0.5vmax 1.5vmax 0.5vmax 1.5vmax;
+}
+
+.odd {
+  background-color: rgb(250, 230, 170);
+}
+
+audio::-webkit-media-controls-panel {
+  background-color: rgb(226, 199, 140);
+}
+
+.odd audio::-webkit-media-controls-panel {
+  background-color: rgb(250, 230, 170);
+}
+
+.select-button:hover {
+  background-color: rgb(250, 230, 170);
+  cursor: pointer;
+}
+
+.select-box {
+  box-shadow: 0.5vw 0.5vw rgb(60, 20, 0);
+  display: flex;
+  flex-direction: column;
+  padding: 0 1vw 0 1vw;
+  background-color: rgb(250, 230, 170);
+  border-radius: 2vmax;
+  padding: 1.5vmax 1vmax 0.5vmax 1vmax;
+}
+
+.arrow {
+  margin: auto 1vmax auto 0;
+}
