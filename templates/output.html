@@ -6,6 +6,11 @@
     <link rel="stylesheet" href="./static/bobaway.css">
     <link rel="icon" type="image/x-icon" href="./static/flav_8.png" class="favicon">
     <link rel="apple-touch-icon" sizes="128x128" href="./static/flav_8.png" class="favicon">
+    <meta property="og:image" content="./static/flav_8.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1024">
+    <meta property="og:image:height" content="1024">
+    <meta property="og:description" content="Easily translate English to Taiwanese!">
   </head>
 
   <body class="body-pad" onload="setColors()">
@@ -53,7 +58,8 @@
                 <textarea id="color" name="color" style="display: none">{{color}}</textarea>
                 <textarea id="path" name="path" style="display: none">0</textarea>
                 <p class="info"></p>
-                <h3 class="pencil" onclick="document.getElementById('en').innerHTML = ''; document.getElementById('en').focus();">Clear</h3>
+                <button class="nothing blank-button" onmouseover="pencilOn(0)" onmouseout="pencilOut(0)" type="button">
+                <h3 class="pencil" onclick="document.getElementById('en').innerHTML = ''; document.getElementById('en').innerHTML = ''; document.getElementById('en').focus();">Clear</h3></button>
                 <div class="submit-shadow submit-bt"></div>
                 <button class="submit-button submit-bt" onmouseover="submitMOV(0)" onmouseout="submitMOU(0)" type="submit" onclick="submitButton(5)">
                   <h3 class="submit-text">Submit</h3>
@@ -114,7 +120,7 @@
             <div style="display: flex; flex: 2">
               <div style="display: inline-block; position: relative">
                 <textarea class="text-box small-box" readonly id="cn" name="cn" placeholder="Mandarin translation will appear here...">{{mandarin}}</textarea>
-                <h3 class="pencil" onclick="editText(1)">修正</h3>
+                <button class="nothing blank-button" onmouseover="pencilOn(1)" onmouseout="pencilOut(1)" type="button"><h3 class="pencil" onclick="editText(1)">修正</h3></button>
                 <p class="info" style="display: block; font-family: sans-serif">{{pinyin}}</p>
                 <div class="submit-shadow submit-bt2"></div>
                 <button class="submit-button submit-bt2" onmouseover="submitMOV(1)" onmouseout="submitMOU(1)" type="submit" onclick="submitEdit(1)">
@@ -133,7 +139,8 @@
               <div style="display: inline-block; position: relative">
                 <textarea id="tw" name="tw" style="display: none">{{romanization}}</textarea>
                 <textarea class="text-box small-box" readonly id="ro" name="ro" placeholder="Taiwanese romanization will appear here..." style="font-family: sans-serif">{{romanization}}</textarea>
-                <img class="pencil" src="./static/pencil.png" onclick="editText(2)" style="display: none">
+                <button class="nothing blank-button" onmouseover="pencilOn(2)" onmouseout="pencilOut(2)" type="button">
+                <img class="pencil" src="./static/pencil.png" onclick="editText(2)" style="display: none"></button>
                 <p class="info">Click <button class="nothing" type="submit" onclick="goRome()">here</button> to learn about the romanization system.</p>
                 <div class="submit-shadow submit-bt2"></div>
                 <button class="submit-button submit-bt2" onmouseover="submitMOV(2)" onmouseout="submitMOU(2)" type="submit" onclick="submitEdit(2)">
