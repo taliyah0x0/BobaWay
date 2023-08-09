@@ -1,5 +1,5 @@
-你好嗎,你好嗎,tsia̍h-pá bē,"The literal translation for “How are you” is ""Have you eaten?”",lí hó-bô,200,2,200,2
-自行車,腳踏車,thih-bé,The literal translation for “bicycle” is “iron horse”.,tsū-tsuán-tshiá,200,2,200,2
+你好嗎,你好嗎,tsia̍h-pá bē,The literal translation for “How are you” is "Have you eaten?”,lí hó-bô,200,2,200,2
+自行車,腳踏車,thih-bé,The literal translation for “bicycle” is “iron horse”.,tsū-lián-tshia,200,2,200,2
 電燈,電燈,tiān-hué,The literal translation for “light bulb” is “electric fire”.,tiān-tēng,200,2,200,2
 你好,你好,lí hó,,tshut-thâu-thinn,200,2,200,2
 垃圾,垃圾,pùn-sò,,am-tsam,200,2,200,2
@@ -23,16 +23,16 @@
 叔叔,阿叔,a-tsik,,,200,2,200,2
 媽媽,阿母,a-bú,,,200,2,200,2
 爸爸,阿爸,a-pa,,,200,2,200,2
-你吃了沒？,你吃飽沒？,lí tsia̍h pá bô?,,,1,2,1,2
-他媽的你阿母的陰部,幹你娘雞巴,kàn lín lāu-bú pa-pa,,,0,2,0,2
-他媽的你阿母的陰部,幹你娘雞掰,kàn lín lāu-bó bái,,,0,2,0,2
+你吃了沒？,你吃飽沒？,lí tsia̍h pá bô?,,,2,2,2,2
+他媽的你阿母的陰部,幹你娘雞巴,kàn lín lāu-bú pa-pa,,,5,5,2,8
+他媽的你阿母的陰部,幹你娘雞掰,kàn lín lāu-bó bái,,,5,5,2,8
 餃子,水餃,tsúi-kiáu,,,200,2,200,2
 奶酪,起司,tshì-juh,,,200,2,200,2
 出租車司機,計程車司機,su-ki,,uǹ-tsiàng,200,2,200,2
 視頻,影片,iánn-phìnn,,,200,2,200,2
 我的媽媽,我的阿母,guá ê a-bú,,guán a-bú,200,2,200,2
 我的,我的,guá ê,,guán,200,2,200,2
-時間,時候,sî-sîn,,,0,2,0,2
-雞,甕仔雞,àng-á-ke,,,0,2,0,2
-雞,蚵仔煎,ô-á-tsian,,,0,2,0,2
-媽媽是這個星球上最好的人。,媽咪是地球上最好的人。,a-bú sī tē-kîu tíng siōng hó ê lâng,,,0,2,0,2
+時間,時候,sî-sîn,,,0,3,1,2
+媽媽是這個星球上最好的人。,媽咪是地球上最好的人。,a-bú sī tē-kîu tíng siōng hó ê lâng,,,2,2,2,2
+烘培餅乾,烘餅,hang-piánn,,,1,2,1,2
+我叫瑪利亞,我的名字是,guá ê miâ sī,,,0,2,0,2

@@ -51,10 +51,17 @@ def load_validation():
     else:
         pick_rand = random.randint(0, len(other) - 1)
         val_list = [other[pick_rand][0], other[pick_rand][1], other[pick_rand][2]]
-    
+
     val_list.append(list(exceptions[:, 0]).index(val_list[0]))
-    
+
     return tuple(val_list)
+
+
+def remove_comma(word):
+    if "," in word:
+        split = word.split(",")
+        word = "/".join(split)
+    return word
 
 
 def add_tones(word):
@@ -183,7 +190,14 @@ async def gfg():
                             elif tw_ro == '1':
                                 row[-1] = str(int(row[-1]) + 1)
                         filewriter.writerows([row])
-            return ('<script>window.close()</script>') # Turn it into a blank tab that closes itself
+
+                        # Delete audio file if passed high level of validation
+                        if int(row[-4]) / int(row[-3]) >= 100 and int(row[-2]) / int(row[-1]) >= 100:
+                            files = os.listdir("static")
+                            for file in files:
+                                if file[:-5] == f"exc_{list(exceptions[:,0]).index(cn)}":
+                                    os.remove(f"./static/{file}")
+            return ('<script>window.close()</script>')  # Turn it into a blank tab that closes itself
         elif path == '0' or path == '1' or path == '2':
             color = request.form.get("color")
 
@@ -206,7 +220,7 @@ async def gfg():
 
                 # Replace Chinese Mandarin words with Taiwanese Mandarin words
                 for word in exceptions[:, 0]:
-                    if word in cn and int(exceptions[list(exceptions[:, 0]).index(word), 5])/int(exceptions[list(exceptions[:, 0]).index(word), 6]) >= 1:
+                    if word in cn and int(exceptions[list(exceptions[:, 0]).index(word), 5]) / int(exceptions[list(exceptions[:, 0]).index(word), 6]) >= 1:
                         cn_split = cn.split(word)
                         cn_split[1:1] = exceptions[list(exceptions[:, 0]).index(word), 1]
                         cn = ''.join(cn_split)
@@ -264,6 +278,11 @@ async def gfg():
             if (path == "1" and mandarin != cn) or (path == "2" and romanized != alternative):
                 with open("exceptions.csv", 'a') as csvfile:
                     filewriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+
+                    mandarin = remove_comma(mandarin)
+                    cn = remove_comma(cn)
+                    romanized = remove_comma(romanized)
+                    alternative = remove_comma(alternative)
                     row = []
                     if path == "1":
                         row.append(mandarin)  # Original English to Mandarin Translation
@@ -296,14 +315,14 @@ async def gfg():
                         url = f"https://translate.google.com/translate_tts?ie=UTF-8&q={exc_list[i]}.&tl=zh-TW&total=1&idx=0&textlen=15&tk=350535.255567&client=webapp&prev=input"
                     else:
                         url = f"https://hts.ithuan.tw/文本直接合成?查詢腔口=台語&查詢語句={exc_list[i]}"
-                    myfile = requests.get(url)
-                    open(f"static/exc_{exc_key}_{i}.wav", "wb").write(myfile.content)
+                myfile = requests.get(url)
+                open(f"static/exc_{exc_key}_{i}.wav", "wb").write(myfile.content)
 
             toggle_note = False
             note = ""
             # Replace pronunciations
             for word in exceptions[:, 4]:
-                if word != '' and int(exceptions[list(exceptions[:, 4]).index(word), 7])/int(exceptions[list(exceptions[:, 4]).index(word), 8]) >= 1:
+                if word != '' and int(exceptions[list(exceptions[:, 4]).index(word), 7]) / int(exceptions[list(exceptions[:, 4]).index(word), 8]) >= 1:
                     if word in romanized:
                         romanized_split = romanized.split(word)
                         romanized_split[1:1] = exceptions[list(exceptions[:, 4]).index(word), 2]
@@ -315,7 +334,9 @@ async def gfg():
                     if exceptions[list(exceptions[:, 2]).index(word), 3] != '':
                         toggle_note = True
                         note += exceptions[list(exceptions[:, 2]).index(word), 3]
-                    if exceptions[list(exceptions[:, 2]).index(word), 4] != '' and int(exceptions[list(exceptions[:, 2]).index(word), 7])/int(exceptions[list(exceptions[:, 2]).index(word), 8]) < 100 and int(exceptions[list(exceptions[:, 2]).index(word), 7])/int(exceptions[list(exceptions[:, 2]).index(word), 8]) >= 1:
+                    if exceptions[list(exceptions[:, 2]).index(word),
+                                  4] != '' and int(exceptions[list(exceptions[:, 2]).index(word), 7]) / int(exceptions[list(exceptions[:, 2]).index(word), 8]) < 100 and int(
+                                      exceptions[list(exceptions[:, 2]).index(word), 7]) / int(exceptions[list(exceptions[:, 2]).index(word), 8]) >= 1:
                         alternative = exceptions[list(exceptions[:, 2]).index(word), 4]
                         alternative = add_tones(alternative)
                         note += "\n Alternative for " + word + "→ " + alternative
