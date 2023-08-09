@@ -162,6 +162,11 @@ function changeFlavor() {
     textboxes[i].style.backgroundColor = rgb(flavColors[flav - 1][1]);
   }
 
+  var pencils = document.getElementsByClassName("pencil");
+  for (var i = 0; i < pencils.length; i++) {
+    pencils[i].style.backgroundColor = rgb(flavColors[flav - 1][0]);
+  }
+
   menuMOU();
   document.getElementsByClassName("submit-button")[0].style.backgroundColor = rgb(flavColors[flav - 1][0]);
   document.getElementsByClassName("submit-button")[1].style.backgroundColor = rgb(flavColors[flav - 1][0]);
@@ -300,4 +305,12 @@ function redirect() {
 
   document.getElementById("audio-ro").src = `./static/exc_${key}_2.wav`;
   document.getElementById("audio-ro").load();
+}
+
+function pencilOn(index) {
+  document.getElementsByClassName("pencil")[index].style.backgroundColor = rgb(flavColors[flav - 1][1]);
+}
+
+function pencilOut(index) {
+  document.getElementsByClassName("pencil")[index].style.backgroundColor = rgb(flavColors[flav - 1][0]);
 }
