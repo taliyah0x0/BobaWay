@@ -205,41 +205,13 @@ cleaned_3_4 = np.array(cleaned_3_4)
 
 def load_exceptions():
   exceptions = []
-  # Load in exceptions dictionary (普通話，國語，台語，Note，Alternative, Yes (CN->TW), No (CN->TW), Yes (TW->RO), No (TW->RO))
+  # Load in exceptions dictionary (普通話，國語，台語，Note，Alternative)
   with open("exceptions.csv", "r") as csvfile:
     f = csv.reader(csvfile)
     for row in f:
       exceptions.append(row)
   exceptions = np.array(exceptions)
   return exceptions
-
-
-def load_validation():
-  exceptions = load_exceptions()
-  high_priority = []
-  other = []
-  for row in exceptions:
-    if (int(row[-2]) / int(row[-1]) < 1 or int(row[-4]) / int(row[-3]) < 1
-        ) and (int(row[-2]) / int(row[-1]) > 1 / 4
-               and int(row[-4]) / int(row[-3]) > 1 / 4):
-      high_priority.append(row)
-    elif int(row[-2]) / int(row[-1]) < 10 or int(row[-4]) / int(row[-3]) < 10:
-      other.append(row)
-  val_list = []
-  if len(high_priority) != 0:
-    pick_rand = random.randint(0, len(high_priority) - 1)
-    val_list = [
-      high_priority[pick_rand][0], high_priority[pick_rand][1],
-      high_priority[pick_rand][2]
-    ]
-  else:
-    pick_rand = random.randint(0, len(other) - 1)
-    val_list = [other[pick_rand][0], other[pick_rand][1], other[pick_rand][2]]
-
-  val_list.append(list(exceptions[:, 0]).index(val_list[0]))
-
-  return tuple(val_list)
-
 
 def remove_comma(word):
   if "," in word:
@@ -385,20 +357,12 @@ async def gfg():
       if path == "0":
         cn = mandarin
 
-      elif path == "2":  # Edited the Taiwanese
-        cn = request.form.get("cn")
-        alternative = request.form.get("tw")
-        romanized = request.form.get("ro")
-
       exceptions = load_exceptions()
 
       if path == "0" or path == "1":  # Regular Translation or only edited Mandarin
-
         # Replace Chinese Mandarin words with Taiwanese Mandarin words
         for word in exceptions[:, 0]:
-          if word in cn and int(
-              exceptions[list(exceptions[:, 0]).index(word), 5]) / int(
-                exceptions[list(exceptions[:, 0]).index(word), 6]) >= 1:
+          if word in cn:
             cn_split = cn.split(word)
             cn_split[1:1] = exceptions[list(exceptions[:, 0]).index(word), 1]
             cn = ''.join(cn_split)
@@ -433,69 +397,15 @@ async def gfg():
       romanized = " ".join(finals)
 
       print(romanized)
-
-      if (path == "1" and mandarin != cn) or (path == "2"
-                                              and romanized != alternative):
-        with open("exceptions.csv", 'a') as csvfile:
-          filewriter = csv.writer(csvfile,
-                                  delimiter=',',
-                                  quotechar='|',
-                                  quoting=csv.QUOTE_MINIMAL)
-
-          mandarin = remove_comma(mandarin)
-          cn = remove_comma(cn)
-          romanized = remove_comma(romanized)
-          alternative = remove_comma(alternative)
-          row = []
-          if path == "1":
-            row.append(mandarin)  # Original English to Mandarin Translation
-            row.append(cn)  # Corrected Translation
-            row.append(romanized)
-            row.append("")
-            row.append("")
-            row.append(
-              1)  # Start with 1 Yes for Mandarin to Taiwanese Mandarin
-            row.append(3)  # Start with 3 No for Mandarin to Taiwanese Mandarin
-            row.append(1)
-            row.append(3)
-          if path == "2":
-            row.append(mandarin)  # Original English to Mandarin Translation
-            row.append(cn)  # Corrected Translation
-            row.append(romanized)  # Corrected Taiwanese
-            row.append("")
-            row.append(alternative)  # Original Taiwanese
-            row.append(1)
-            row.append(3)
-            row.append(1)
-            row.append(3)
-          filewriter.writerows([row])
-
-        exceptions = load_exceptions()
-
-        exc_list = [mandarin, cn, romanized]
-        exc_key = len(exceptions[:, 0])
-        for i in range(3):
-          if i != 2:
-            url = f"https://translate.google.com/translate_tts?ie=UTF-8&q={exc_list[i]}.&tl=zh-TW&total=1&idx=0&textlen=15&tk=350535.255567&client=webapp&prev=input"
-          else:
-            url = f"https://hts.ithuan.tw/文本直接合成?查詢腔口=台語&查詢語句={exc_list[i]}"
-          myfile = requests.get(url)
-          open(f"static/exc/exc_{exc_key}_{i}.wav", "wb").write(myfile.content)
-
+      
       toggle_note = False
       note = ""
       # Replace pronunciations
       for word in exceptions[:, 4]:
-        if word != '' and int(
-            exceptions[list(exceptions[:, 4]).index(word), 7]) / int(
-              exceptions[list(exceptions[:, 4]).index(word), 8]) >= 1:
-          print(word, romanized)
-          if word in romanized:
-            romanized_split = romanized.split(word)
-            romanized_split[1:1] = exceptions[list(exceptions[:,
-                                                              4]).index(word),
-                                              2]
-            romanized = ''.join(romanized_split)
+        if word != '' and exceptions[list(exceptions[:, 4]).index(word),2] in romanized:
+          romanized_split = romanized.split(exceptions[list(exceptions[:, 4]).index(word),2])
+          romanized_split[1:1] = word
+          romanized = ''.join(romanized_split)
 
       # Turn on note if there is alternative or note available
       for word in exceptions[:, 2]:
@@ -503,12 +413,10 @@ async def gfg():
           if exceptions[list(exceptions[:, 2]).index(word), 3] != '':
             toggle_note = True
             note += exceptions[list(exceptions[:, 2]).index(word), 3]
-          if exceptions[list(exceptions[:, 2]).index(word), 4] != '' and int(
-              exceptions[list(exceptions[:, 2]).index(word), 7]) / int(
-                exceptions[list(exceptions[:, 2]).index(word), 8]) >= 1:
+          if exceptions[list(exceptions[:, 2]).index(word), 4] != '':
             alternative = exceptions[list(exceptions[:, 2]).index(word), 4]
             alternative = add_tones(alternative)
-            note += '\n Alternative for "' + word + '" → ' + alternative
+            note += '\n Alternative for "' + alternative + '" → ' + word
             toggle_note = True
 
       print(note, alternative)
@@ -621,6 +529,9 @@ async def gfg():
 
             if page == '1' and og[-1] in vowels:
               page = '2'
+
+            if page == '2' and filename[-1] == '4':
+              page = '3'
 
             endings = []
             if page == '2':
