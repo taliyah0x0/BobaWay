@@ -13,7 +13,7 @@
     <meta property="og:description" content="Hi! I'm Taliyah, a Taiwanese-American student, content creator, and the developer of BobaWay. If you have any questions, please don't hesitate to use the form below to contact me!">
 </head>
 
-<body class="body-pad">
+<body class="body-pad" onload="loadNow()">
   <p id="play" style="display: none">0</p>
   <div style="display: flex; flex-direction: column">
     <div style="display: flex; flex: 1" class="bottom">
@@ -70,26 +70,8 @@
             <br>
             嗨！我是造作 Bobaway 的台裔女大生 Taliyah。如果有問題，請不要猶豫用下面的表跟我連絡！
           </p>
-        <div style="display: flex; justify-content: center; gap: 2vmax; background-color: rgb(250, 230, 170); box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);
-        border-radius: 2vmax;">
-          <a href="https://www.taiwaneseamerican.org/2023/07/taliyah-huang-interview-bobaway/" target="_blank">
-            <div class="faq">
-              <h3>Interview</h3>
-              <p>TaiwaneseAmericanOrg</p>
-            </div>
-          </a>
-          <a href="https://www.worldjournal.com/wj/story/121359/7289244" target="_blank">
-            <div class="faq">
-              <h3>報道</h3>
-              <p>世界新聞網</p>
-            </div>
-          </a>
-          <a href="https://podcasters.spotify.com/pod/show/rkes7e3m79o/episodes/TaliyahBobaWay--20230724-e279v5h" target="_blank">
-            <div class="faq">
-              <h3>訪問</h3>
-              <p>寶島聯播網</p>
-            </div>
-          </a>
+        <div id="current-news">
+        <img src="./static/left-arrow.png" class="slide-arrow" onclick="changeSlide(-1)">
         </div>
       </div>
       <div style="display: inline-block; flex: 1.5">
@@ -128,5 +110,42 @@
     </div>
 </body>
 <script type="text/javascript" src="./static/index.js"></script>
+<script type="text/javascript">
+let news_titles = ['Interview','Interview','Interview','報道','訪問']
+let news_des = ['Talking Taiwan','Radio Taiwan International','TaiwaneseAmericanOrg','世界新聞網','寶島聯播網']
+let news_links = ['https://talkingtaiwan.com/taliyah-huang-young-inventor-of-bobaway-online-translator-that-converts-english-to-taiwanese-ep-253/','https://en.rti.org.tw/radio/programMessagePlayer/programId/1435/id/108711','https://www.taiwaneseamerican.org/2023/07/taliyah-huang-interview-bobaway/','https://www.worldjournal.com/wj/story/121359/7289244','https://podcasters.spotify.com/pod/show/rkes7e3m79o/episodes/TaliyahBobaWay--20230724-e279v5h']
+let slide_page = 0
+
+function loadNow() {
+  for (var i = 0; i < 3; i++) {
+    document.getElementById("current-news").innerHTML += 
+    `<a href="${news_links[i]}" target="_blank" class="faq">\
+    <h3>${news_titles[i]}</h3>\
+    <p>${news_des[i]}</p>\
+    </a>`
+  }
+  document.getElementById("current-news").innerHTML += '<img src="./static/right-arrow.png" class="slide-arrow" onclick="changeSlide(1)">'
+}
+
+function changeSlide(index) {
+  document.getElementById("current-news").innerHTML = '';
+  document.getElementById("current-news").innerHTML += '<img src="./static/left-arrow.png" class="slide-arrow" onclick="changeSlide(-1)">';
+  slide_page += index;
+  if (slide_page + 3 > news_titles.length) {
+    slide_page -= 1;
+  }
+  if (slide_page < 0) {
+    slide_page = 0;
+  }
+  for (var i = slide_page; i < slide_page + 3; i++) {
+    document.getElementById("current-news").innerHTML += 
+    `<a href="${news_links[i]}" target="_blank" class="faq">\
+    <h3>${news_titles[i]}</h3>\
+    <p>${news_des[i]}</p>\
+    </a>`
+  }
+  document.getElementById("current-news").innerHTML += '<img src="./static/right-arrow.png" class="slide-arrow" onclick="changeSlide(1)">'
+}
+</script>
 
 </html>

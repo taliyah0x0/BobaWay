@@ -25,22 +25,27 @@
           </h1>
         </a>
         <div style="display: flex; flex-direction: row">
+          <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(0)" onclick="keyboards()">
+            <h3>
+              Keyboards
+            </h3>
+          </button>
           <form action="{{ url_for("gfg")}}" method="post">
-          <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(0)" type="submit">
+          <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(1)" type="submit">
               <h3>
                 About
               </h3>
               <textarea id="path1" name="path" style="display: none">3</textarea>
           </button>
               </form>
-          <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(1)">
+          <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(2)">
             <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQDR9Uki-ei757OyyAjvf-wzQFnhPuK3R4r0CKqUdoyXTgFX8I6DxVnCewjoWFyKN9rVjp7kyHIgJ9w/pubhtml?gid=0&single=true" target="_blank">
               <h3>
                 Feedback
               </h3>
             </a>
           </button>
-          <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(2)">
+          <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(3)">
             <a href="https://paypal.me/taliyah0x0" target="_blank">
               <h3>
                 Donate
@@ -49,7 +54,25 @@
           </button>
         </div>
       </div>
+      <div id="keyboards">
+        <form target="popup" action="{{ url_for("gfg")}}" method="post" id="main-form">
+        <button class="menu-button keyboard-button" type="submit">
+          <h3>
+            Tai-Ping
+          </h3>
+        </button>
+        <textarea id="path1" name="path" style="display: none">7</textarea>
+      </form>
       <form target="popup" action="{{ url_for("gfg")}}" method="post" id="main-form">
+        <button class="menu-button keyboard-button" type="submit">
+          <h3>
+            Typewanese
+          </h3>
+        </button>
+        <textarea id="path1" name="path" style="display: none">8</textarea>
+      </form>
+    </div>
+      <form action="{{ url_for("gfg")}}" method="post" id="main-form">
         <div style="flex-direction: column; flex: 7">
           <div style="display: flex; flex-direction: row; flex: 1">
             <div style="display: flex; flex: 1; margin-bottom: 2vmin">
@@ -61,7 +84,7 @@
                 <button class="nothing blank-button" onmouseover="pencilOn(0)" onmouseout="pencilOut(0)" type="button">
                 <h3 class="pencil" onclick="document.getElementById('en').innerHTML = ''; document.getElementById('en').innerHTML = ''; document.getElementById('en').focus();">Clear</h3></button>
                 <div class="submit-shadow submit-bt"></div>
-                <button class="submit-button submit-bt" onmouseover="submitMOV(0)" onmouseout="submitMOU(0)" type="submit" onclick="submitButton(5)">
+                <button class="submit-button submit-bt" onmouseover="submitMOV(0)" onmouseout="submitMOU(0)" type="submit" onclick="submitButton(0)">
                   <h3 class="submit-text">Submit</h3>
                 </button>
                 <div class="callout" style="display: none">
@@ -265,6 +288,11 @@
       var menus = document.getElementsByClassName("menu-button");
       for (var i = 0; i < menus.length; i++) {
         menus[i].style.backgroundColor = rgb(flavColors[flav - 1][0]);
+      }
+
+      var pencils = document.getElementsByClassName("pencil");
+      for (var i = 0; i < pencils.length; i++) {
+        pencils[i].style.backgroundColor = rgb(flavColors[flav - 1][0]);
       }
 
       document.getElementsByClassName("submit-bt")[0].style.display = "block";
