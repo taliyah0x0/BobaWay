@@ -88,18 +88,18 @@
       </div>
       </div>
       <div style="display: flex; flex-direction: column; padding-left: 5vw; padding-right: 5vw; margin-top: 0">
-        <form>
+        <form id="contactForm" action="https://formspree.io/f/xrbboewr" method="POST">
           <div style="display: flex;" class="bottom">
             <div style="display: flex; flex-direction: column">
               <h3 style="margin-bottom: 0; margin-top: 1vmax">Contact Me!</h3>
-              <input type="text" id="name" class="text-box small-box" placeholder="Name" required>
-              <input type="email" id="email" class="text-box small-box" placeholder="Email" required>
+              <input type="text"  name="name" id="name" class="text-box small-box" placeholder="Name" required>
+              <input type="email" mame="email" id="email" class="text-box small-box" placeholder="Email" required>
             </div>
             <div style="display: inline-block; position: relative;">
-              <textarea class="text-box large-box" id="message" placeholder="Message" required></textarea>
+              <textarea class="text-box large-box" id="message" name="message" placeholder="Message" required></textarea>
               <textarea id="color" name="color" style="display: none">9</textarea>
               <div id="submit-shadow" class="submit-bt"></div>
-              <a href="" target="_blank" id="submit"><button class="submit-button submit-bt" onmouseover="submitMOV(0)"
+              <a href="" target="_blank" id="submit"><button class="submit-button submit-bt" type="submit" onmouseover="submitMOV(0)"
                   onmouseout="submitMOU(0)" onclick="submitForm()" type="submit">
                   <h3 class="submit-text">Submit</h3>
                 </button></a>
@@ -111,9 +111,9 @@
 </body>
 <script type="text/javascript" src="./static/index.js"></script>
 <script type="text/javascript">
-let news_titles = ['Featured Guest','Interview','Interview','Interview','Interview','報道','訪問']
-let news_des = ['Taiwan Plus','Taiwan Plus','Talking Taiwan','Radio Taiwan International','TaiwaneseAmericanOrg','世界新聞網','寶島聯播網']
-let news_links = ['https://www.youtube.com/watch?v=qEXrODPL-Cw&t=277s','https://www.youtube.com/results?search_query=taiwan+plus+taliyah','https://talkingtaiwan.com/taliyah-huang-young-inventor-of-bobaway-online-translator-that-converts-english-to-taiwanese-ep-253/','https://en.rti.org.tw/radio/programMessagePlayer/programId/1435/id/108711','https://www.taiwaneseamerican.org/2023/07/taliyah-huang-interview-bobaway/','https://www.worldjournal.com/wj/story/121359/7289244','https://podcasters.spotify.com/pod/show/rkes7e3m79o/episodes/TaliyahBobaWay--20230724-e279v5h']
+let news_titles = ['Interview','Interview','報道','訪問']
+let news_des = ['Radio Taiwan International','TaiwaneseAmericanOrg','世界新聞網','寶島聯播網']
+let news_links = ['https://en.rti.org.tw/radio/programMessagePlayer/programId/1435/id/108711','https://www.taiwaneseamerican.org/2023/07/taliyah-huang-interview-bobaway/','https://www.worldjournal.com/wj/story/121359/7289244','https://podcasters.spotify.com/pod/show/rkes7e3m79o/episodes/TaliyahBobaWay--20230724-e279v5h']
 let slide_page = 0
 
 function loadNow() {
