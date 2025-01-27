@@ -9,24 +9,25 @@ from pydub import AudioSegment
 import csv
 import numpy as np
 import pinyin
+import pyppeteer
 
 num = ["1", "2", "3", "5", "7", "8"]
 alph = [["a", "e"], ["o"], ["i", "u"], ["n"],
         ["m"]]  # Order of priority to add tone
 # In order of 1, 2, 3, 5, 7, 8
 vowel_tone = [
-  ["a", "á", "à", "â", "ā", "a̍"],
-  ["e", "é", "è", "ê", "ē", "e̍"],
-  ["i", "í", "ì", "î", "ī", "i̍"],
-  ["u", "ú", "ù", "û", "ū", "u̍"],
-  ["o", "ó", "ò", "ô", "ō", "o̍"],
-  ["m", "ḿ", "m̀", "m̂", "m̄", "m̍"],
-  ["n", "ń", "ǹ", "ň", "n̄", "n̍"],
+    ["a", "á", "à", "â", "ā", "a̍"],
+    ["e", "é", "è", "ê", "ē", "e̍"],
+    ["i", "í", "ì", "î", "ī", "i̍"],
+    ["u", "ú", "ù", "û", "ū", "u̍"],
+    ["o", "ó", "ò", "ô", "ō", "o̍"],
+    ["m", "ḿ", "m̀", "m̂", "m̄", "m̍"],
+    ["n", "ń", "ǹ", "ň", "n̄", "n̍"],
 ]
 
 consonants = [
-  'p', 'ts', 't', 'ph', 'tsh', 'th', 'k', 'ch', 's', 'kh', 'chh', 'j', 'b',
-  'l', 'd', 'g', 'h', 'n'
+    'p', 'ts', 't', 'ph', 'tsh', 'th', 'k', 'ch', 's', 'kh', 'chh', 'j', 'b',
+    'l', 'd', 'g', 'h', 'n'
 ]
 
 vowels = ['a', 'e', 'i', 'o', 'u']
@@ -213,6 +214,7 @@ def load_exceptions():
   exceptions = np.array(exceptions)
   return exceptions
 
+
 def remove_comma(word):
   if "," in word:
     split = word.split(",")
@@ -352,6 +354,9 @@ async def gfg():
       en = request.form.get("en")
       mandarin = GoogleTranslator(source="auto", target="zh-TW").translate(en)
       cn = request.form.get("cn")
+      romanized = ""
+      alternative = ""
+      py = ""
       print("translate", mandarin)
 
       if path == "0":
@@ -361,12 +366,12 @@ async def gfg():
 
       if path == "0" or path == "1":  # Regular Translation or only edited Mandarin
         # Replace Chinese Mandarin words with Taiwanese Mandarin words
-        for word in exceptions[:, 0]:
+        '''for word in exceptions[:, 0]:
           if word in cn:
             cn_split = cn.split(word)
             cn_split[1:1] = exceptions[list(exceptions[:, 0]).index(word), 1]
             cn = ''.join(cn_split)
-        print(cn)
+        print(cn)'''
 
         # Get Pinyin
         spaced = ""
@@ -376,34 +381,119 @@ async def gfg():
         py = pinyin.get(spaced)
         print(py)
 
-        page = requests.get(
-          f"http://tts001.iptcloud.net:8804/display?text0={cn}")
-        romanized = BeautifulSoup(page.content, "html.parser")
-        print(romanized)
+        #page = requests.get(f"http://tts001.iptcloud.net:8804/display?text0={cn}")
+        #romanized = BeautifulSoup(page.content, "html.parser")
+        '''while len(cn) > 0:
+          found = False
+          temp_cn = cn[:]
+          while not found:
+            for s_list in src_1_search:
+              for search_term in s_list:
+                if search_term == temp_cn:
+                  romanized += src_1_code[src_1_search.index(s_list)] + " "
+                  new_cn += search_term #src_1_tai[src_1_search.index(s_list)]
+                  cn = cn[len(search_term):]
+                  found = True
+                  temp_cn = ""
+                  print(romanized, search_term, s_list)
+            temp_cn = temp_cn[:-1]
+        print(romanized)'''
 
-        alternative = ""
+        browser = await pyppeteer.launcher.connect(
+            browserWSEndpoint='wss://chrome.browserless.io?token=' +
+            'e4057a02-a262-4d88-9b37-c958c579719c')
+        page = await browser.newPage()
 
-      cleaned = ''
+        # Using this Mandarin to Taiwanese translator
+        await page.goto("https://camplingo.com/translate?stlang=nan")
+
+        # Click on the button to bring up english input
+        translate_en = ".css-1fs5cst"
+        await page.waitForSelector(translate_en)
+        await page.click(translate_en)
+
+        # Enter in the input box
+        text_input = ".css-1kp110w"
+        await page.waitForSelector(text_input)
+        await page.type(text_input, en)
+
+        bt = ".css-f2hjvb"
+        await page.waitForSelector(bt)
+        await page.click(bt)
+        await page.waitFor(200)
+
+        word_bt = ".token"
+        await page.waitForSelector(word_bt)
+
+        first_block = await page.querySelectorAll(".annotated_study_tokens")
+        elements = await first_block[0].querySelectorAll(word_bt)
+        print(len(elements))
+
+        print("a")
+
+        index = 0
+        while index < len(elements):
+          await page.waitForSelector(f'{word_bt}:nth-child({index + 1})', {'visible': True})
+          first_block = await page.querySelectorAll(".annotated_study_tokens")
+          elements = await first_block[0].querySelectorAll(word_bt)
+          await elements[index].click()
+          await page.waitFor(100)
+
+          first_block = await page.querySelectorAll(".annotated_study_tokens")
+          elements = await first_block[0].querySelectorAll(word_bt)
+          child = await elements[index].querySelector('.css-0')
+          
+          has_class = await page.evaluate("""
+              (element) => {
+                  return element.classList.contains('tokenPoint');
+              }
+          """, child)
+          
+          if has_class:
+            print("has")
+            grandchild = await child.querySelector('.phonetic_aide')
+            inner_html = await page.evaluate('(element) => element.innerHTML', grandchild)
+            if 'ⁿ' in inner_html:
+              inner_html = inner_html.replace('ⁿ', '')
+            romanized += inner_html + " "
+            print(romanized)
+          else:
+            print("else")
+            grandchild = await child.querySelector('.text')
+            inner_html = await page.evaluate('(element) => element.innerHTML', grandchild)
+            found = False
+            counter = 0
+            while not found:
+              s_list = src_1_search[counter]
+              if inner_html in s_list:
+                romanized += src_1_code[src_1_search.index(s_list)] + " "
+                found = True
+              counter += 1
+          index += 1
+                
+      '''cleaned = ''
       for letter in romanized:
         if letter != '4' and letter != '6' and letter != '9' and letter != '.' and letter != '?' and letter != '!':
           cleaned += letter
-      romanized = cleaned
+      romanized = cleaned'''
 
       words = romanized.split(' ')
 
-      finals = []
+      '''finals = []
       for word in words:
         finals.append(add_tones(word))
-      romanized = " ".join(finals)
+      romanized = " ".join(finals)'''
 
-      print(romanized)
-      
+      print(words)
+
       toggle_note = False
       note = ""
       # Replace pronunciations
       for word in exceptions[:, 4]:
-        if word != '' and exceptions[list(exceptions[:, 4]).index(word),2] in romanized:
-          romanized_split = romanized.split(exceptions[list(exceptions[:, 4]).index(word),2])
+        if word != '' and exceptions[list(exceptions[:, 4]).index(word),
+                                     2] in romanized:
+          romanized_split = romanized.split(
+              exceptions[list(exceptions[:, 4]).index(word), 2])
           romanized_split[1:1] = word
           romanized = ''.join(romanized_split)
 
@@ -434,9 +524,15 @@ async def gfg():
             os.remove(f"static/{file}")
 
       file_count = 0
-      for count in range(len(words)):
-        url = f"https://hts.ithuan.tw/文本直接合成?查詢腔口=台語&查詢語句={words[count]}"
+      for count in range(len(words) - 1): # extra space of words for some reason
+        search_input = words[count]
+        if search_input[-2:] == 'a̍':
+          search_input = search_input[:-2] + 'ah'
+        elif search_input[-2:] == 'āh':
+          search_input = search_input[:-2] + 'á'
+        url = f"https://hts.ithuan.tw/文本直接合成?查詢腔口=台語&查詢語句={search_input}"
         myfile = requests.get(url)
+        print(search_input)
         open(f"static/{hour}_{key}_{count}.wav", "wb").write(myfile.content)
 
         # Trim first 0.3 and last 0.4 seconds
@@ -446,18 +542,18 @@ async def gfg():
         file_count += 1
 
       return render_template(
-        "output.html",
-        en=en,
-        mandarin=cn,
-        romanization=romanized,
-        file_count=file_count,
-        hour=hour,
-        key=key,
-        color=color,
-        play=0,
-        toggle_note=toggle_note,
-        note=note,
-        pinyin=py,
+          "output.html",
+          en=en,
+          mandarin=cn,
+          romanization=romanized,
+          file_count=file_count,
+          hour=hour,
+          key=key,
+          color=color,
+          play=0,
+          toggle_note=toggle_note,
+          note=note,
+          pinyin=py,
       )
     elif path == '10':
       if full == 'True':
@@ -522,7 +618,7 @@ async def gfg():
 
               # Trim first 0.3 and last 0.4 seconds
               song = AudioSegment.from_file(
-                file=f"static/tai-sounds/{filename}.wav", format="wav")
+                  file=f"static/tai-sounds/{filename}.wav", format="wav")
               trimmed = song[300:-400]
               trimmed.export(out_f=f"static/tai-sounds/{filename}.wav",
                              format="wav")
@@ -596,9 +692,9 @@ async def gfg():
 
       if mandarin in cleaned_3_4[:, 0]:
         selector = np.array([
-          mandarin in s for s in cleaned_3_4[:, 0].flat
+            mandarin in s for s in cleaned_3_4[:, 0].flat
         ]).reshape(
-          cleaned_3_4[:, 0].shape
+            cleaned_3_4[:, 0].shape
         )  # Get location of all rows that have search term matching Mandarin exactly
         match = cleaned_3_4[selector]  # Select the rows
         romanized = list(match[:, 1])
@@ -629,7 +725,7 @@ async def gfg():
 
         # Trim first 0.3 and last 0.4 seconds
         song = AudioSegment.from_mp3(
-          f"static/sounds/{hour}_{sorted_options[x]}.wav")
+            f"static/sounds/{hour}_{sorted_options[x]}.wav")
         trimmed = song[300:-400]
         trimmed.export(f"static/sounds/{hour}_{sorted_options[x]}.wav",
                        format="wav")
