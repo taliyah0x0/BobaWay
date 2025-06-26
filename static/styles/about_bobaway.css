@@ -511,5 +511,5 @@ audio::-webkit-media-controls-panel {
   gap: 0.5vw;
   background-color: rgb(250, 230, 170);
   box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);
-  border-radius: 2vw;"
+  border-radius: 2vw;
 }
