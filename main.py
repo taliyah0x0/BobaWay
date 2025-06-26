@@ -747,6 +747,9 @@ async def gfg():
                              hour=hour)
   return render_template("index.html")
 
+@app.route("/sino-type", methods=["GET", "POST"])
+def sino_type():
+  return render_template("sino-type.html")
 
 app.run(host="0.0.0.0", port=81)
 

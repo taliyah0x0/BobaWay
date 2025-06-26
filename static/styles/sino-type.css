@@ -1,0 +1,368 @@
+@font-face {
+    font-family: Choko;
+    src: url("choko.ttf");
+}
+
+@font-face {
+    font-family: Dosis;
+    src: url("dosis.ttf");
+}
+
+h3 {
+    text-align: center;
+    margin: 1vw;
+    margin-top: -0.2vw;
+    color: rgb(60, 20, 0);
+    font-family: Choko;
+  }
+  
+
+h2 {
+    font-family: Choko;
+    color: rgb(60, 20, 0);
+    font-weight: normal;
+}
+
+div {
+    font-size: 1.5rem;
+    font-family: Dosis;
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+
+.output_div {
+    display: flex;
+    align-items: center;
+}
+
+label {
+    display: flex;
+    align-items: center;
+    font-size: 2.5rem;
+    font-family: Choko;
+    font-weight: normal;
+    margin-right: 1vw;
+}
+
+label:hover {
+    cursor: pointer;
+}
+
+input:hover {
+    cursor: pointer;
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    margin-right: 0.5vw;
+    border-radius: 20%;
+    border: 2px solid rgb(60, 20, 0);
+    background-color: transparent;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+input[type="checkbox"]:checked {
+    background-color: rgb(60, 20, 0);
+    border: 2px solid rgb(60, 20, 0);
+}
+
+input[type="radio"] {
+    appearance: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("../img/steamer.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+  
+input[type="radio"]:checked {
+    border: none;
+    background-image: url("../img/filled_steamer.png");
+}
+
+span {
+    background-color: rgb(226, 199, 140);
+}
+
+.textareas {
+    color: rgb(60, 20, 0);
+    padding: 1rem;
+    box-shadow: 5px 5px rgb(60, 20, 0);
+}
+
+.languages > label {
+    font-size: 2rem;
+    color: rgb(60, 20, 0);
+}
+
+.box-title {
+    height: 50px;
+    margin: 2rem 0 0 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.box-title3 {
+    height: 50px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    display: none;
+    position: absolute;
+}
+
+#copy-button {
+    position: absolute;
+    background-image: url("../img/copy.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 1;
+    transition: 0.3s ease-in-out;
+}
+
+#copy-button:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+@media only screen and (min-aspect-ratio: 1/1) { /* For laptop */
+    #boxes {
+        display: flex;
+        flex-direction: row;
+    }
+
+    #input-area {
+        width: 45vw;
+        height: 20vh;
+        position: absolute;
+        top: calc(170px + 2rem);
+        font-size: 1.5rem;
+    }
+
+    #highlight-area-2 {
+        left: 50vw;
+    }
+    
+    #output-area {
+        width: 45vw;
+        height: 20vh;
+        position: absolute;
+        left: 50vw;
+        top: calc(170px + 2rem);
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0;
+        align-content: flex-start;
+        font-size: 1.5rem;
+    }
+
+    #highlight-area, #highlight-area-2 {
+        width: 45vw;
+        height: 20vh;
+        position: absolute;
+        top: calc(170px + 2rem);
+        font-family: Dosis;
+        color: transparent;
+        font-size: 1.5rem;
+        background-color: #FAE6AA;
+    }
+
+    .box-title {
+        width: 48vw;
+    }
+
+    #copy-button {
+        top: calc(170px + 20vh - 1rem + 2rem);
+        left: calc(50vw + 45vw - 1rem);
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    input[type="checkbox"] {
+        height: 2rem;
+        width: 2rem;
+    }
+
+    .title {
+        margin: 1rem;
+        font-size: 3rem;
+    }
+
+    .box-title {
+        font-size: 2rem;
+    }
+
+    .options > label {
+        width: 6rem;
+        margin-left: 1rem;
+    }
+
+    input[type="radio"] {
+        height: 2.7rem;
+        width: 3rem;
+    }
+
+    .textareas {
+        border-radius: 10px;
+    }
+
+    .box-title3 {
+        top: calc(170px + 5rem + 20vh);
+    }
+
+    #options-wrapper {
+        position: absolute;
+        top: calc(170px + 7rem + 20vh);
+    }
+}
+
+@media only screen and (max-aspect-ratio: 1/1) { /* For phone */
+    #boxes {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #input-area {
+        width: 90vw;
+        left: 3vw;
+        height: 25vh;
+        position: absolute;
+        top: calc(200px + 2rem);
+        font-size: 3rem;
+    }
+    
+    #output-area {
+        width: 68vw;
+        height: 25vh;
+        position: absolute;
+        left: 25vw;
+        top: calc(200px + 25vh + 10vw + 3rem);
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0;
+        align-content: flex-start;
+        font-size: 3rem;
+    }
+
+    #highlight-area {
+        width: 90vw;
+        height: 25vh;
+        left: 3vw;
+        position: absolute;
+        top: calc(200px + 2rem);
+        font-family: Dosis;
+        color: transparent;
+        font-size: 3rem;
+        background-color: #FAE6AA;
+    }
+
+    #highlight-area-2 {
+        width: 68vw;
+        height: 25vh;
+        left: 25vw;
+        position: absolute;
+        top: calc(200px + 25vh + 10vw + 3rem);
+        font-family: Dosis;
+        color: transparent;
+        font-size: 3rem;
+        background-color: #FAE6AA;
+    }
+
+    .box-title1 {
+        width: 95vw;
+    }
+
+    .box-title2 {
+        position: absolute;
+        margin-left: 25vw;
+        width: 68vw;
+    }
+
+    .box-title3 {
+        font-size: 2.5rem;
+        top: calc(200px + 25vh + 10vw + 2rem);
+    }
+
+    #options-wrapper {
+        position: absolute;
+        top: calc(200px + 25vh + 10vw + 5rem);
+    }
+
+    #copy-button {
+        top: calc(170px + 25vh - 1rem + 10vw + 25vh + 3rem);
+        left: calc(93vw - 2.5rem);
+        width: 4rem;
+        height: 4rem;
+    }
+
+    input[type="checkbox"] {
+        height: 1.5rem;
+        width: 1.5rem;
+    }
+
+    .title {
+        margin: 1rem;
+        font-size: 5rem;
+    }
+
+    .box-title {
+        font-size: 2.5rem;
+    }
+
+    .output_div {
+        font-size: 3rem;
+    }
+
+    .options > label {
+        font-size: 3.5rem;
+        margin-left: 1rem;
+        width: 8rem;
+    }
+
+    input[type="radio"] {
+        height: 3.5rem;
+        width: 4rem;
+    }
+
+    .textareas {
+        border-radius: 30px;
+    }
+}
+  
+  h1 {
+    display: flex;
+    flex: 6;
+    margin: 1vw;
+    color: rgb(60, 20, 0);
+    font-family: Choko;
+  }
+  
+  .menu-button {
+    font-size: 2vw;
+    padding: 1vw;
+    border: none;
+    height: 3vmax;
+    cursor: default;
+    margin: 0 0.2vw 0 0.5vw;
+    background-color: rgb(226, 199, 140);
+    border-radius: 2vmax;
+  }
+  
+  .menu-button:hover {
+    cursor: pointer;
+  }
+  
+  a {
+    text-decoration: none;
+  }
