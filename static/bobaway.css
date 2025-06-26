@@ -190,9 +190,6 @@
   .pencil {
     width: 4vmax;
     height: 3vmax;
-    position: absolute;
-    top: 1vmax;
-    right: 1vmax;
     background-color: rgb(226, 199, 140);
     font-size: 2vmax;
     line-height: 3vmax;
@@ -206,6 +203,17 @@
     text-align: left;
     width: 30vmax;
     display: none;
+  }
+
+  .blank-button {
+    position: absolute;
+    top: 1vmax;
+    right: 1vmax;
+  }
+
+  #keyboards {
+    margin-top: 21%;
+    margin-left: 1%;
   }
 }
 
@@ -386,9 +394,6 @@
   .pencil {
     width: 2vmax;
     height: 2vmax;
-    position: absolute;
-    top: 1vmax;
-    right: 0.5vmax;
     background-color: rgb(226, 199, 140);
     font-size: 1vmax;
     line-height: 2vmax;
@@ -402,6 +407,17 @@
     text-align: left;
     width: 15vmax;
     display: none;
+  }
+
+  .blank-button {
+    position: absolute;
+    top: 1vmax;
+    right: 0.5vmax;
+  }
+
+  #keyboards {
+    margin-top: 3%;
+    margin-left: 52%;
   }
 }
 
@@ -536,7 +552,6 @@ p {
 
 .pencil:hover {
   cursor: pointer;
-  background-color: rgb(250, 230, 170);
 }
 
 .nothing {
@@ -547,4 +562,20 @@ p {
 	font: inherit;
 	cursor: pointer;
 	outline: inherit;
+}
+
+#keyboards {
+  position: fixed;
+  z-index: 1;
+  overflow: none;
+  display: none;
+}
+
+.keyboard-button {
+  box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);
+  margin-top: 10px;
+}
+
+.keyboard-button:hover {
+  box-shadow: none;
 }

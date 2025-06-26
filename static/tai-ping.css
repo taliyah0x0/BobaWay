@@ -1,0 +1,375 @@
+button {
+  color: rgb(60, 20, 0);
+}
+
+#red {
+  color: red;
+}
+
+#underline {
+  color: red;
+  text-decoration: underline;
+}
+
+#black {
+  color: rgb(60, 20, 0);
+}
+
+@font-face {
+  font-family: Choko;
+  src: url("choko.ttf");
+}
+
+@font-face {
+  font-family: Dosis;
+  src: url("dosis.ttf");
+}
+
+.copy {
+  height: 2vmax;
+  padding: 1vmin;
+  margin: auto;
+  float: right;
+}
+
+.copy:hover {
+  cursor: pointer;
+}
+
+@media (min-aspect-ratio: 1/1) {
+  .swap-direction {
+    display: flex;
+    flex-direction: row;
+    flex: 3;
+    padding: 0 5vw 0 5vw;
+  }
+  .set {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .last-set {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  pre {
+    font-family: Dosis;
+    font-size: 2vw;
+    line-height: 3vw;
+    margin: 0;
+    vertical-align: middle;
+    display: inline-block;
+    text-align: center;
+    padding: 0;
+  }
+
+  .large-key {
+    display: inline-block;
+    flex: 1;
+    font-family: Dosis;
+    background-color: #FAE6AA;
+    border-radius: 10px;
+    width: 8vw;
+    min-height: 8vw;
+    text-align: center;
+    font-size: 3vw;
+    margin: 10px;
+    box-shadow: 5px 5px rgb(60, 20, 0);
+    -webkit-appearance: none;
+    border: none;
+  }
+  
+  .medium-key {
+    display: inline-block;
+    flex: 1;
+    font-family: Dosis;
+    background-color: #FAE6AA;
+    border-radius: 10px;
+    width: auto;
+    min-height: 4vw;
+    text-align: center;
+    font-size: 2vw;
+    margin: 10px;
+    box-shadow: 5px 5px rgb(60, 20, 0);
+    -webkit-appearance: none;
+    border: none;
+  }
+  
+  .small-key {
+    display: inline-block;
+    flex: 1;
+    font-family: Dosis;
+    background-color: #FAE6AA;
+    border-radius: 10px;
+    width: 5vw;
+    min-height: 5vw;
+    text-align: center;
+    font-size: 2vw;
+    margin: 10px;
+    box-shadow: 5px 5px rgb(60, 20, 0);
+    -webkit-appearance: none;
+    border: none;
+  }
+
+  .arrow {
+    margin: auto;
+    height: 3vw;
+    vertical-align: center;
+  }
+
+  #level {
+    margin: auto;
+    font-family: Dosis;
+    font-size: 2vw;
+    line-height: 1vw;
+    text-align: center;
+  }
+
+  #text_box {
+    -webkit-appearance: none;
+    width: 60vmax;
+    height: 3vmax;
+    background-color: #FAE6AA;
+    margin-left: auto;
+    margin-right: auto;
+    resize: none;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 5px 15px 5px 15px;
+  }
+
+  .slider-box {
+    display: flex;
+    flex-direction: row;
+    margin: 5px;
+    width: auto;
+    padding-left: 1vw;
+    padding-right: 2vw;
+    text-align: center;
+    align-content: center;
+  }
+
+  .menu-button {
+    border-radius: 2vmax;
+  }
+
+  .bottom {
+    flex-direction: row;
+    margin-bottom: 0;
+  }
+
+  h3 {
+    font-size: 2vw;
+  }
+
+  h1 {
+    font-size: 4vw;
+  }
+
+  .body-pad {
+    padding: 0;
+  }
+}
+
+@media (max-aspect-ratio: 1/1) {
+  swap-direction {
+    display: flex;
+    flex-direction: column;
+    flex: 3;
+    padding: 0 5vw 0 5vw;
+  }
+  
+  .set {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .last-set {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  pre {
+    font-family: Dosis;
+    font-size: 6vw;
+    line-height: 5vw;
+    margin: 0;
+    vertical-align: middle;
+    display: inline-block;
+    text-align: center;
+    padding: 0;
+  }
+
+  .large-key {
+    display: inline-block;
+    flex: 1;
+    font-family: Dosis;
+    background-color: #FAE6AA;
+    border-radius: 10px;
+    width: 22.5vw;
+    min-height: 9vw;
+    text-align: center;
+    font-size: 6vw;
+    margin: 10px;
+    box-shadow: 5px 5px rgb(60, 20, 0);
+    -webkit-appearance: none;
+    border: none;
+  }
+  
+  .medium-key {
+    display: inline-block;
+    flex: 1;
+    font-family: Dosis;
+    background-color: #FAE6AA;
+    border-radius: 10px;
+    width: auto;
+    min-height: 9vw;
+    text-align: center;
+    font-size: 4vw;
+    margin: 10px;
+    box-shadow: 5px 5px rgb(60, 20, 0);
+    -webkit-appearance: none;
+    border: none;
+  }
+  
+  .small-key {
+    display: inline-block;
+    flex: 1;
+    font-family: Dosis;
+    background-color: #FAE6AA;
+    border-radius: 10px;
+    width: 5vw;
+    min-height: 7vw;
+    text-align: center;
+    font-size: 4vw;
+    margin: 10px;
+    box-shadow: 5px 5px rgb(60, 20, 0);
+    -webkit-appearance: none;
+    border: none;
+  }
+
+  #text_box {
+    -webkit-appearance: none;
+    width: 40vmax;
+    height: 3vmax;
+    background-color: #FAE6AA;
+    margin-left: auto;
+    margin-right: auto;
+    resize: none;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding: 3px 15px 3px 15px;
+  }
+
+  .slider-box {
+    display: flex;
+    flex-direction: row;
+    margin: 5px;
+    width: auto;
+    padding-left: 1vw;
+    padding-right: 2vw;
+  }
+
+  .arrow {
+    margin: auto;
+    height: 6vw;
+  }
+
+  #level {
+    margin: auto;
+    font-family: Dosis;
+    font-size: 4vw;
+    font-weight: normal;
+    text-align: center;
+  }
+
+  .bottom {
+    flex-direction: column;
+    margin-bottom: 1vh;
+  }
+
+  .menu-button {
+    border-radius: 3vmax;
+    padding-top: 1vmin;
+  }
+
+  h3 {
+    font-size: 5vw;
+    font-weight: normal;
+  }
+
+  h1 {
+    font-size: 14vw;
+    font-weight: normal;
+  }
+
+  .body-pad {
+    padding: 3vw;
+  }
+}
+
+h1 {
+  display: flex;
+  flex: 6;
+  margin: 1vw;
+  color: rgb(60, 20, 0);
+  font-family: Choko;
+}
+
+.menu-button {
+  font-size: 2vw;
+  padding: 1vw;
+  border: none;
+  height: 3vmax;
+  cursor: default;
+  margin: 0 0.2vw 0 0.5vw;
+  background-color: rgb(226, 199, 140);
+}
+
+.menu-button:hover {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+h3 {
+  text-align: center;
+  margin: 1vw;
+  margin-top: -0.2vw;
+  color: rgb(60, 20, 0);
+  font-family: Choko;
+}
+
+.arrow:hover {
+  cursor: pointer;
+}
+
+.large-key:hover {
+  cursor: pointer;
+}
+
+.medium-key:hover {
+  cursor: pointer;
+}
+
+.small-key:hover {
+  cursor: pointer;
+}
+
+#text_box {
+  cursor: pointer;
+}

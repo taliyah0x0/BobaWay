@@ -21,6 +21,7 @@ var play = 0;
 
 function submitButton(type) {
   document.getElementById("path").innerHTML = type.toString();
+  document.getElementById("path").value = type.toString();
   document.getElementsByClassName("info")[0].innerHTML = "Please wait patiently for the translation!";
   document.getElementsByClassName("info")[0].style.display = "block";
   moveBobaBL();
@@ -34,6 +35,8 @@ function submitButton(type) {
   for (var i = 0; i < shadows.length; i++){
     shadows[i].style.display = "none";
   }
+
+  document.mainform.submit();
 }
 
 function moveBobaTR() {
@@ -230,6 +233,10 @@ function menuMOU() {
   for (var i = 0; i < menus.length; i++) {
     menus[i].style.backgroundColor = rgb(flavColors[flav - 1][0]);
   }
+  let keyboards = document.getElementsByClassName("keyboard-button");
+  for (var i = 0; i < keyboards.length; i++) {
+    keyboards[i].style.backgroundColor = rgb(flavColors[flav - 1][1]);
+  }
 }
 
 function menuMOV(select) {
@@ -297,13 +304,13 @@ function redirect() {
 
   let key = document.getElementById("key").innerHTML;
 
-  document.getElementById("audio-cn").src = `./static/exc_${key}_0.wav`;
+  document.getElementById("audio-cn").src = `./static/exc/exc_${key}_0.wav`;
   document.getElementById("audio-cn").load();
 
-  document.getElementById("audio-tw").src = `./static/exc_${key}_1.wav`;
+  document.getElementById("audio-tw").src = `./static/exc/exc_${key}_1.wav`;
   document.getElementById("audio-tw").load();
 
-  document.getElementById("audio-ro").src = `./static/exc_${key}_2.wav`;
+  document.getElementById("audio-ro").src = `./static/exc/exc_${key}_2.wav`;
   document.getElementById("audio-ro").load();
 }
 
@@ -313,4 +320,18 @@ function pencilOn(index) {
 
 function pencilOut(index) {
   document.getElementsByClassName("pencil")[index].style.backgroundColor = rgb(flavColors[flav - 1][0]);
+}
+
+var showKeyboards = false;
+
+function keyboards() {
+  if (showKeyboards == false) {
+    document.getElementById("keyboards").style.display = 'block';
+    document.getElementsByClassName("menu-button")[4].style.backgroundColor = rgb(flavColors[flav - 1][1]);
+    document.getElementsByClassName("menu-button")[5].style.backgroundColor = rgb(flavColors[flav - 1][1]);
+    showKeyboards = true;
+  } else {
+    document.getElementById("keyboards").style.display = 'none';
+    showKeyboards = false;
+  }
 }

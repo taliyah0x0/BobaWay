@@ -1,0 +1,244 @@
+@font-face {
+  font-family: Choko;
+  src: url("choko.ttf");
+}
+
+@font-face {
+  font-family: Dosis;
+  src: url("dosis.ttf");
+}
+
+.copy:hover {
+  cursor: pointer;
+}
+
+@media (min-aspect-ratio: 1/1) {
+  .copy {
+    height: 2vmax;
+    padding: 1vmin;
+    display: block;
+    position: absolute;
+    top: 6.8vmax;
+    right: 25vmax;
+  }
+
+  .menu-button {
+    border-radius: 2vmax;
+  }
+
+  .bottom {
+    flex-direction: row;
+    margin-bottom: 0;
+  }
+
+  #text_box {
+    margin: 0 1vmax 0 15vmax;
+  }
+
+  .search-button {
+    margin: 0 15vmax 0 1vmax;
+  }
+
+  #red {
+    font-size: 2vw;
+    line-height: 3vw;
+  }
+
+  pre {
+    font-size: 2vw;
+    line-height: 3vw;
+  }
+
+  h3 {
+    font-size: 2vw;
+  }
+
+  h1 {
+    font-size: 4vw;
+  }
+
+  .body-pad {
+    padding: 0;
+  }
+}
+
+@media (max-aspect-ratio: 1/1) {
+  .copy {
+    height: 2vmax;
+    padding: 1vmin;
+    display: block;
+    position: absolute;
+    top: 14.2vmax;
+    right: 10vmax;
+  }
+
+  .bottom {
+    flex-direction: column;
+    margin-bottom: 1vh;
+  }
+
+  .menu-button {
+    border-radius: 3vmax;
+    padding-top: 1vmin;
+  }
+  
+  #text_box {
+    margin: 0 1vmax 0 2vmax;
+  }
+
+  .search-button {
+    margin: 0 2vmax 0 0;
+  }
+  
+  #red {
+    font-size: 4vw;
+    line-height: 5vw;
+  }
+
+  pre {
+    font-size: 4vw;
+    line-height: 5vw;
+  }
+
+  h3 {
+    font-size: 5vw;
+    font-weight: normal;
+  }
+
+  h1 {
+    font-size: 14vw;
+    font-weight: normal;
+  }
+
+  .body-pad {
+    padding: 3vw;
+  }
+}
+
+#text_box {
+  -webkit-appearance: none;
+  height: 3vmax;
+  background-color: #FAE6AA;
+  resize: none;
+  border-radius: 10px;
+  padding: 5px 15px 5px 15px;
+  flex: 12;
+  align-items: center;
+}
+
+.search-button {
+  background-color: #FAE6AA;
+  color: rgb(60, 20, 0);
+  -webkit-appearance: none;
+  font-family: Dosis;
+  border: none;
+  font-size: 1vmax;
+  border-radius: 10px;
+  padding: 1vmax 1vmax 1.5vmax 1vmax;
+  flex: 1;
+  vertical-align: middle;
+  line-height: 0.5vmax;
+  width: 7vmax;
+  height: 2vmax;
+}
+
+#red {
+  -webkit-appearance: none;
+  height: 100%;
+  width: 100%;
+  background-color: #FAE6AA;
+  margin-left: auto;
+  margin-right: auto;
+  border: none;
+  resize: none;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 3px 15px 3px 15px;
+  font-family: Dosis;
+  vertical-align: middle;
+  display: inline-block;
+  text-align: left;
+  padding: 0;
+  color: red;
+}
+
+pre {
+  font-family: Dosis;
+  margin: 0 0 10px 0;
+  vertical-align: middle;
+  display: inline-block;
+  text-align: center;
+  padding: 0;
+}
+
+h1 {
+  display: flex;
+  flex: 6;
+  margin: 1vw;
+  color: rgb(60, 20, 0);
+  font-family: Choko;
+}
+
+.menu-button {
+  font-size: 2vw;
+  padding: 1vw;
+  border: none;
+  height: 3vmax;
+  cursor: default;
+  margin: 0 0.2vw 0 0.5vw;
+  background-color: rgb(226, 199, 140);
+}
+
+.menu-button:hover {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+h3 {
+  text-align: center;
+  margin: 1vw;
+  margin-top: -0.2vw;
+  color: rgb(60, 20, 0);
+  font-family: Choko;
+}
+
+.arrow:hover {
+  cursor: pointer;
+}
+
+#options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5vmax;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.option-button {
+  color: rgb(60, 20, 0);
+  -webkit-appearance: none;
+  font-family: Dosis;
+  flex: 1;
+  background-color: #FAE6AA;
+  border: none;
+  width: 40vmax;
+  padding: 1vmax;
+  border-radius: 10px;
+  font-size: 2vmax;
+  height: 10vmax;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+}
+
+.option-button:hover {
+  cursor: pointer;
+}
+
+.search-button:hover {
+  cursor: pointer;
+}

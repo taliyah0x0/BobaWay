@@ -13,6 +13,7 @@
     <meta property="og:description" content="Easily translate English to Taiwanese!">
   </head>
 
+  <div style="position: absolute; z-index: 1000; width: 100%; height: 100%; background-color: rgba(255, 0, 0, 0.8); margin: none; font-family: Dosis; font-size: 3rem">BobaWay is Broken!<br>Recruiting Software Engineers: Contact me at taliyahengineering@gmail.com</div>
   <body class="body-pad">
     <p id="play" style="display: none">0</p>
     <div style="display: flex; flex-direction: column">
@@ -69,8 +70,13 @@
         </button>
         <textarea id="path1" name="path" style="display: none">8</textarea>
       </form>
+     <button class="menu-button keyboard-button">
+          <a id="ext_link" href="https://sino-type.netlify.app" target="_blank"><h3>
+            Sino-Type
+          </h3></a>
+        </button>
     </div>
-      <form action="{{ url_for("gfg")}}" method="post">
+      <form name="mainform" action="{{ url_for("gfg")}}" method="post">
         <div style="flex-direction: column; flex: 7">
           <div style="display: flex; flex-direction: row; flex: 1">
             <div style="display: flex; flex: 1; margin-bottom: 2vmin">

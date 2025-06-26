@@ -10,6 +10,8 @@ import csv
 import numpy as np
 import pinyin
 import pyppeteer
+import webbrowser
+import re
 
 num = ["1", "2", "3", "5", "7", "8"]
 alph = [["a", "e"], ["o"], ["i", "u"], ["n"],
@@ -400,8 +402,7 @@ async def gfg():
         print(romanized)'''
 
         browser = await pyppeteer.launcher.connect(
-            browserWSEndpoint='wss://chrome.browserless.io?token=' +
-            'e4057a02-a262-4d88-9b37-c958c579719c')
+            browserWSEndpoint='wss://chrome.browserless.io?token=' + 'e4057a02-a262-4d88-9b37-c958c579719c')
         page = await browser.newPage()
 
         # Using this Mandarin to Taiwanese translator
@@ -429,28 +430,23 @@ async def gfg():
         elements = await first_block[0].querySelectorAll(word_bt)
         print(len(elements))
 
-        print("a")
-
         index = 0
         while index < len(elements):
           await page.waitForSelector(f'{word_bt}:nth-child({index + 1})', {'visible': True})
           first_block = await page.querySelectorAll(".annotated_study_tokens")
           elements = await first_block[0].querySelectorAll(word_bt)
-          await elements[index].click()
-          await page.waitFor(100)
-
-          first_block = await page.querySelectorAll(".annotated_study_tokens")
-          elements = await first_block[0].querySelectorAll(word_bt)
-          child = await elements[index].querySelector('.css-0')
-          
-          has_class = await page.evaluate("""
-              (element) => {
-                  return element.classList.contains('tokenPoint');
-              }
-          """, child)
-          
+          has_class = await page.evaluate('(element) => element.classList.contains("is_word")', elements[index])
           if has_class:
+            await elements[index].click()
+            await page.evaluate('(element) => element.click()', elements[index])
+            await page.click(".token:nth-of-type({})".format(index + 1))
             print("has")
+            await page.waitForSelector(".phonetic_aide")
+
+            first_block = await page.querySelectorAll(".annotated_study_tokens")
+            elements = await first_block[0].querySelectorAll(word_bt)
+            child = await elements[index].querySelector('.css-0')
+
             grandchild = await child.querySelector('.phonetic_aide')
             inner_html = await page.evaluate('(element) => element.innerHTML', grandchild)
             if 'ⁿ' in inner_html:
@@ -459,18 +455,24 @@ async def gfg():
             print(romanized)
           else:
             print("else")
+            first_block = await page.querySelectorAll(".annotated_study_tokens")
+            elements = await first_block[0].querySelectorAll(word_bt)
+            child = await elements[index].querySelector('.css-0')
             grandchild = await child.querySelector('.text')
             inner_html = await page.evaluate('(element) => element.innerHTML', grandchild)
-            found = False
-            counter = 0
-            while not found:
-              s_list = src_1_search[counter]
-              if inner_html in s_list:
-                romanized += src_1_code[src_1_search.index(s_list)] + " "
-                found = True
-              counter += 1
+
+            if not bool(re.search(r'[^\w\s]', inner_html)):
+              found = False
+              counter = 0
+              while not found:
+                s_list = src_1_search[counter]
+                if inner_html in s_list:
+                  romanized += src_1_code[src_1_search.index(s_list)] + " "
+                  found = True
+                counter += 1
+            else:
+              romanized += inner_html;
           index += 1
-                
       '''cleaned = ''
       for letter in romanized:
         if letter != '4' and letter != '6' and letter != '9' and letter != '.' and letter != '?' and letter != '!':
@@ -478,7 +480,6 @@ async def gfg():
       romanized = cleaned'''
 
       words = romanized.split(' ')
-
       '''finals = []
       for word in words:
         finals.append(add_tones(word))
@@ -524,7 +525,8 @@ async def gfg():
             os.remove(f"static/{file}")
 
       file_count = 0
-      for count in range(len(words) - 1): # extra space of words for some reason
+      for count in range(len(words) -
+                         1):  # extra space of words for some reason
         search_input = words[count]
         if search_input[-2:] == 'a̍':
           search_input = search_input[:-2] + 'ah'

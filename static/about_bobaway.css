@@ -48,7 +48,7 @@
     font-size: 4vw;
     -webkit-appearance: none;
     box-shadow: 1.5vw 1.5vw rgb(60, 20, 0);
-    border-radius: 3vmax;
+    border-radius: 3vw;
   }
 
   .large-box {
@@ -71,25 +71,25 @@
   .submit-bt {
     width: 25vw;
     height: 8vw;
-    border-radius: 3vmax;
+    border-radius: 3vw;
   }
 
   .menu-button {
-    border-radius: 3vmax;
+    border-radius: 3vw;
     padding-top: 1vmin;
   }
 
   .portrait {
-    width: 15vmax;
-    height: 15vmax;
+    width: 15vw;
+    height: 15vw;
     margin-left: auto;
     margin-right: auto;
     display: block;
   }
 
   .icon {
-    max-width: 3vmax;
-    max-height: 3vmax;
+    max-width: 3vw;
+    max-height: 3vw;
     margin-left: auto;
     margin-right: auto;
     display: inline-block;
@@ -97,14 +97,14 @@
   }
 
   .intro-text {
-    font-size: 1.5vmax;
+    font-size: 1.5vw;
   }
 
   .submit-button {
     font-size: 2vw;
     position: absolute;
-    bottom: 1.5vmax;
-    right: 3vmax;
+    bottom: 1.5vw;
+    right: 3vw;
     border: none;
     background-color: rgb(226, 199, 140);
     cursor: default;
@@ -112,8 +112,8 @@
 
   #submit-shadow {
     background-color: rgb(60, 20, 0);
-    bottom: 1vmax;
-    right: 2.5vmax;
+    bottom: 1vw;
+    right: 2.5vw;
     position: absolute;
     display: block;
   }
@@ -121,7 +121,7 @@
   .flex-box {
     display: flex;
     flex-direction: column;
-    margin: 0 3vmax 0 3vmax;
+    margin: 0 3vw 0 3vw;
   }
 
   th {
@@ -151,18 +151,18 @@
   }
 
   .down {
-    margin: 1vmax auto 0 auto;
+    margin: 1vw auto 0 auto;
     display: block;
-    height: 6vmax;
+    height: 6vw;
   }
 
   .display-text {
     font-family: Dosis;
     font-size: 4vw;
     -webkit-appearance: none;
-    border-radius: 2vmax;
+    border-radius: 2vw;
     border: none;
-    padding: 1vmax;
+    padding: 1vw;
     background-color: rgb(250, 230, 170);
     display: block;
     resize: none;
@@ -182,8 +182,8 @@
     border: none;
     background-color: rgb(226, 199, 140);
     cursor: default;
-    border-radius: 2vmax;
-    margin: 0.2vmax auto 0.2vmax auto;
+    border-radius: 2vw;
+    margin: 0.2vw auto 0.2vw auto;
     width: 100%;
   }
 }
@@ -213,7 +213,7 @@
     -webkit-appearance: none;
     font-size: 2vw;
     box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);
-    border-radius: 2vmax;
+    border-radius: 2vw;
   }
 
   .large-box {
@@ -236,22 +236,22 @@
   .submit-bt {
     width: 10vw;
     height: 3vw;
-    border-radius: 2vmax;
+    border-radius: 2vw;
   }
 
   .menu-button {
-    border-radius: 2vmax;
+    border-radius: 2vw;
   }
 
   .portrait {
-    width: 20vmax;
-    height: 20vmax;
+    width: 20vw;
+    height: 20vw;
   }
 
   
   .icon {
-    max-width: 3vmax;
-    max-height: 3vmax;
+    max-width: 3vw;
+    max-height: 3vw;
     margin-left: auto;
     margin-right: auto;
     display: inline-block;
@@ -259,14 +259,14 @@
   }
 
   .intro-text {
-    font-size: 1.5vmax;
+    font-size: 1.5vw;
   }
 
   .submit-button {
     font-size: 2vw;
     position: absolute;
-    bottom: 1.5vmax;
-    right: 1.5vmax;
+    bottom: 1.5vw;
+    right: 1.5vw;
     border: none;
     background-color: rgb(226, 199, 140);
     cursor: default;
@@ -274,8 +274,8 @@
 
   #submit-shadow {
     background-color: rgb(60, 20, 0);
-    bottom: 1vmax;
-    right: 1vmax;
+    bottom: 1vw;
+    right: 1vw;
     position: absolute;
     display: block;
   }
@@ -283,7 +283,7 @@
   .flex-box {
     display: flex;
     flex-direction: row;
-    margin: 0 3vmax 0 3vmax;
+    margin: 0 3vw 0 3vw;
   }
 
   th {
@@ -308,9 +308,9 @@
   }
 
   .arrow {
-    margin: 4vmax auto 2vmax auto;
+    margin: 4vw auto 2vw auto;
     display: block;
-    width: 6vmax;
+    width: 6vw;
   }
 
   .down {
@@ -321,9 +321,9 @@
     font-family: Dosis;
     font-size: 2vw;
     -webkit-appearance: none;
-    border-radius: 2vmax;
+    border-radius: 2vw;
     border: none;
-    padding: 1vmax;
+    padding: 1vw;
     background-color: rgb(250, 230, 170);
     display: block;
     resize: none;
@@ -344,8 +344,8 @@
     border: none;
     background-color: rgb(226, 199, 140);
     cursor: default;
-    border-radius: 2vmax;
-    margin: 0.2vmax auto 0.2vmax auto;
+    border-radius: 2vw;
+    margin: 0.2vw auto 0.2vw auto;
     width: 100%;
   }
 }
@@ -385,7 +385,7 @@ p {
 .text-box {
   font-family: Dosis;
   border: none;
-  padding: 1vmax;
+  padding: 1vw;
   background-color: rgb(250, 230, 170);
   display: block;
   resize: none;
@@ -405,7 +405,7 @@ p {
   font-size: 2vw;
   padding: 1vw;
   border: none;
-  height: 3vmax;
+  height: 3vw;
   cursor: default;
   margin: 0 0.2vw 0 0.5vw;
   background-color: rgb(226, 199, 140);
@@ -419,23 +419,26 @@ p {
   display: block;
   background-color: rgb(250, 230, 170);
   position: relative;
-  margin: 1vmax;
+  margin: 1vw;
   box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);
-  border-radius: 2vmax;
-  padding: 2vmax;
-  margin-left: 4vmax;
+  border-radius: 2vw;
+  padding: 2vw;
+  margin-left: 4vw;
 }
 
 .faq {
   display: inline-block;
-  margin-top: auto;
-  margin-bottom: auto;
+  margin: 0;
   text-align: center;
+  align-items: center;
   vertical-align: middle;
-  line-height: 1vw;
-  border-radius: 2vmax;
-  padding: 2vmax 1vmax 0.5vmax 1vmax;
+  justify-content: center;
+  line-height: 1vmax;
+  border-radius: 2vw;
+  padding: 2vw 0 0.5vw 0;
   background-color: rgb(250, 230, 170);
+  flex: 3;
+  height: 4vmax;
 }
 
 .faq:hover {
@@ -444,19 +447,19 @@ p {
 }
 
 .example > th {
-  padding: 0 1vmax 0 1vmax;
+  padding: 0 1vw 0 1vw;
 }
 
 .tone > th {
-  padding: 0.5vmax 1.5vmax 0.5vmax 1.5vmax;
+  padding: 0.5vw 1.5vw 0.5vw 1.5vw;
 }
 
 .example > td {
-  padding: 0 1vmax 0 1vmax;
+  padding: 0 1vw 0 1vw;
 }
 
 .tone > td {
-  padding: 0.5vmax 1.5vmax 0.5vmax 1.5vmax;
+  padding: 0.5vw 1.5vw 0.5vw 1.5vw;
 }
 
 .odd {
@@ -482,10 +485,31 @@ audio::-webkit-media-controls-panel {
   flex-direction: column;
   padding: 0 1vw 0 1vw;
   background-color: rgb(250, 230, 170);
-  border-radius: 2vmax;
-  padding: 1.5vmax 1vmax 0.5vmax 1vmax;
+  border-radius: 2vw;
+  padding: 1.5vw 1vw 0.5vw 1vw;
 }
 
 .arrow {
-  margin: auto 1vmax auto 0;
+  margin: auto 1vw auto 0;
+}
+
+.slide-arrow {
+  flex: 1;
+  width: 2vw;
+  height: 3vw;
+  margin: auto 0 auto 0;
+}
+
+.slide-arrow:hover {
+  cursor: pointer;
+}
+
+#current-news {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  gap: 0.5vw;
+  background-color: rgb(250, 230, 170);
+  box-shadow: 0.8vw 0.8vw rgb(60, 20, 0);
+  border-radius: 2vw;"
 }
