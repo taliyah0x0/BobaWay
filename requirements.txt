@@ -1,8 +1,10 @@
-Flask==2.3.3
+Flask[async]==3.1.1
 deep-translator==1.11.4
-requests==2.31.0
-beautifulsoup4==4.12.2
+requests==2.32.4
+beautifulsoup4==4.13.4
 pydub==0.25.1
-numpy==1.24.3
+numpy==2.3.1
 pinyin==0.4.0
-pyppeteer==1.0.2 
+pyppeteer==2.0.0
+audioop-lts==0.2.1
+asgiref==3.8.1 
