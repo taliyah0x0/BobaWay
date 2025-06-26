@@ -4,9 +4,9 @@
 <head>
   <title>BobaWay | About</title>
   <link rel="stylesheet" href="./static/styles/about_bobaway.css">
-    <link rel="icon" type="image/x-icon" href="./static/flav_8.png" class="favicon">
-    <link rel="apple-touch-icon" sizes="128x128" href="./static/flav_8.png" class="favicon">
-    <meta property="og:image" content="./static/flav_8.png">
+    <link rel="icon" type="image/x-icon" href="./static/img/flav/flav_8.png" class="favicon">
+    <link rel="apple-touch-icon" sizes="128x128" href="./static/img/flav/flav_8.png" class="favicon">
+    <meta property="og:image" content="./static/img/flav/flav_8.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1024">
     <meta property="og:image:height" content="1024">
@@ -54,13 +54,13 @@
           <img src="./static/portrait.jpg" class="portrait">
           <div style="display: flex; justify-content: center;">
             <a href="https://youtube.com/@taliyahengineering" target="_blank">
-              <img src="./static/youtube.png" class="icon"></a>
+              <img src="./static/img/youtube.png" class="icon"></a>
             <a href="https://instagram.com/taliyahengineering" target="_blank">
-              <img src="./static/instagram.png" class="icon"></a>
+              <img src="./static/img/instagram.png" class="icon"></a>
             <a href="https://facebook.com/taliyahengineering">
-              <img src="./static/facebook.png" class="icon" target="_blank"></a>
+              <img src="./static/img/facebook.png" class="icon" target="_blank"></a>
             <a href="https://tiktok.com/@taliyahengineering" target="_blank">
-              <img src="./static/tiktok.png" class="icon"></a>
+              <img src="./static/img/tiktok.png" class="icon"></a>
           </div>
         </div>
         <div style="display: inline-block; margin-left: 4vw; margin-top: 0; flex: 2">
@@ -71,7 +71,7 @@
             嗨！我是造作 Bobaway 的台裔女大生 Taliyah。如果有問題，請不要猶豫用下面的表跟我連絡！
           </p>
         <div id="current-news">
-        <img src="./static/left-arrow.png" class="slide-arrow" onclick="changeSlide(-1)">
+        <img src="./static/img/left-arrow.png" class="slide-arrow" onclick="changeSlide(-1)">
         </div>
       </div>
       <div style="display: inline-block; flex: 1.5">
@@ -124,12 +124,12 @@ function loadNow() {
     <p>${news_des[i]}</p>\
     </a>`
   }
-  document.getElementById("current-news").innerHTML += '<img src="./static/right-arrow.png" class="slide-arrow" onclick="changeSlide(1)">'
+  document.getElementById("current-news").innerHTML += '<img src="./static/img/right-arrow.png" class="slide-arrow" onclick="changeSlide(1)">'
 }
 
 function changeSlide(index) {
   document.getElementById("current-news").innerHTML = '';
-  document.getElementById("current-news").innerHTML += '<img src="./static/left-arrow.png" class="slide-arrow" onclick="changeSlide(-1)">';
+  document.getElementById("current-news").innerHTML += '<img src="./static/img/left-arrow.png" class="slide-arrow" onclick="changeSlide(-1)">';
   slide_page += index;
   if (slide_page + 3 > news_titles.length) {
     slide_page -= 1;
@@ -144,7 +144,7 @@ function changeSlide(index) {
     <p>${news_des[i]}</p>\
     </a>`
   }
-  document.getElementById("current-news").innerHTML += '<img src="./static/right-arrow.png" class="slide-arrow" onclick="changeSlide(1)">'
+  document.getElementById("current-news").innerHTML += '<img src="./static/img/right-arrow.png" class="slide-arrow" onclick="changeSlide(1)">'
 }
 </script>
 

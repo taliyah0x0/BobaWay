@@ -180,7 +180,7 @@ function changeFlavor() {
 
   var favicons = document.getElementsByClassName("favicon");
   for (var i = 0; i < favicons.length; i++) {
-    favicons[i].href = `./static/flav_${flav - 1}.png`;
+    favicons[i].href = `./static/img/flav/flav_${flav - 1}.png`;
   }
 }
 

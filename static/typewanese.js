@@ -110,7 +110,7 @@ function stopOption(word) {
 }
 
 function copyTextToClipboard() {
-  document.getElementsByClassName("copy")[0].src = "./static/light-copy.png";
+          document.getElementsByClassName("copy")[0].src = "./static/img/light-copy.png";
   let ogg = document.getElementById("ogg").innerHTML;
   let text = ogg.split(" ");
 
@@ -135,7 +135,7 @@ function copyTextToClipboard() {
   playSound(hour, 0, cleaned_text.length, cleaned_text);
   
   setTimeout(() => {
-    document.getElementsByClassName("copy")[0].src = "./static/copy.png";
+            document.getElementsByClassName("copy")[0].src = "./static/img/copy.png";
   },200);
 }
 

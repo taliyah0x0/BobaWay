@@ -237,21 +237,21 @@ function start() {
   let level = document.getElementById("slider").value;
   if (level == 1){
     document.getElementById("level").innerHTML = "Easy";
-    document.getElementsByClassName("arrow")[0].src = `./static/light-0.png`;
-    document.getElementsByClassName("arrow")[1].src = `./static/1.png`;
+      document.getElementsByClassName("arrow")[0].src = `./static/img/light-0.png`;
+  document.getElementsByClassName("arrow")[1].src = `./static/img/1.png`;
   } else if (level == 2) {
     document.getElementById("level").innerHTML = "Medium";
-    document.getElementsByClassName("arrow")[0].src = `./static/0.png`;
-    document.getElementsByClassName("arrow")[1].src = `./static/1.png`;
+    document.getElementsByClassName("arrow")[0].src = `./static/img/0.png`;
+    document.getElementsByClassName("arrow")[1].src = `./static/img/1.png`;
   } else if (level == 3) {
     document.getElementById("level").innerHTML = "Advanced";
-    document.getElementsByClassName("arrow")[0].src = `./static/0.png`;
-    document.getElementsByClassName("arrow")[1].src = `./static/light-1.png`;
+      document.getElementsByClassName("arrow")[0].src = `./static/img/0.png`;
+  document.getElementsByClassName("arrow")[1].src = `./static/img/light-1.png`;
   }
 }
 
 function copyTextToClipboard() {
-  document.getElementsByClassName("copy")[0].src = "./static/light-copy.png";
+          document.getElementsByClassName("copy")[0].src = "./static/img/light-copy.png";
   let og = document.getElementById("og").value;
   let change = document.getElementById("change").value;
   let ogg = document.getElementById("ogg").value;
@@ -271,7 +271,7 @@ function copyTextToClipboard() {
     console.error('Async: Could not copy text: ', err);
   });
   setTimeout(() => {
-    document.getElementsByClassName("copy")[0].src = "./static/copy.png";
+            document.getElementsByClassName("copy")[0].src = "./static/img/copy.png";
   },200);
 }
 
@@ -280,26 +280,26 @@ function update(arrow) {
   if (arrow == 0){
     if (level > 1) {
       level -= 1;
-      document.getElementsByClassName("arrow")[0].src = `./static/light-0.png`;
+      document.getElementsByClassName("arrow")[0].src = `./static/img/light-0.png`;
     }
   } else if (arrow == 1) {
     if (level < 3) {
       level += 1;
-      document.getElementsByClassName("arrow")[1].src = `./static/light-1.png`;
+      document.getElementsByClassName("arrow")[1].src = `./static/img/light-1.png`;
     }
   }
   if (level == 1){
     document.getElementById("level").innerHTML = "Easy";
-    document.getElementsByClassName("arrow")[0].src = `./static/light-0.png`;
+    document.getElementsByClassName("arrow")[0].src = `./static/img/light-0.png`;
   } else if (level == 2) {
     document.getElementById("level").innerHTML = "Medium";
     setTimeout(() => {
-      document.getElementsByClassName("arrow")[0].src = `./static/0.png`;
-    document.getElementsByClassName("arrow")[1].src = `./static/1.png`;
+      document.getElementsByClassName("arrow")[0].src = `./static/img/0.png`;
+    document.getElementsByClassName("arrow")[1].src = `./static/img/1.png`;
   },200);
   } else if (level == 3) {
     document.getElementById("level").innerHTML = "Advanced";
-    document.getElementsByClassName("arrow")[1].src = `./static/light-1.png`;
+    document.getElementsByClassName("arrow")[1].src = `./static/img/light-1.png`;
   }
   document.getElementById("slider").value = level;
 }
