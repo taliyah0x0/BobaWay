@@ -564,7 +564,6 @@ def adminsignuppage():
 @app.route("/sino-type/admin-portal", methods=["POST", "GET"])
 @login_required
 def adminportal():
-    
     # This is if the user has submitted the database update form 
     if request.method == "POST":
 
@@ -595,7 +594,14 @@ def adminportal():
             db.create_translation_entry(language, hanzi, roman)
 
     return render_template("adminportal.html")
-    
+
+
+@app.route("/sino-type/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('adminloginpage'))
+
 
 app.run(host="0.0.0.0", port=81)
 
