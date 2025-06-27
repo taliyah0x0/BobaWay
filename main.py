@@ -1,4 +1,9 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for, flash
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import InputRequired, Length
 from deep_translator import GoogleTranslator
 import requests
 import os
@@ -12,9 +17,13 @@ import pinyin
 import pyppeteer
 import webbrowser
 import re
+
+# Local imports
 from clean_csvs import clean_csv_1, clean_csv_2, clean_3_4_combined
 from constants import num, consonants, vowels, match_lett
 from bobaway_utils import load_exceptions, add_tones
+from sinodb import SinoDB
+
 
 cleaned_1 = clean_csv_1()
 cleaned_2 = clean_csv_2()
@@ -31,6 +40,14 @@ for row in cleaned_1:
 
 
 app = Flask(__name__)
+
+bcrypt = Bcrypt(app)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'adminloginpage'
+
+db = SinoDB()
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -466,9 +483,42 @@ async def gfg():
                              hour=hour)
   return render_template("index.html")
 
+
 @app.route("/sino-type", methods=["GET", "POST"])
 def sino_type():
   return render_template("sino-type.html")
+
+
+@login_manager.user_loader
+def load_user(user_id): 
+    return db.get_user_by_id(user_id)
+
+
+class LoginForm(FlaskForm): 
+    username = StringField(validators=[InputRequired(), Length(max=20)], 
+                           render_kw={"placeholder": "Username"})
+    password = PasswordField(validators=[InputRequired(), Length(max=20)],
+                             render_kw={"placeholder": "Password"})
+    submit = SubmitField('Login')
+
+@app.route("/sino-type/admin-login", methods=['GET', 'POST'])
+def adminloginpage():
+    form = LoginForm()
+
+    # If user submits the form: 
+    if form.validate_on_submit():
+        user = db.get_user_by_username(form.username.data)
+        if user: 
+            if bcrypt.check_password_hash(user.password, form.password.data):
+                login_user(user)
+                return redirect(url_for("adminportal"))
+        else: 
+            flash(f"Username or password is incorrect. Please try again.")
+    
+    # If form has not been submitted yet: 
+    return render_template("adminlogin.html", form=form)
+
+
 
 app.run(host="0.0.0.0", port=81)
 
