@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html style="background-color: rgb(226, 199, 140)" id="background">
+  <head>
+    <title>BobaWay Admin Page</title>
+    <link rel="stylesheet" href="/static/styles/sino-type.css">
+    <link rel="icon" type="image/x-icon" href="./static/img/flav/flav_8.png" class="favicon">
+    <link rel="apple-touch-icon" sizes="128x128" href="./static/img/flav/flav_8.png" class="favicon">
+    <meta property="og:image" content="./static/img/flav/flav_8.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1024">
+    <meta property="og:image:height" content="1024">
+  </head>
+  <body>
+    <div style="display: flex; flex-direction: row;">
+      <h1>BobaWay Admin Portal</h1>
+      <a href="logout"><button class="menu-button">Logout</button></a>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for msg in messages %}
+          <p>{{msg}}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form action="" method="POST">
+        <select name="language" required>
+          <option value="Shanghainese">Shanghainese</option>
+          <option value="Korean">Korean</option>
+          <option value="Taiwanese">Taiwanese</option>
+          <option value="Vietnamese">Vietnamese</option>
+        </select>
+        <input type="text" name="hanzi" placeholder="Enter the Hanzi" autocomplete="off" maxlength="1" required/>
+        <input type="text" name="romanization" placeholder="Enter the romanization" autocomplete="off" maxlength="6" required/>
+        <input type="submit" value="Submit"/>
+    </form>
+    <br>
+    Recent database entries: 
+    {% for entry in recents %}
+      <ul list-style-type="None">
+        <li>{{ entry }} <button>Delete</button></li>
+      </ul>
+    {% endfor %}
+    <br>
+    <p>If any issues arise, please email yao.tong2018@outlook.com</p>
+  </body>
+</html>
