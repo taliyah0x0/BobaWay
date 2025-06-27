@@ -569,7 +569,7 @@ def adminportal():
     if request.method == "POST":
 
         # Obtain the language to update, the hanzi, and the romanization
-        language = request.form["language"]
+        language = request.form["language"].lower()
         hanzi = request.form["hanzi"] 
         roman = request.form["romanization"] 
 
@@ -587,13 +587,12 @@ def adminportal():
             flash(f"You have already added ({hanzi}, {roman}) to the {language} database.", "info")
 
         else:
-            pass
             # TODO: store recently added entries so they can be deleted if there has been a mistake
             # session["database_entries"].append((hanzi, roman, language)) 
             # session.modified = True 
             
             # Update the corresponding table in database 
-            # db.update_entry(language, hanzi, roman)
+            db.create_translation_entry(language, hanzi, roman)
 
     return render_template("adminportal.html")
     
