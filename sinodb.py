@@ -17,3 +17,6 @@ class SinoDB(DB):
   
   def get_master_key(self):
     return self.execute("SELECT password FROM admins WHERE username = %s", ("master",))[0][0]
+
+  def get_entry_by_hanzi_and_roman(self, language, hanzi, roman):
+    return self.execute("SELECT * FROM %s WHERE hanzi = %s AND roman = %s", (language, hanzi, roman))
