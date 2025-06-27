@@ -16,5 +16,4 @@ class SinoDB(DB):
     return self.execute("INSERT INTO admins (username, password) VALUES (%s, %s)", (username, password))
   
   def get_master_key(self):
-    result = self.execute("SELECT password FROM admins WHERE username = %s", ("master",))[0][0]
-    return(result)
+    return self.execute("SELECT password FROM admins WHERE username = %s", ("master",))[0][0]
