@@ -23,6 +23,7 @@ from sinodb import SinoDB
 from secrets import SECRET_KEY
 from forms import LoginForm, SignupForm
 from user import User
+from sinotype_utils import checkHanzi, checkRoman, checkEntryExistence
 
 
 cleaned_1 = clean_csv_1()
@@ -560,6 +561,42 @@ def adminsignuppage():
     return render_template("admin_signup.html", form=form)
 
 
+@app.route("/sino-type/admin-portal", methods=["POST", "GET"])
+@login_required
+def adminportal():
+    
+    # This is if the user has submitted the database update form 
+    if request.method == "POST":
+
+        # Obtain the language to update, the hanzi, and the romanization
+        language = request.form["language"]
+        hanzi = request.form["hanzi"] 
+        roman = request.form["romanization"] 
+
+        # Checks that the romanji input is all English characters 
+        roman = roman.lower() 
+        if (not checkRoman(roman)):
+            flash(f"The romanji must consist entirely of Latin characters, no punctuation.")
+
+        # Checks that the hanzi is actually hanzi 
+        elif (not checkHanzi(hanzi)):
+            flash(f"The hanzi you have entered is not a valid hanzi character.")
+
+        # Checks if the entry already exists in the database. If so, let the admin know. 
+        elif (checkEntryExistence(language, hanzi, roman)):
+            flash(f"You have already added ({hanzi}, {roman}) to the {language} database.", "info")
+
+        else:
+            pass
+            # TODO: store recently added entries so they can be deleted if there has been a mistake
+            # session["database_entries"].append((hanzi, roman, language)) 
+            # session.modified = True 
+            
+            # Update the corresponding table in database 
+            # db.update_entry(language, hanzi, roman)
+
+    return render_template("adminportal.html")
+    
 
 app.run(host="0.0.0.0", port=81)
 
