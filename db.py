@@ -39,7 +39,9 @@ class DB:
         
       # save if successful
       self.conn.commit()
-      return self.cur.fetchall()
+      if query.startswith("SELECT"):
+        return self.cur.fetchall()
+      return None
     except psycopg2.Error as e:
       # rollback if error
       self.conn.rollback()
