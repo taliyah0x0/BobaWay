@@ -22,6 +22,7 @@ from bobaway_utils import load_exceptions, add_tones
 from sinodb import SinoDB
 from secrets import SECRET_KEY
 from forms import LoginForm, SignupForm
+from user import User
 
 
 cleaned_1 = clean_csv_1()
@@ -501,7 +502,8 @@ def adminloginpage():
     # If user submits the form: 
     if form.validate_on_submit():
         user = db.get_user_by_username(form.username.data)
-        if user: 
+        if user:
+            user = User(user[0])
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user)
                 return redirect(url_for("adminportal"))
