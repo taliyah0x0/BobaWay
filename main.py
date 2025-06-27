@@ -492,7 +492,11 @@ def sino_type():
 
 @login_manager.user_loader
 def load_user(user_id): 
-    return db.get_user_by_id(user_id)
+    user = db.get_user_by_id(user_id)
+    if user:
+        return User(user[0])
+    else:
+        return None
 
 
 @app.route("/sino-type/admin-login", methods=['GET', 'POST'])
