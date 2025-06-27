@@ -23,6 +23,7 @@ from clean_csvs import clean_csv_1, clean_csv_2, clean_3_4_combined
 from constants import num, consonants, vowels, match_lett
 from bobaway_utils import load_exceptions, add_tones
 from sinodb import SinoDB
+from secrets import SECRET_KEY
 
 
 cleaned_1 = clean_csv_1()
@@ -40,6 +41,7 @@ for row in cleaned_1:
 
 
 app = Flask(__name__)
+app.secret_key = SECRET_KEY
 
 bcrypt = Bcrypt(app)
 
