@@ -1,0 +1,44 @@
+# This is a Replit configuration file
+
+language = "python3"
+entrypoint = "main.py"
+modules = ["python-3.11", "python-3.13:v18-20230807-322e88b", "postgresql-16"]
+[nix]
+packages = [
+  "SDL2",
+  "SDL2_image",
+  "SDL2_mixer",
+  "SDL2_ttf",
+  "emacs",
+  "ffmpeg-full",
+  "fontconfig",
+  "freetype",
+  "gdb",
+  "libjpeg",
+  "libpng",
+  "pkg-config",
+  "portmidi",
+]
+
+[[ports]]
+localPort = 81
+externalPort = 80
+
+[workflows]
+runButton = "main"
+
+[[workflows.workflow]]
+name = "main"
+mode = "sequential"
+author = 37800655
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "yapf main.py --style='{column_limit: 200}' -i"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python3 main.py"
