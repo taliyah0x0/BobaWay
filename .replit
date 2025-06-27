@@ -2,7 +2,7 @@
 
 language = "python3"
 entrypoint = "main.py"
-modules = ["python-3.11", "python-3.13:v18-20230807-322e88b"]
+modules = ["python-3.11", "python-3.13:v18-20230807-322e88b", "postgresql-16"]
 [nix]
 packages = [
   "SDL2",
