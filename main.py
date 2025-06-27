@@ -1,9 +1,6 @@
 from flask import Flask, request, render_template, redirect, url_for, flash
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import InputRequired, Length
 from deep_translator import GoogleTranslator
 import requests
 import os
@@ -24,6 +21,7 @@ from constants import num, consonants, vowels, match_lett
 from bobaway_utils import load_exceptions, add_tones
 from sinodb import SinoDB
 from secrets import SECRET_KEY
+from forms import LoginForm, SignupForm
 
 
 cleaned_1 = clean_csv_1()
@@ -496,13 +494,6 @@ def load_user(user_id):
     return db.get_user_by_id(user_id)
 
 
-class LoginForm(FlaskForm): 
-    username = StringField(validators=[InputRequired(), Length(max=20)], 
-                           render_kw={"placeholder": "Username"})
-    password = PasswordField(validators=[InputRequired(), Length(max=20)],
-                             render_kw={"placeholder": "Password"})
-    submit = SubmitField('Login')
-
 @app.route("/sino-type/admin-login", methods=['GET', 'POST'])
 def adminloginpage():
     form = LoginForm()
@@ -519,6 +510,40 @@ def adminloginpage():
     
     # If form has not been submitted yet: 
     return render_template("adminlogin.html", form=form)
+
+
+@app.route("/sino-type/admin-signup", methods=['GET', 'POST'])
+def adminsignuppage():
+    form = SignupForm()
+
+    # If user submits the form:
+    if form.validate_on_submit():
+        # Check if passwords match
+        if form.password.data != form.confirm_password.data:
+            flash("Passwords do not match. Please try again.")
+            return render_template("admin_signup.html", form=form)
+        
+        # Check if username already exists
+        existing_user = db.get_user_by_username(form.username.data)
+        if existing_user:
+            flash("Username already exists. Please choose a different username.")
+            return render_template("admin_signup.html", form=form)
+        
+        # Here you can add validation for the admin key if needed
+        # For now, we'll accept any key, but you can add specific validation
+        
+        try:
+            # Hash the password and create the user
+            hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+            db.create_user(form.username.data, hashed_password)
+            flash("Account created successfully! You can now log in.")
+            return redirect(url_for("adminloginpage"))
+        except Exception as e:
+            flash("Error creating account. Please try again.")
+            print(f"Signup error: {e}")
+    
+    # If form has not been submitted yet:
+    return render_template("admin_signup.html", form=form)
 
 
 
