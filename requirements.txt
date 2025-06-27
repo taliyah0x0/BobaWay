@@ -7,4 +7,9 @@ numpy==2.3.1
 pinyin==0.4.0
 pyppeteer==2.0.0
 audioop-lts==0.2.1
-asgiref==3.8.1 
+asgiref==3.8.1
+Flask-Bcrypt==1.0.1
+Flask-Login==0.6.3
+Flask-WTF==1.2.1
+WTForms==3.1.2
+psycopg2-binary
