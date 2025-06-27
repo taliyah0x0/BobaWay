@@ -15,4 +15,5 @@ class SinoDB(DB):
   def create_user(self, username, password):
     return self.execute("INSERT INTO admins (username, password) VALUES (%s, %s)", (username, password))
   
-  
+  def get_master_key(self):
+    return self.get_user_by_username("master").password

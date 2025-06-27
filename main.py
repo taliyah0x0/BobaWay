@@ -529,8 +529,16 @@ def adminsignuppage():
             flash("Username already exists. Please choose a different username.")
             return render_template("admin_signup.html", form=form)
         
-        # Here you can add validation for the admin key if needed
-        # For now, we'll accept any key, but you can add specific validation
+        # Validation for the admin key
+        try:
+          master_key = db.get_master_key()
+          if not bcrypt.check_password_hash(master_key, form.key.data):
+            flash("Invalid admin key. Please try again.")
+            return render_template("admin_signup.html", form=form)
+        except Exception as e:
+            flash("Error creating account. Please try again.")
+            print(f"Signup error: {e}")
+
         
         try:
             # Hash the password and create the user
