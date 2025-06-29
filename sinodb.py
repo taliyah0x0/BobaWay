@@ -19,13 +19,13 @@ class SinoDB(DB):
     return self.execute("SELECT password FROM admins WHERE username = %s", ("master",))[0][0]
 
   def get_entry_by_hanzi_and_roman(self, language, hanzi, roman):
-    return self.execute("SELECT * FROM %s WHERE hanzi = %s AND roman = %s", (language, hanzi, roman))
+    return self.execute(f"SELECT * FROM {language} WHERE hanzi = %s AND roman = %s", (hanzi, roman))
   
   def create_translation_entry(self, language, hanzi, roman):
-    return self.execute("INSERT INTO %s (hanzi, roman) VALUES (%s, %s)", (language, hanzi, roman))
+    return self.execute(f"INSERT INTO {language} (hanzi, roman) VALUES (%s, %s)", (hanzi, roman))
   
   def update_translation_entry(self, language, hanzi, roman):
-    return self.execute("UPDATE %s SET roman = %s WHERE hanzi = %s", (language, roman, hanzi))
+    return self.execute(f"UPDATE {language} SET roman = %s WHERE hanzi = %s", (roman, hanzi))
   
   def delete_translation_entry(self, language, hanzi, roman):
-    return self.execute("DELETE FROM %s WHERE hanzi = %s AND roman = %s", (language, hanzi, roman))
+    return self.execute(f"DELETE FROM {language} WHERE hanzi = %s AND roman = %s", (hanzi, roman))
