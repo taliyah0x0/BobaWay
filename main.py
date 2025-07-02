@@ -484,7 +484,7 @@ async def gfg():
   return render_template("index.html")
 
 
-@app.route("/sino-type", methods=["GET", "POST"])
+@app.route("/sino-type", methods=["GET"])
 def sino_type():
   return render_template("sino-type.html")
 
