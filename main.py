@@ -49,8 +49,6 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'adminloginpage'
 
-db = SinoDB()
-
 
 @app.route("/", methods=["GET", "POST"])
 async def gfg():
@@ -492,7 +490,8 @@ def sino_type():
 
 
 @login_manager.user_loader
-def load_user(user_id): 
+def load_user(user_id):
+    db = SinoDB()
     user = db.get_user_by_id(user_id)
     if user:
         return User(user[0])
@@ -503,6 +502,7 @@ def load_user(user_id):
 @app.route("/sino-type/admin-login", methods=['GET', 'POST'])
 def adminloginpage():
     form = LoginForm()
+    db = SinoDB()
 
     # If user submits the form: 
     if form.validate_on_submit():
@@ -522,6 +522,7 @@ def adminloginpage():
 @app.route("/sino-type/admin-signup", methods=['GET', 'POST'])
 def adminsignuppage():
     form = SignupForm()
+    db = SinoDB()
 
     # If user submits the form:
     if form.validate_on_submit():
@@ -566,6 +567,7 @@ def adminsignuppage():
 def adminportal():
     # This is if the user has submitted the database update form 
     if request.method == "POST":
+        db = SinoDB()
 
         # Obtain the language to update, the hanzi, and the romanization
         language = request.form["language"].lower()
@@ -582,7 +584,7 @@ def adminportal():
             flash(f"The hanzi you have entered is not a valid hanzi character.")
 
         # Checks if the entry already exists in the database. If so, let the admin know. 
-        elif (checkEntryExistence(language, hanzi, roman)):
+        elif (checkEntryExistence(db, language, hanzi, roman)):
             flash(f"You have already added ({hanzi}, {roman}) to the {language} database.", "info")
 
         else:
