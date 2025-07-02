@@ -603,6 +603,4 @@ def logout():
     return redirect(url_for('adminloginpage'))
 
 
-app.run(host="0.0.0.0", port=81)
-
-# yapf main.py --style='{column_limit: 200}' -i
+app.run(host="0.0.0.0", port=5000)
