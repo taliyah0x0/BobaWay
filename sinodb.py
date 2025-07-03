@@ -32,3 +32,14 @@ class SinoDB(DB):
   
   def fetch_all_entries(self, language):
     return self.execute(f"SELECT hanzi, roman FROM {language}")
+
+  def get_romanization_mapping(self, language):
+    query = f"""SELECT 
+    roman AS romanization,
+    ARRAY_AGG(hanzi ORDER BY hanzi) AS hanzi_array,
+    COUNT(hanzi) AS character_count
+    FROM {language}
+    GROUP BY roman
+    ORDER BY roman;
+    """
+    return self.execute(query)
