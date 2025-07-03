@@ -394,7 +394,6 @@ span {
     padding: 0.8rem;
     border: 2px solid rgb(60, 20, 0);
     border-radius: 5px;
-    width: 100px;
     text-align: center;
     font-family: Dosis;
 }
@@ -508,7 +507,7 @@ span {
     #hanzi {
         font-size: 2rem;
         padding: 1rem;
-        width: 120px;
+        width: 90%;
     }
     
     .romanization-group {
