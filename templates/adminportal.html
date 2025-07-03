@@ -11,6 +11,42 @@
     <meta property="og:image:height" content="1024">
   </head>
   <body>
+
+    {% macro language_table(language_value, entries) %}
+    <h3>{{ language_value }}</h3>
+    <table>
+      <tr>
+        <th>Hanzi</th>
+        <th>Romanization</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+      {% for entry in entries %}
+      <tr>
+        <td>{{ entry[0] }}</td>
+        <td>{{ entry[1] }}</td>
+        <td>
+          <form action="update-entry" method="POST">
+            <input type="hidden" name="language" value="{{ language_value }}">
+            <input type="hidden" name="hanzi" value="{{ entry[0] }}">
+            <input type="hidden" name="original_roman" value="{{ entry[1] }}">
+            <input type="text" name="new_roman" placeholder="New romanization">
+            <button type="submit">Edit</button>
+          </form>
+        </td>
+        <td>
+          <form action="delete-entry" method="POST">
+            <input type="hidden" name="language" value="{{ language_value }}">
+            <input type="hidden" name="hanzi" value="{{ entry[0] }}">
+            <input type="hidden" name="roman" value="{{ entry[1] }}">
+            <button type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endmacro %}
+
     <div style="display: flex; flex-direction: row;">
       <h1>BobaWay Admin Portal</h1>
       <a href="logout"><button class="menu-button">Logout</button></a>
@@ -37,129 +73,12 @@
     </form>
     <br>
     Current database entries: 
-    <h3>Shanghainese</h3>
-    <table>
-      <tr>
-        <th>Hanzi</th>
-        <th>Romanization</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
-      {% for entry in shanghainese %}
-      <tr>
-        <td>{{ entry[0] }}</td>
-        <td>{{ entry[1] }}</td>
-        <td>
-          <form action="update-shanghainese" method="POST">
-            <input type="hidden" name="hanzi" value="{{ entry[0] }}">
-            <input type="hidden" name="original_roman" value="{{ entry[1] }}">
-            <input type="text" name="new_roman" placeholder="New romanization">
-            <button type="submit">Edit</button>
-          </form>
-        </td>
-        <td>
-          <form action="delete-shanghainese" method="POST">
-            <input type="hidden" name="hanzi" value="{{ entry[0] }}">
-            <input type="hidden" name="roman" value="{{ entry[1] }}">
-            <button type="submit">Delete</button>
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
-    </table>
-
-    <h3>Korean</h3>
-    <table>
-      <tr>
-        <th>Hanzi</th>
-        <th>Romanization</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
-      {% for entry in korean %}
-      <tr>
-        <td>{{ entry[0] }}</td>
-        <td>{{ entry[1] }}</td>
-        <td>
-          <form action="update-korean" method="POST">
-            <input type="hidden" name="hanzi" value="{{ entry[0] }}">
-            <input type="hidden" name="original_roman" value="{{ entry[1] }}">
-            <input type="text" name="new_roman" placeholder="New romanization">
-            <button type="submit">Edit</button>
-          </form>
-        </td>
-        <td>
-          <form action="delete-korean" method="POST">
-            <input type="hidden" name="hanzi" value="{{ entry[0] }}">
-            <input type="hidden" name="roman" value="{{ entry[1] }}">
-            <button type="submit">Delete</button>
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
-    </table>
-
-    <h3>Taiwanese</h3>
-    <table>
-      <tr>
-        <th>Hanzi</th>
-        <th>Romanization</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
-      {% for entry in taiwanese %}
-      <tr>
-        <td>{{ entry[0] }}</td>
-        <td>{{ entry[1] }}</td>
-        <td>
-          <form action="update-taiwanese" method="POST">
-            <input type="hidden" name="hanzi" value="{{ entry[0] }}">
-            <input type="hidden" name="original_roman" value="{{ entry[1] }}">
-            <input type="text" name="new_roman" placeholder="New romanization">
-            <button type="submit">Edit</button>
-          </form>
-        </td>
-        <td>
-          <form action="delete-taiwanese" method="POST">
-            <input type="hidden" name="hanzi" value="{{ entry[0] }}">
-            <input type="hidden" name="roman" value="{{ entry[1] }}">
-            <button type="submit">Delete</button>
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
-    </table>
-
-    <h3>Vietnamese</h3>
-    <table>
-      <tr>
-        <th>Hanzi</th>
-        <th>Romanization</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
-      {% for entry in vietnamese %}
-      <tr>
-        <td>{{ entry[0] }}</td>
-        <td>{{ entry[1] }}</td>
-        <td>
-          <form action="update-vietnamese" method="POST">
-            <input type="hidden" name="hanzi" value="{{ entry[0] }}">
-            <input type="hidden" name="original_roman" value="{{ entry[1] }}">
-            <input type="text" name="new_roman" placeholder="New romanization">
-            <button type="submit">Edit</button>
-          </form>
-        </td>
-        <td>
-          <form action="delete-vietnamese" method="POST">
-            <input type="hidden" name="hanzi" value="{{ entry[0] }}">
-            <input type="hidden" name="roman" value="{{ entry[1] }}">
-            <button type="submit">Delete</button>
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
-    </table>
+    
+    {{ language_table("Shanghainese", "shanghainese", shanghainese) }}
+    {{ language_table("Korean", "korean", korean) }}
+    {{ language_table("Taiwanese", "taiwanese", taiwanese) }}
+    {{ language_table("Vietnamese", "vietnamese", vietnamese) }}
+    
     <br>
     <p>If any issues arise, please email yao.tong2018@outlook.com</p>
   </body>
