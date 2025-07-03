@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, flash
+from flask import Flask, request, render_template, redirect, url_for, flash, jsonify
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from deep_translator import GoogleTranslator
@@ -58,6 +58,33 @@ def bobaway():
 def sino_type():
   return render_template("sino-type.html")
 
+
+@app.route("/api/all-languages-data", methods=["GET"])
+def get_all_languages_data():
+    """Get data for all languages in the format expected by sino-type.js"""
+    try:
+        db = SinoDB()
+        languages = ['shanghainese', 'korean', 'taiwanese', 'vietnamese']
+        
+        # Create the same structure as output.json
+        all_data = {}
+        
+        for lang_index, language in enumerate(languages):
+            entries = db.get_romanization_mapping(language)
+            
+            # Group by romanization
+            for e in entries:
+                roman = e[0]
+                hanzi = e[1]
+                if roman not in all_data:
+                    all_data[roman] = [[], [], [], []]  # 4 empty arrays for 4 languages
+                
+                all_data[roman][lang_index] = hanzi
+        
+        return jsonify(all_data)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
 
 @login_manager.user_loader
 def load_user(user_id):

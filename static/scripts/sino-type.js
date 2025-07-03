@@ -355,20 +355,28 @@ function copy() {
 }
 
 let jsonData; // Global variable to store the fetched JSON
-fetch(`./static/output.json`)
-    .then((response) => {
+async function loadLanguageData() {
+    try {
+        const response = await fetch('/api/all-languages-data');
         if (!response.ok) {
-            throw new Error("Network response was not ok");
+            throw new Error('Network response was not ok');
         }
-        return response.json(); // Parse the JSON
-    })
-    .then((data) => {
-        jsonData = data; // Store the JSON data in the global variable
+        jsonData = await response.json();
         console.log("JSON data fetched and stored:", jsonData);
-    })
-    .catch((error) => {
-        console.error("Error fetching the JSON file:", error);
-    });
+    } catch (error) {
+        console.error("Error fetching language data:", error);
+        // Fallback to static file if API fails
+        try {
+            const fallbackResponse = await fetch('./static/output.json');
+            jsonData = await fallbackResponse.json();
+        } catch (fallbackError) {
+            console.error("Fallback also failed:", fallbackError);
+        }
+    }
+}
+
+// Call this function when the page loads
+loadLanguageData();
 
 function menuMOU() {
     let menus = document.getElementsByClassName("menu-button");
