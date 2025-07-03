@@ -49,16 +49,19 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'adminloginpage'
 
-
+## BOBAWAY
 @app.route("/", methods=["GET", "POST"])
 def bobaway():
   return render_template("index.html")
 
+
+## SINO-TYPE
 @app.route("/sino-type", methods=["GET"])
 def sino_type():
   return render_template("sino-type.html")
 
 
+# SINO-TYPE APIS
 @app.route("/api/all-languages-data", methods=["GET"])
 def get_all_languages_data():
     """Get data for all languages in the format expected by sino-type.js"""
@@ -84,18 +87,9 @@ def get_all_languages_data():
         return jsonify(all_data)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
-
-@login_manager.user_loader
-def load_user(user_id):
-    db = SinoDB()
-    user = db.get_user_by_id(user_id)
-    if user:
-        return User(user[0])
-    else:
-        return None
 
 
+# ADMIN PAGES
 @app.route("/sino-type/admin-login", methods=['GET', 'POST'])
 def adminloginpage():
     form = LoginForm()
@@ -172,6 +166,7 @@ def adminportal():
     return render_template("adminportal.html", shanghainese=shanghainese, korean=korean, taiwanese=taiwanese, vietnamese=vietnamese)
 
 
+# ADMIN REQUESTS
 @app.route("/sino-type/add-entry", methods=["POST"])
 @login_required
 def add_entry():
@@ -275,11 +270,24 @@ def update_entry():
     return redirect(url_for("adminportal"))
 
 
+# LOGIN MANAGEMENT
 @app.route("/sino-type/logout")
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('adminloginpage'))
 
+
+@login_manager.user_loader
+def load_user(user_id):
+    db = SinoDB()
+    user = db.get_user_by_id(user_id)
+    if user:
+        return User(user[0])
+    else:
+        return None
+
+
+# RUN
 if __name__ == "__main__":
   app.run(host="0.0.0.0", port=5000)
