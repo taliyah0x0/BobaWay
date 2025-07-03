@@ -24,8 +24,11 @@ class SinoDB(DB):
   def create_translation_entry(self, language, hanzi, roman):
     return self.execute(f"INSERT INTO {language} (hanzi, roman) VALUES (%s, %s)", (hanzi, roman))
   
-  def update_translation_entry(self, language, hanzi, roman):
-    return self.execute(f"UPDATE {language} SET roman = %s WHERE hanzi = %s", (roman, hanzi))
+  def update_translation_entry(self, language, hanzi, original_roman, new_roman):
+    return self.execute(f"UPDATE {language} SET roman = %s WHERE hanzi = %s AND roman = %s", (new_roman, hanzi, original_roman))
   
   def delete_translation_entry(self, language, hanzi, roman):
     return self.execute(f"DELETE FROM {language} WHERE hanzi = %s AND roman = %s", (hanzi, roman))
+  
+  def fetch_all_entries(self, language):
+    return self.execute(f"SELECT hanzi, roman FROM {language}")

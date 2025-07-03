@@ -24,7 +24,7 @@
       {% endif %}
     {% endwith %}
 
-    <form action="" method="POST">
+    <form action="add-entry" method="POST">
         <select name="language" required>
           <option value="Shanghainese">Shanghainese</option>
           <option value="Korean">Korean</option>
@@ -36,12 +36,130 @@
         <input type="submit" value="Submit"/>
     </form>
     <br>
-    Recent database entries: 
-    {% for entry in recents %}
-      <ul list-style-type="None">
-        <li>{{ entry }} <button>Delete</button></li>
-      </ul>
-    {% endfor %}
+    Current database entries: 
+    <h3>Shanghainese</h3>
+    <table>
+      <tr>
+        <th>Hanzi</th>
+        <th>Romanization</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+      {% for entry in shanghainese %}
+      <tr>
+        <td>{{ entry[0] }}</td>
+        <td>{{ entry[1] }}</td>
+        <td>
+          <form action="update-shanghainese" method="POST">
+            <input type="hidden" name="hanzi" value="{{ entry[0] }}">
+            <input type="hidden" name="original_roman" value="{{ entry[1] }}">
+            <input type="text" name="new_roman" placeholder="New romanization">
+            <button type="submit">Edit</button>
+          </form>
+        </td>
+        <td>
+          <form action="delete-shanghainese" method="POST">
+            <input type="hidden" name="hanzi" value="{{ entry[0] }}">
+            <input type="hidden" name="roman" value="{{ entry[1] }}">
+            <button type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <h3>Korean</h3>
+    <table>
+      <tr>
+        <th>Hanzi</th>
+        <th>Romanization</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+      {% for entry in korean %}
+      <tr>
+        <td>{{ entry[0] }}</td>
+        <td>{{ entry[1] }}</td>
+        <td>
+          <form action="update-korean" method="POST">
+            <input type="hidden" name="hanzi" value="{{ entry[0] }}">
+            <input type="hidden" name="original_roman" value="{{ entry[1] }}">
+            <input type="text" name="new_roman" placeholder="New romanization">
+            <button type="submit">Edit</button>
+          </form>
+        </td>
+        <td>
+          <form action="delete-korean" method="POST">
+            <input type="hidden" name="hanzi" value="{{ entry[0] }}">
+            <input type="hidden" name="roman" value="{{ entry[1] }}">
+            <button type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <h3>Taiwanese</h3>
+    <table>
+      <tr>
+        <th>Hanzi</th>
+        <th>Romanization</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+      {% for entry in taiwanese %}
+      <tr>
+        <td>{{ entry[0] }}</td>
+        <td>{{ entry[1] }}</td>
+        <td>
+          <form action="update-taiwanese" method="POST">
+            <input type="hidden" name="hanzi" value="{{ entry[0] }}">
+            <input type="hidden" name="original_roman" value="{{ entry[1] }}">
+            <input type="text" name="new_roman" placeholder="New romanization">
+            <button type="submit">Edit</button>
+          </form>
+        </td>
+        <td>
+          <form action="delete-taiwanese" method="POST">
+            <input type="hidden" name="hanzi" value="{{ entry[0] }}">
+            <input type="hidden" name="roman" value="{{ entry[1] }}">
+            <button type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <h3>Vietnamese</h3>
+    <table>
+      <tr>
+        <th>Hanzi</th>
+        <th>Romanization</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+      {% for entry in vietnamese %}
+      <tr>
+        <td>{{ entry[0] }}</td>
+        <td>{{ entry[1] }}</td>
+        <td>
+          <form action="update-vietnamese" method="POST">
+            <input type="hidden" name="hanzi" value="{{ entry[0] }}">
+            <input type="hidden" name="original_roman" value="{{ entry[1] }}">
+            <input type="text" name="new_roman" placeholder="New romanization">
+            <button type="submit">Edit</button>
+          </form>
+        </td>
+        <td>
+          <form action="delete-vietnamese" method="POST">
+            <input type="hidden" name="hanzi" value="{{ entry[0] }}">
+            <input type="hidden" name="roman" value="{{ entry[1] }}">
+            <button type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
     <br>
     <p>If any issues arise, please email yao.tong2018@outlook.com</p>
   </body>
