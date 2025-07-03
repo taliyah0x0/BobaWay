@@ -149,27 +149,59 @@ def adminportal():
 @login_required
 def add_entry():
     db = SinoDB()
-    # Obtain the language to update, the hanzi, and the romanization
-    language = request.form["language"].lower()
-    hanzi = request.form["hanzi"] 
-    roman = request.form["romanization"].lower()
-
-    # Checks that the romanji input is all English characters 
-    if (not checkRoman(roman)):
-        flash(f"The romanji must consist entirely of Latin characters, no punctuation.")
-    elif (not checkHanzi(hanzi)):
+    # Get the single hanzi character
+    hanzi = request.form["hanzi"]
+    
+    # Validate hanzi first
+    if not checkHanzi(hanzi):
         flash(f"The hanzi you have entered is not a valid hanzi character.")
-    elif (checkEntryExistence(db, language, hanzi, roman)):
-        flash(f"You have already added ({hanzi}, {roman}) to the {language} database.", "info")
-
-    else:
-        # Update the corresponding table in database
+        return redirect(url_for("adminportal"))
+    
+    # Collect all language/romanization pairs
+    romanization_pairs = []
+    form_keys = list(request.form.keys())
+    
+    # Find all language/romanization pairs
+    for key in form_keys:
+        if key.startswith("language_"):
+            index = key.split("_")[1]
+            romanization_key = f"romanization_{index}"
+            
+            if romanization_key in request.form:
+                language = request.form[key].lower()
+                roman = request.form[romanization_key].lower()
+                romanization_pairs.append((language, roman))
+    
+    # Process each romanization pair
+    successful_additions = []
+    errors = []
+    
+    for language, roman in romanization_pairs:
+        # Validate romanization
+        if not checkRoman(roman):
+            errors.append(f"'{roman}' must consist entirely of Latin characters, no punctuation.")
+            continue
+            
+        # Check if entry already exists
+        if checkEntryExistence(db, language, hanzi, roman):
+            errors.append(f"({hanzi}, {roman}) already exists in the {language} database.")
+            continue
+        
+        # Try to add the entry
         try:
             db.create_translation_entry(language, hanzi, roman)
-            flash(f"You have added ({hanzi}, {roman}) to the {language} database.", "info")
+            successful_additions.append(f"({hanzi}, {roman}) added to {language}")
         except Exception as e:
-            flash(f"Error adding entry. Please try again.")
+            errors.append(f"Error adding ({hanzi}, {roman}) to {language}")
             print(f"Add error: {e}")
+    
+    # Flash results
+    if successful_additions:
+        flash(f"Successfully added: {', '.join(successful_additions)}", "info")
+    
+    if errors:
+        for error in errors:
+            flash(error)
 
     return redirect(url_for("adminportal"))
 
