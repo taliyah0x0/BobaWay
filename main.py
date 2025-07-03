@@ -136,63 +136,6 @@ def adminsignuppage():
 @login_required
 def adminportal():
     db = SinoDB()
-    
-    # This is if the user has submitted the database update form 
-    if request.method == "POST" and request.form["action"] == "add-entry":
-        # Obtain the language to update, the hanzi, and the romanization
-        language = request.form["language"].lower()
-        hanzi = request.form["hanzi"] 
-        roman = request.form["romanization"] 
-
-        # Checks that the romanji input is all English characters 
-        roman = roman.lower() 
-        if (not checkRoman(roman)):
-            flash(f"The romanji must consist entirely of Latin characters, no punctuation.")
-
-        # Checks that the hanzi is actually hanzi 
-        elif (not checkHanzi(hanzi)):
-            flash(f"The hanzi you have entered is not a valid hanzi character.")
-
-        # Checks if the entry already exists in the database. If so, let the admin know. 
-        elif (checkEntryExistence(db, language, hanzi, roman)):
-            flash(f"You have already added ({hanzi}, {roman}) to the {language} database.", "info")
-
-        else:
-            # TODO: store recently added entries so they can be deleted if there has been a mistake
-            # session["database_entries"].append((hanzi, roman, language)) 
-            # session.modified = True 
-            
-            # Update the corresponding table in database 
-            db.create_translation_entry(language, hanzi, roman)
-
-    elif request.method == "POST" and request.form["action"].startswith("update-"):
-        language = request.form["action"].split("-")[1]
-        hanzi = request.form["hanzi"]
-        original_roman = request.form["original_roman"]
-        new_roman = request.form["new_roman"]
-        if (not checkRoman(new_roman)):
-            flash("The romanji must consist entirely of Latin characters, no punctuation.")
-        elif (not checkEntryExistence(db, language, hanzi, new_roman)):
-            flash(f"You have already added ({hanzi}, {new_roman}) to the {language} database. Try deleting this entry or choosing a different romanization.", "info")
-        else:
-            try:
-                db.update_translation_entry(language, hanzi, original_roman, new_roman)
-                flash(f"You have updated ({hanzi}, {original_roman}) to ({hanzi}, {new_roman}) in the {language} database.", "info")
-            except Exception as e:
-                flash(f"Error updating entry. Please try again.")
-                print(f"Update error: {e}")
-
-    elif request.method == "POST" and request.form["action"].startswith("delete-"):
-        language = request.form["action"].split("-")[1]
-        hanzi = request.form["hanzi"]
-        roman = request.form["roman"]
-        try:
-            db.delete_translation_entry(language, hanzi, roman)
-            flash(f"You have deleted ({hanzi}, {roman}) from the {language} database.", "info")
-        except Exception as e:
-            flash(f"Error deleting entry. Please try again.")
-            print(f"Delete error: {e}")
-
     # Fetch all entries from the database
     shanghainese = db.fetch_all_entries("shanghainese")
     korean = db.fetch_all_entries("korean")
@@ -200,6 +143,77 @@ def adminportal():
     vietnamese = db.fetch_all_entries("vietnamese")
 
     return render_template("adminportal.html", shanghainese=shanghainese, korean=korean, taiwanese=taiwanese, vietnamese=vietnamese)
+
+
+@app.route("/sino-type/add-entry", methods=["POST"])
+@login_required
+def add_entry():
+    db = SinoDB()
+    # Obtain the language to update, the hanzi, and the romanization
+    language = request.form["language"].lower()
+    hanzi = request.form["hanzi"] 
+    roman = request.form["romanization"].lower()
+
+    # Checks that the romanji input is all English characters 
+    if (not checkRoman(roman)):
+        flash(f"The romanji must consist entirely of Latin characters, no punctuation.")
+    elif (not checkHanzi(hanzi)):
+        flash(f"The hanzi you have entered is not a valid hanzi character.")
+    elif (checkEntryExistence(db, language, hanzi, roman)):
+        flash(f"You have already added ({hanzi}, {roman}) to the {language} database.", "info")
+
+    else:
+        # Update the corresponding table in database
+        try:
+            db.create_translation_entry(language, hanzi, roman)
+            flash(f"You have added ({hanzi}, {roman}) to the {language} database.", "info")
+        except Exception as e:
+            flash(f"Error adding entry. Please try again.")
+            print(f"Add error: {e}")
+
+    return redirect(url_for("adminportal"))
+
+
+@app.route("/sino-type/delete-entry", methods=["POST"])
+@login_required
+def delete_entry():
+    db = SinoDB()
+    language = request.form["language"].lower()
+    hanzi = request.form["hanzi"]
+    roman = request.form["romanization"].lower()
+    
+    try:
+        db.delete_translation_entry(language, hanzi, roman)
+        flash(f"You have deleted ({hanzi}, {roman}) from the {language} database.", "info")
+    except Exception as e:
+        flash(f"Error deleting entry. Please try again.")
+        print(f"Delete error: {e}")
+
+    return redirect(url_for("adminportal"))
+
+
+@app.route("/sino-type/update-entry", methods=["POST"])
+@login_required
+def update_entry():
+    db = SinoDB()
+    language = request.form["language"].lower()
+    hanzi = request.form["hanzi"]
+    original_roman = request.form["original_roman"].lower()
+    new_roman = request.form["new_roman"].lower()
+
+    if (not checkRoman(new_roman)):
+        flash("The romanji must consist entirely of Latin characters, no punctuation.")
+    elif (not checkEntryExistence(db, language, hanzi, new_roman)):
+        flash(f"You have already added ({hanzi}, {new_roman}) to the {language} database. Try deleting this entry or choosing a different romanization.", "info")
+    else:
+        try:
+            db.update_translation_entry(language, hanzi, original_roman, new_roman)
+            flash(f"You have updated ({hanzi}, {original_roman}) to ({hanzi}, {new_roman}) in the {language} database.", "info")
+        except Exception as e:
+            flash(f"Error updating entry. Please try again.")
+            print(f"Update error: {e}")
+
+    return redirect(url_for("adminportal"))
 
 
 @app.route("/sino-type/logout")
