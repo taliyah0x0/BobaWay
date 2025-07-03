@@ -201,9 +201,9 @@ def update_entry():
     original_roman = request.form["original_roman"].lower()
     new_roman = request.form["new_roman"].lower()
 
-    if (not checkRoman(new_roman)):
+    if not checkRoman(new_roman):
         flash("The romanji must consist entirely of Latin characters, no punctuation.")
-    elif (not checkEntryExistence(db, language, hanzi, new_roman)):
+    elif checkEntryExistence(db, language, hanzi, new_roman):
         flash(f"You have already added ({hanzi}, {new_roman}) to the {language} database. Try deleting this entry or choosing a different romanization.", "info")
     else:
         try:
