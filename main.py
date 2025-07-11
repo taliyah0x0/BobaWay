@@ -1,17 +1,18 @@
 from flask import Flask, request, render_template, redirect, url_for, flash, jsonify
 from flask_bcrypt import Bcrypt
-from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from flask_login import LoginManager, login_user, login_required, logout_user
+import os
+import requests
 
 # Local imports
 from clean_csvs import clean_csv_1, clean_csv_2, clean_3_4_combined
-from constants import num, consonants, vowels, match_lett
-from bobaway_utils import load_exceptions, add_tones
 from typewanese_util import remove_recent_files, export_audio, get_options_tai
 from sinodb import SinoDB
 from secrets import SECRET_KEY
 from forms import LoginForm, SignupForm
 from user import User
 from sinotype_utils import checkHanzi, checkRoman, checkEntryExistence
+from taiping_utils import get_endings
 
 
 cleaned_1 = clean_csv_1()
@@ -80,6 +81,58 @@ def typewanese():
                              hour=hour)
   
   return render_template("typewanese.html")
+
+
+## TAI-PING
+@app.route("/tai-ping", methods=["GET", "POST"])
+def tai_ping():
+  if request.method == "POST":
+    path = request.form.get("path")
+    full = request.form.get("full")
+    page = request.form.get("page")
+    change = request.form.get("change")
+    og = request.form.get("og")
+    ogg = request.form.get("ogg")
+    filename = request.form.get("filename")
+    prev = request.form.get("prev")
+    last = request.form.get("last")
+    slider = request.form.get("slider")
+    hour = remove_recent_files()
+
+    if path == "tai-ping-1":
+        if full == 'True':
+            split = ogg.split(" ")
+            files = os.listdir("static/tai-sounds")
+            for word in split:
+                if f"{word}.wav" not in files:
+                    url = f"https://hts.ithuan.tw/文本直接合成?查詢腔口=台語&查詢語句={word}"
+                    myfile = requests.get(url)
+                    open(f"static/tai-sounds/{word}.wav", "wb").write(myfile.content)
+        return render_template("tai-ping.html",
+                               og=og,
+                               ogg=ogg,
+                               change=change,
+                               filename=filename,
+                               page=page,
+                               full=True,
+                               files=len(split),
+                               slider=slider)
+    else:
+        endings, data = get_endings(og, ogg, change, filename, page, prev, last)
+        return render_template("tai-ping.html",
+                               og=data["og"],
+                               ogg=data["ogg"],
+                               change=data["change"],
+                               filename=data["filename"],
+                               page=data["page"],
+                               endings=endings,
+                               prev=data["prev"],
+                               last=data["last"],
+                               full=True,
+                               files=len(split),
+                               slider=slider)
+
+  return render_template("tai-ping.html")
 
 
 ## SINO-TYPE

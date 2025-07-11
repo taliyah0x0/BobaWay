@@ -19,22 +19,20 @@
         </h1>
       </a>
       <div style="display: flex; flex-direction: row">
-          <form target="popup" action="{{ url_for("gfg")}}" method="post" id="main-form">
+          <a href="/">
             <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(0)" type="submit">
                 <h3>
                   BobaWay
                 </h3>
-                <textarea id="path1" name="path" style="display: none">9</textarea>
             </button>
-          </form>
-          <form target="popup" action="{{ url_for("gfg")}}" method="post" id="main-form">
+          </a>
+          <a href="/about">
             <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(1)" type="submit">
                 <h3>
                   About
                 </h3>
-                <textarea id="path1" name="path" style="display: none">3</textarea>
             </button>
-          </form>
+          </a>
         <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(2)">
           <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQDR9Uki-ei757OyyAjvf-wzQFnhPuK3R4r0CKqUdoyXTgFX8I6DxVnCewjoWFyKN9rVjp7kyHIgJ9w/pubhtml?gid=0&single=true" target="_blank">
             <h3>
@@ -51,7 +49,7 @@
         </button>
       </div>
     </div>
-    <form id="mainform" name="mainform" action="{{ url_for("gfg")}}" method="post">
+    <form id="mainform" name="mainform" action="{{ url_for("tai_ping")}}" method="post">
       <div style="justify-content: center; align-items: middle; display: flex; flex-direction: column">
         <textarea id="page" name="page" style="display: none">{{page}}</textarea>
         <textarea id="full" name="full" style="display: none">{{full}}</textarea>
@@ -64,7 +62,7 @@
         <textarea id="slider_val" name="slider_val" style="display: none">{{slider}}</textarea>
         <textarea id="prev" name="prev" style="display: none">{{prev}}</textarea>
         <textarea id="last" name="last" style="display: none">{{last}}</textarea>
-        <textarea id="path1" name="path" style="display: none">10</textarea>
+        <textarea id="path" name="path" style="display: none">tai-ping-1</textarea>
       <div style="display: flex; flex-direction: row;">
         <div id="text_box" onclick="play()" name="text_box"><pre id="black">{{ogg}}</pre><pre id="red">{{og}}</pre><pre id="underline">{{change}}</pre><img src="./static/img/copy.png" class="copy" onclick="copyTextToClipboard()"></div>
       </div>
