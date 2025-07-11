@@ -9,6 +9,7 @@
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1024">
     <meta property="og:image:height" content="1024">
+    <script src="/static/scripts/admin-portal.js"></script>
   </head>
   <body>
 
@@ -60,16 +61,30 @@
       {% endif %}
     {% endwith %}
 
-    <form action="add-entry" method="POST">
-        <select name="language" required>
-          <option value="Shanghainese">Shanghainese</option>
-          <option value="Korean">Korean</option>
-          <option value="Taiwanese">Taiwanese</option>
-          <option value="Vietnamese">Vietnamese</option>
-        </select>
-        <input type="text" name="hanzi" placeholder="Enter the Hanzi" autocomplete="off" maxlength="1" required/>
-        <input type="text" name="romanization" placeholder="Enter the romanization" autocomplete="off" maxlength="6" required/>
-        <input type="submit" value="Submit"/>
+    <form action="add-entry" method="POST" id="add-entry-form">
+        <div class="form-section">
+            <label for="hanzi">Hanzi Character:</label>
+            <input type="text" name="hanzi" id="hanzi" placeholder="Enter the Hanzi" autocomplete="off" maxlength="1" required/>
+        </div>
+        
+        <div class="form-section">
+            <label>Romanizations:</label>
+            <div id="romanization-container">
+                <div class="romanization-group" data-index="1">
+                    <select name="language_1" required>
+                        <option value="Shanghainese">Shanghainese</option>
+                        <option value="Korean">Korean</option>
+                        <option value="Taiwanese">Taiwanese</option>
+                        <option value="Vietnamese">Vietnamese</option>
+                    </select>
+                    <input type="text" name="romanization_1" placeholder="Enter the romanization" autocomplete="off" maxlength="6" required/>
+                    <button type="button" class="remove-romanization" title="Remove this romanization">−</button>
+                </div>
+            </div>
+            <button type="button" id="add-romanization" class="add-button">+ Add Romanization</button>
+        </div>
+        
+        <input type="submit" value="Submit All" class="submit-button"/>
     </form>
     <br>
     Current database entries: 

@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, flash
+from flask import Flask, request, render_template, redirect, url_for, flash, jsonify
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from deep_translator import GoogleTranslator
@@ -49,12 +49,13 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'adminloginpage'
 
-
+## BOBAWAY
 @app.route("/", methods=["GET", "POST"])
 def bobaway():
   return render_template("index.html")
 
 
+## TYPEWANSE
 @app.route("/typewanese", methods=["GET", "POST"])
 def typewanese():
   if request.method == "POST":
@@ -123,21 +124,41 @@ def typewanese():
     return render_template("typewanese.html")
 
 
+## SINO-TYPE
 @app.route("/sino-type", methods=["GET"])
 def sino_type():
   return render_template("sino-type.html")
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    db = SinoDB()
-    user = db.get_user_by_id(user_id)
-    if user:
-        return User(user[0])
-    else:
-        return None
+# SINO-TYPE APIS
+@app.route("/api/all-languages-data", methods=["GET"])
+def get_all_languages_data():
+    """Get data for all languages in the format expected by sino-type.js"""
+    try:
+        db = SinoDB()
+        languages = ['shanghainese', 'korean', 'taiwanese', 'vietnamese']
+        
+        # Create the same structure as output.json
+        all_data = {}
+        
+        for lang_index, language in enumerate(languages):
+            entries = db.get_romanization_mapping(language)
+            
+            # Group by romanization
+            for e in entries:
+                roman = e[0]
+                hanzi = e[1]
+                if roman not in all_data:
+                    all_data[roman] = [[], [], [], []]  # 4 empty arrays for 4 languages
+                
+                all_data[roman][lang_index] = hanzi
+        
+        return jsonify(all_data)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
+# ADMIN PAGES
 @app.route("/sino-type/admin-login", methods=['GET', 'POST'])
 def adminloginpage():
     form = LoginForm()
@@ -214,31 +235,64 @@ def adminportal():
     return render_template("adminportal.html", shanghainese=shanghainese, korean=korean, taiwanese=taiwanese, vietnamese=vietnamese)
 
 
+# ADMIN REQUESTS
 @app.route("/sino-type/add-entry", methods=["POST"])
 @login_required
 def add_entry():
     db = SinoDB()
-    # Obtain the language to update, the hanzi, and the romanization
-    language = request.form["language"].lower()
-    hanzi = request.form["hanzi"] 
-    roman = request.form["romanization"].lower()
-
-    # Checks that the romanji input is all English characters 
-    if (not checkRoman(roman)):
-        flash(f"The romanji must consist entirely of Latin characters, no punctuation.")
-    elif (not checkHanzi(hanzi)):
+    # Get the single hanzi character
+    hanzi = request.form["hanzi"]
+    
+    # Validate hanzi first
+    if not checkHanzi(hanzi):
         flash(f"The hanzi you have entered is not a valid hanzi character.")
-    elif (checkEntryExistence(db, language, hanzi, roman)):
-        flash(f"You have already added ({hanzi}, {roman}) to the {language} database.", "info")
-
-    else:
-        # Update the corresponding table in database
+        return redirect(url_for("adminportal"))
+    
+    # Collect all language/romanization pairs
+    romanization_pairs = []
+    form_keys = list(request.form.keys())
+    
+    # Find all language/romanization pairs
+    for key in form_keys:
+        if key.startswith("language_"):
+            index = key.split("_")[1]
+            romanization_key = f"romanization_{index}"
+            
+            if romanization_key in request.form:
+                language = request.form[key].lower()
+                roman = request.form[romanization_key].lower()
+                romanization_pairs.append((language, roman))
+    
+    # Process each romanization pair
+    successful_additions = []
+    errors = []
+    
+    for language, roman in romanization_pairs:
+        # Validate romanization
+        if not checkRoman(roman):
+            errors.append(f"'{roman}' must consist entirely of Latin characters, no punctuation.")
+            continue
+            
+        # Check if entry already exists
+        if checkEntryExistence(db, language, hanzi, roman):
+            errors.append(f"({hanzi}, {roman}) already exists in the {language} database.")
+            continue
+        
+        # Try to add the entry
         try:
             db.create_translation_entry(language, hanzi, roman)
-            flash(f"You have added ({hanzi}, {roman}) to the {language} database.", "info")
+            successful_additions.append(f"({hanzi}, {roman}) added to {language}")
         except Exception as e:
-            flash(f"Error adding entry. Please try again.")
+            errors.append(f"Error adding ({hanzi}, {roman}) to {language}")
             print(f"Add error: {e}")
+    
+    # Flash results
+    if successful_additions:
+        flash(f"Successfully added: {', '.join(successful_additions)}", "info")
+    
+    if errors:
+        for error in errors:
+            flash(error)
 
     return redirect(url_for("adminportal"))
 
@@ -285,6 +339,7 @@ def update_entry():
     return redirect(url_for("adminportal"))
 
 
+# LOGIN MANAGEMENT
 @app.route("/sino-type/logout")
 @login_required
 def logout():
@@ -292,4 +347,16 @@ def logout():
     return redirect(url_for('adminloginpage'))
 
 
-app.run(host="0.0.0.0", port=5000)
+@login_manager.user_loader
+def load_user(user_id):
+    db = SinoDB()
+    user = db.get_user_by_id(user_id)
+    if user:
+        return User(user[0])
+    else:
+        return None
+
+
+# RUN
+if __name__ == "__main__":
+  app.run(host="0.0.0.0", port=5000)
