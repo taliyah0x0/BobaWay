@@ -19,22 +19,21 @@
         </h1>
       </a>
       <div style="display: flex; flex-direction: row">
-          <form target="popup" action="{{ url_for("gfg")}}" method="post" id="main-form">
+          <a href="/">
             <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(0)" type="submit">
                 <h3>
                   BobaWay
                 </h3>
-                <textarea id="path1" name="path" style="display: none">9</textarea>
             </button>
-          </form>
-          <form target="popup" action="{{ url_for("gfg")}}" method="post" id="main-form">
+          </a>
+          <a href="/about">
             <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(1)" type="submit">
                 <h3>
                   About
                 </h3>
                 <textarea id="path1" name="path" style="display: none">3</textarea>
             </button>
-          </form>
+          </a>
         <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(2)">
           <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQDR9Uki-ei757OyyAjvf-wzQFnhPuK3R4r0CKqUdoyXTgFX8I6DxVnCewjoWFyKN9rVjp7kyHIgJ9w/pubhtml?gid=0&single=true" target="_blank">
             <h3>
@@ -51,13 +50,13 @@
         </button>
       </div>
     </div>
-    <form id="mainform" name="mainform" action="{{ url_for("gfg")}}" method="post">
+    <form id="mainform" name="mainform" action="{{ url_for("typewanese")}}" method="post">
       <div style="justify-content: center; align-items: middle; display: flex; flex-direction: column">
         <textarea id="ogg" name="ogg" style="display: none">{{ogg}}</textarea>
         <textarea id="hour" name="hour" style="display: none">{{hour}}</textarea>
         <textarea id="options" name="options" style="display: none">{{options}}</textarea>
         <textarea id="tai" name="tai" style="display: none">{{tai}}</textarea>
-        <textarea id="path" name="path" style="display: none">11</textarea>
+        <textarea id="path" name="path" style="display: none">typewanese-1</textarea>
         <div style="display: flex; flex-direction: row; align-items: center; justify-content: center">
           <div id="text_box" name="text_box"><pre id="black">{{ogg}}</pre><textarea id="red" name="red" onchange="changePath()">&nbsp;{{red}}</textarea><img src="./static/img/copy.png" class="copy" onclick="copyTextToClipboard()"></div>
           <button class="search-button">Search</button>

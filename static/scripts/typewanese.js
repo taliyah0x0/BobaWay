@@ -20,11 +20,11 @@ let all_tai = [];
 let audio_files = [];
 
 function changePath() {
-  document.getElementById("path").value = 11;
+  document.getElementById("path").value = 'typewanese-1';
 }
 
 function enterTerm(word) {
-  document.getElementById("path").value = '12';
+  document.getElementById("path").value = 'typewanese-2';
   document.getElementById("black").innerHTML += " " + all_options[word];
   document.getElementById("ogg").value += " " + all_options[word];
   document.getElementById("red").style.display = "none";
