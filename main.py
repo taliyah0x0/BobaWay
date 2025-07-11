@@ -99,38 +99,37 @@ def tai_ping():
     slider = request.form.get("slider")
     hour = remove_recent_files()
 
-    if path == "tai-ping-1":
-        if full == 'True':
-            split = ogg.split(" ")
-            files = os.listdir("static/tai-sounds")
-            for word in split:
-                if f"{word}.wav" not in files:
-                    url = f"https://hts.ithuan.tw/文本直接合成?查詢腔口=台語&查詢語句={word}"
-                    myfile = requests.get(url)
-                    open(f"static/tai-sounds/{word}.wav", "wb").write(myfile.content)
+    if full == 'True':
+        split = ogg.split(" ")
+        files = os.listdir("static/tai-sounds")
+        for word in split:
+            if f"{word}.wav" not in files:
+                url = f"https://hts.ithuan.tw/文本直接合成?查詢腔口=台語&查詢語句={word}"
+                myfile = requests.get(url)
+                open(f"static/tai-sounds/{word}.wav", "wb").write(myfile.content)
+
         return render_template("tai-ping.html",
-                               og=og,
-                               ogg=ogg,
-                               change=change,
-                               filename=filename,
-                               page=page,
-                               full=True,
-                               files=len(split),
-                               slider=slider)
+                            og=og,
+                            ogg=ogg,
+                            change=change,
+                            filename=filename,
+                            page=page,
+                            full=True,
+                            files=len(split),
+                            slider=slider)
     else:
         endings, data = get_endings(og, ogg, change, filename, page, prev, last)
         return render_template("tai-ping.html",
-                               og=data["og"],
-                               ogg=data["ogg"],
-                               change=data["change"],
-                               filename=data["filename"],
-                               page=data["page"],
-                               endings=endings,
-                               prev=data["prev"],
-                               last=data["last"],
-                               full=True,
-                               files=len(split),
-                               slider=slider)
+                            og=data["og"],
+                            ogg=data["ogg"],
+                            change=data["change"],
+                            filename=data["filename"],
+                            page=data["page"],
+                            endings=endings,
+                            prev=data["prev"],
+                            last=data["last"],
+                            full=True,
+                            slider=slider)
 
   return render_template("tai-ping.html")
 
