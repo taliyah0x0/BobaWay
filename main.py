@@ -1,24 +1,12 @@
 from flask import Flask, request, render_template, redirect, url_for, flash, jsonify
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
-from deep_translator import GoogleTranslator
-import requests
-import os
-import random
-from datetime import datetime
-from bs4 import BeautifulSoup
-from pydub import AudioSegment
-import csv
-import numpy as np
-import pinyin
-import pyppeteer
-import webbrowser
-import re
 
 # Local imports
 from clean_csvs import clean_csv_1, clean_csv_2, clean_3_4_combined
 from constants import num, consonants, vowels, match_lett
 from bobaway_utils import load_exceptions, add_tones
+from typewanese_util import remove_recent_files, export_audio, get_options_tai
 from sinodb import SinoDB
 from secrets import SECRET_KEY
 from forms import LoginForm, SignupForm
@@ -54,74 +42,44 @@ login_manager.login_view = 'adminloginpage'
 def bobaway():
   return render_template("index.html")
 
+## ABOUT
+@app.route("/about", methods=["GET"])
+def about():
+  return render_template("about.html")
+
+## ROMANIZATION
+@app.route("/romanization", methods=["GET"])
+def romanization():
+  return render_template("romanization.html")
 
 ## TYPEWANSE
 @app.route("/typewanese", methods=["GET", "POST"])
 def typewanese():
   if request.method == "POST":
-    red = request.form["red"]
-    mandarin = GoogleTranslator(source="auto", target="zh-TW").translate(red)
-    print(mandarin)
+    path = request.form.get("path")
+    red = request.form.get("red")
+    ogg = request.form.get("ogg")
+    hour = remove_recent_files()
 
-    options = []
-    tai = []
-    if mandarin in cleaned_2[:, 0]:
-        selector = np.array([mandarin == s for s in cleaned_2[:, 0].flat
-                             ]).reshape(cleaned_2[:, 0].shape)
-        match = cleaned_2[selector]
-        romanized = list(match[:, 3])
-        for word in romanized:
-          options.append(word)
-          tai.append(list(match[:, 0])[romanized.index(word)])
-
-    if mandarin in cleaned_3_4[:, 0]:
-        selector = np.array([
-            mandarin in s for s in cleaned_3_4[:, 0].flat
-        ]).reshape(
-            cleaned_3_4[:, 0].shape
-        )  # Get location of all rows that have search term matching Mandarin exactly
-        match = cleaned_3_4[selector]  # Select the rows
-        romanized = list(match[:, 1])
-        for word in romanized:
-          options.append(word)
-          tai.append(list(match[:, 0])[romanized.index(word)])
-
-    match = []
-    for s_list in src_1_search:
-        for search_term in s_list:
-          if mandarin == search_term:
-            match.append(src_1_code[src_1_search.index(s_list)])
-            tai.append(src_1_tai[src_1_search.index(s_list)])
-    options += match
-
-    sorted_options = []
-    sorted_tai = []
-    for x in range(len(options)):
-        if options[x] not in sorted_options:
-          sorted_options.append(options[x])
-          sorted_tai.append(tai[x])
-
-    for x in range(len(sorted_options)):
-        url = f"https://hts.ithuan.tw/文本直接合成?查詢腔口=台語&查詢語句={sorted_options[x]}"
-        myfile = requests.get(url)
-        open(f"static/sounds/{hour}_{sorted_options[x]}.wav",
-             "wb").write(myfile.content)
-
-        # Trim first 0.3 and last 0.4 seconds
-        song = AudioSegment.from_mp3(
-            f"static/sounds/{hour}_{sorted_options[x]}.wav")
-        trimmed = song[300:-400]
-        trimmed.export(f"static/sounds/{hour}_{sorted_options[x]}.wav",
-                       format="wav")
-
-    return render_template("typewanese.html",
+    if path == "typewanese-1":
+        sorted_options, sorted_tai = get_options_tai(red, cleaned_2, cleaned_3_4, src_1_search, src_1_code, src_1_tai)
+        export_audio(sorted_options, hour)
+        return render_template("typewanese.html",
+                                ogg=ogg,
+                                red=red,
+                                options=sorted_options,
+                                tai=sorted_tai,
+                                hour=hour)
+    
+    elif path == "typewanese-2":
+        return render_template("typewanese.html",
                              ogg=ogg,
-                             red=red,
-                             options=sorted_options,
-                             tai=sorted_tai,
+                             red="",
+                             options=[],
+                             tai=[],
                              hour=hour)
-  else:
-    return render_template("typewanese.html")
+  
+  return render_template("typewanese.html")
 
 
 ## SINO-TYPE
