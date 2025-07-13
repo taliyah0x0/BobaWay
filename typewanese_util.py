@@ -14,6 +14,7 @@ def remove_recent_files():
             if int(file[0:2]) <= int(hour) - 1 or int(
                 file[0:2]) > int(hour):  # Remove files from 1 hour ago
                 os.remove(f"static/sounds/{file}")
+    return hour
 
 
 def get_options_tai(red, cleaned_2, cleaned_3_4, src_1_search, src_1_code, src_1_tai):
