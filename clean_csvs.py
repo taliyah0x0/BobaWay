@@ -118,7 +118,7 @@ def clean_csv_2():
       # Using columns for 華語, 台語, 備存對照, and 台羅
       csv_data_2.append([row[1], row[2], row[4], cleanx])
   # Turn into numpy array to slice columns easier
-  cleaned_2 = np.array(csv_data_2)
+  cleaned_2 = np.array(csv_data_2, dtype=object)
   return cleaned_2
 
 
@@ -180,5 +180,5 @@ def clean_3_4_combined():
   cleaned_3 = clean_csv_3()
   cleaned_4 = clean_csv_4()
   cleaned_3_4 = cleaned_3 + cleaned_4
-  cleaned_3_4 = np.array(cleaned_3_4)
+  cleaned_3_4 = np.array(cleaned_3_4, dtype=object)
   return cleaned_3_4

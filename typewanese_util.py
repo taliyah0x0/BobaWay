@@ -28,8 +28,12 @@ def get_options_tai(red, cleaned_2, cleaned_3_4, src_1_search, src_1_code, src_1
         match = cleaned_2[selector]
         romanized = list(match[:, 3])
         for word in romanized:
-            options.append(word)
-            tai.append(list(match[:, 0])[romanized.index(word)])
+            # Convert numpy string to regular Python string
+            word_str = str(word).strip()
+            options.append(word_str)
+            tai_word = list(match[:, 0])[romanized.index(word)]
+            tai_str = str(tai_word).strip()
+            tai.append(tai_str)
 
     if mandarin in cleaned_3_4[:, 0]:
         selector = np.array([
@@ -40,23 +44,35 @@ def get_options_tai(red, cleaned_2, cleaned_3_4, src_1_search, src_1_code, src_1
         match = cleaned_3_4[selector]  # Select the rows
         romanized = list(match[:, 1])
         for word in romanized:
-            options.append(word)
-            tai.append(list(match[:, 0])[romanized.index(word)])
+            # Convert numpy string to regular Python string
+            word_str = str(word).strip()
+            options.append(word_str)
+            tai_word = list(match[:, 0])[romanized.index(word)]
+            tai_str = str(tai_word).strip()
+            tai.append(tai_str)
 
     match = []
     for s_list in src_1_search:
         for search_term in s_list:
             if mandarin == search_term:
-                match.append(src_1_code[src_1_search.index(s_list)])
-                tai.append(src_1_tai[src_1_search.index(s_list)])
+                match_code = src_1_code[src_1_search.index(s_list)]
+                match_tai = src_1_tai[src_1_search.index(s_list)]
+                # Convert numpy strings to regular Python strings
+                match_code_str = str(match_code).strip()
+                match_tai_str = str(match_tai).strip()
+                match.append(match_code_str)
+                tai.append(match_tai_str)
     options += match
 
     sorted_options = []
     sorted_tai = []
     for x in range(len(options)):
         if options[x] not in sorted_options:
-            sorted_options.append(options[x])
-            sorted_tai.append(tai[x])
+            # Ensure we have clean Python strings, not numpy strings
+            clean_option = str(options[x]).strip()
+            clean_tai = str(tai[x]).strip()
+            sorted_options.append(clean_option)
+            sorted_tai.append(clean_tai)
 
     return sorted_options, sorted_tai
 
