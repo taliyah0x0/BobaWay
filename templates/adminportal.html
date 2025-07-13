@@ -126,6 +126,80 @@
   </div>
 
   <style>
+    /* Fix navbar styling for admin portal */
+    .navbar {
+      background-color: rgb(250, 230, 170) !important;
+      box-shadow: 0 4px 12px rgba(60, 20, 0, 0.1) !important;
+    }
+    
+    .navbar-brand {
+      font-family: Choko, sans-serif !important;
+      font-size: 2.5rem !important;
+      font-weight: normal !important;
+      color: rgb(60, 20, 0) !important;
+      text-decoration: none !important;
+    }
+    
+    .navbar-nav a {
+      color: rgb(60, 20, 0) !important;
+      text-decoration: none !important;
+      font-weight: 500 !important;
+      padding: 0.5rem 1rem !important;
+      border-radius: 8px !important;
+      transition: all 0.3s ease !important;
+    }
+    
+    .navbar-nav a:hover {
+      background-color: rgb(226, 199, 140) !important;
+      transform: translateY(-2px) !important;
+    }
+    
+    .dropdown-toggle {
+      background-color: rgb(60, 20, 0) !important;
+      color: rgb(250, 230, 170) !important;
+      padding: 0.75rem 1.5rem !important;
+      border: none !important;
+      border-radius: 8px !important;
+      cursor: pointer !important;
+      font-family: Dosis, sans-serif !important;
+      font-weight: 500 !important;
+      transition: all 0.3s ease !important;
+    }
+    
+    .dropdown-toggle:hover {
+      background-color: rgb(80, 40, 20) !important;
+      transform: translateY(-2px) !important;
+    }
+    
+    .dropdown-content {
+      display: none !important;
+      position: absolute !important;
+      right: 0 !important;
+      background-color: rgb(250, 230, 170) !important;
+      min-width: 200px !important;
+      box-shadow: 0 8px 24px rgba(60, 20, 0, 0.15) !important;
+      border-radius: 8px !important;
+      z-index: 1 !important;
+      margin-top: 0.5rem !important;
+    }
+    
+    .dropdown-content a {
+      color: rgb(60, 20, 0) !important;
+      padding: 0.75rem 1rem !important;
+      text-decoration: none !important;
+      display: block !important;
+      transition: background-color 0.3s ease !important;
+    }
+    
+    .dropdown-content a:hover {
+      background-color: rgb(226, 199, 140) !important;
+      transform: none !important;
+    }
+    
+    .dropdown:hover .dropdown-content {
+      display: block !important;
+    }
+    
     .logout-link {
       background-color: #dc3545 !important;
       color: white !important;

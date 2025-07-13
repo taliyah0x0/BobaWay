@@ -175,6 +175,11 @@ button {
   .body-pad {
     padding: 0;
   }
+  
+  /* Add spacing for navbar */
+  .main-content {
+    padding-top: 1rem;
+  }
 }
 
 @media (max-aspect-ratio: 1/1) {

@@ -144,7 +144,7 @@ span {
         width: 45vw;
         height: 20vh;
         position: absolute;
-        top: calc(170px + 2rem);
+        top: calc(200px + 2rem);
         font-size: 1.5rem;
     }
 
@@ -157,7 +157,7 @@ span {
         height: 20vh;
         position: absolute;
         left: 50vw;
-        top: calc(170px + 2rem);
+        top: calc(200px + 2rem);
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -170,7 +170,7 @@ span {
         width: 45vw;
         height: 20vh;
         position: absolute;
-        top: calc(170px + 2rem);
+        top: calc(200px + 2rem);
         font-family: Dosis;
         color: transparent;
         font-size: 1.5rem;
@@ -182,7 +182,7 @@ span {
     }
 
     #copy-button {
-        top: calc(170px + 20vh - 1rem + 2rem);
+        top: calc(200px + 20vh - 1rem + 2rem);
         left: calc(50vw + 45vw - 1rem);
         width: 2.5rem;
         height: 2.5rem;
@@ -217,12 +217,12 @@ span {
     }
 
     .box-title3 {
-        top: calc(170px + 5rem + 20vh);
+        top: calc(200px + 5rem + 20vh);
     }
 
     #options-wrapper {
         position: absolute;
-        top: calc(170px + 7rem + 20vh);
+        top: calc(200px + 7rem + 20vh);
     }
 }
 
@@ -237,7 +237,7 @@ span {
         left: 3vw;
         height: 25vh;
         position: absolute;
-        top: calc(200px + 2rem);
+        top: calc(250px + 2rem);
         font-size: 3rem;
     }
     
@@ -246,7 +246,7 @@ span {
         height: 25vh;
         position: absolute;
         left: 25vw;
-        top: calc(200px + 25vh + 10vw + 3rem);
+        top: calc(250px + 25vh + 10vw + 3rem);
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -260,7 +260,7 @@ span {
         height: 25vh;
         left: 3vw;
         position: absolute;
-        top: calc(200px + 2rem);
+        top: calc(250px + 2rem);
         font-family: Dosis;
         color: transparent;
         font-size: 3rem;
@@ -272,7 +272,7 @@ span {
         height: 25vh;
         left: 25vw;
         position: absolute;
-        top: calc(200px + 25vh + 10vw + 3rem);
+        top: calc(250px + 25vh + 10vw + 3rem);
         font-family: Dosis;
         color: transparent;
         font-size: 3rem;
@@ -291,16 +291,16 @@ span {
 
     .box-title3 {
         font-size: 2.5rem;
-        top: calc(200px + 25vh + 10vw + 2rem);
+        top: calc(250px + 25vh + 10vw + 2rem);
     }
 
     #options-wrapper {
         position: absolute;
-        top: calc(200px + 25vh + 10vw + 5rem);
+        top: calc(250px + 25vh + 10vw + 5rem);
     }
 
     #copy-button {
-        top: calc(170px + 25vh - 1rem + 10vw + 25vh + 3rem);
+        top: calc(250px + 25vh - 1rem + 10vw + 25vh + 3rem);
         left: calc(93vw - 2.5rem);
         width: 4rem;
         height: 4rem;

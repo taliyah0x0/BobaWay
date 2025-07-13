@@ -31,6 +31,7 @@ body {
   top: 0;
   z-index: 100;
   padding: 1rem 2rem;
+  min-height: 80px;
 }
 
 .navbar-content {
@@ -126,6 +127,16 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
+  margin-top: 1rem;
+}
+
+/* Adjust body padding to account for navbar */
+body {
+  font-family: Dosis, sans-serif;
+  background-color: rgb(226, 199, 140);
+  color: rgb(60, 20, 0);
+  line-height: 1.6;
+  padding-top: 0;
 }
 
 /* Responsive design */
@@ -151,6 +162,7 @@ body {
   
   .main-content {
     padding: 1rem;
+    margin-top: 0.5rem;
   }
   
   .dropdown-content {
@@ -167,5 +179,14 @@ body {
   
   .navbar-nav a {
     padding: 0.75rem 1rem;
+  }
+  
+  .main-content {
+    padding: 0.5rem;
+    margin-top: 0.25rem;
+  }
+  
+  .dropdown-content {
+    min-width: 150px;
   }
 } 
