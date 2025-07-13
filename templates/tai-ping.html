@@ -1,54 +1,42 @@
 <!DOCTYPE html>
-<html style="background-color: rgb(226, 199, 140)" id="background">
-  <head>
-    <title>BobaWay | Tai-Ping</title>
-    <link rel="stylesheet" href="./static/styles/tai-ping.css">
-      <link rel="icon" type="image/x-icon" href="./static/img/flav/flav_8.png" class="favicon">
-  <link rel="apple-touch-icon" sizes="128x128" href="./static/img/flav/flav_8.png" class="favicon">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BobaWay | Tai-Ping</title>
+  <link rel="stylesheet" href="./static/styles/shared.css">
+  <link rel="stylesheet" href="./static/styles/tai-ping.css">
+  <link rel="icon" type="image/x-icon" href="./static/img/flav/flav_8.png">
+  <link rel="apple-touch-icon" sizes="128x128" href="./static/img/flav/flav_8.png">
   <meta property="og:image" content="./static/img/flav/flav_8.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="1024">
-    <meta property="og:image:height" content="1024">
-    <meta property="og:description" content="Easily type in Taiwanese!">
-  </head>
-  <body onload="start()">
-    <div style="display: flex; flex: 1" class="bottom">
-      <a href="https://bobaway.org/" style="display: flex; flex: 6">
-        <h1 id="title">
-          Tai-Ping
-        </h1>
-      </a>
-      <div style="display: flex; flex-direction: row">
-          <a href="/">
-            <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(0)" type="submit">
-                <h3>
-                  BobaWay
-                </h3>
-            </button>
-          </a>
-          <a href="/about">
-            <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(1)" type="submit">
-                <h3>
-                  About
-                </h3>
-            </button>
-          </a>
-        <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(2)">
-          <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQDR9Uki-ei757OyyAjvf-wzQFnhPuK3R4r0CKqUdoyXTgFX8I6DxVnCewjoWFyKN9rVjp7kyHIgJ9w/pubhtml?gid=0&single=true" target="_blank">
-            <h3>
-              Feedback
-            </h3>
-          </a>
-        </button>
-        <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(3)">
-          <a href="https://paypal.me/taliyah0x0" target="_blank">
-            <h3>
-              Donate
-            </h3>
-          </a>
-        </button>
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="1024">
+  <meta property="og:description" content="Easily type in Taiwanese!">
+</head>
+<body onload="start()">
+  <!-- Professional Navbar -->
+  <nav class="navbar">
+    <div class="navbar-content">
+      <a href="/home" class="navbar-brand">Tai-Ping</a>
+      <div class="navbar-nav">
+        <div class="dropdown">
+          <button class="dropdown-toggle">Apps</button>
+          <div class="dropdown-content">
+            <a href="/app">BobaWay</a>
+            <a href="/tai-ping">Tai-Ping</a>
+            <a href="/typewanese">Typewanese</a>
+            <a href="/sino-type">Sino-Type</a>
+          </div>
+        </div>
+        <a href="/about">About</a>
+        <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQDR9Uki-ei757OyyAjvf-wzQFnhPuK3R4r0CKqUdoyXTgFX8I6DxVnCewjoWFyKN9rVjp7kyHIgJ9w/pubhtml?gid=0&single=true" target="_blank">Feedback</a>
+        <a href="/sino-type/admin-login">Login</a>
       </div>
     </div>
+  </nav>
+
+  <div class="main-content">
     <form id="mainform" name="mainform" action="{{ url_for("tai_ping")}}" method="post">
       <div style="justify-content: center; align-items: middle; display: flex; flex-direction: column">
         <textarea id="page" name="page" style="display: none">{{page}}</textarea>
@@ -133,6 +121,7 @@
       </div>
       </div>
     </form>
-  </body>
+  </div>
+</body>
   <script type="text/javascript" src="./static/scripts/tai-ping.js"></script>
 </html>

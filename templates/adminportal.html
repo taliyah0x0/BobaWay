@@ -1,57 +1,84 @@
 <!DOCTYPE html>
-<html style="background-color: rgb(226, 199, 140)" id="background">
-  <head>
-    <title>BobaWay Admin Page</title>
-    <link rel="stylesheet" href="/static/styles/sino-type.css">
-    <link rel="icon" type="image/x-icon" href="./static/img/flav/flav_8.png" class="favicon">
-    <link rel="apple-touch-icon" sizes="128x128" href="./static/img/flav/flav_8.png" class="favicon">
-    <meta property="og:image" content="./static/img/flav/flav_8.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="1024">
-    <meta property="og:image:height" content="1024">
-    <script src="/static/scripts/admin-portal.js"></script>
-  </head>
-  <body>
-
-    {% macro language_table(language_value, entries) %}
-    <h3>{{ language_value }}</h3>
-    <table>
-      <tr>
-        <th>Hanzi</th>
-        <th>Romanization</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
-      {% for entry in entries %}
-      <tr>
-        <td>{{ entry[0] }}</td>
-        <td>{{ entry[1] }}</td>
-        <td>
-          <form action="update-entry" method="POST">
-            <input type="hidden" name="language" value="{{ language_value }}">
-            <input type="hidden" name="hanzi" value="{{ entry[0] }}">
-            <input type="hidden" name="original_roman" value="{{ entry[1] }}">
-            <input type="text" name="new_roman" placeholder="New romanization">
-            <button type="submit">Edit</button>
-          </form>
-        </td>
-        <td>
-          <form action="delete-entry" method="POST">
-            <input type="hidden" name="language" value="{{ language_value }}">
-            <input type="hidden" name="hanzi" value="{{ entry[0] }}">
-            <input type="hidden" name="romanization" value="{{ entry[1] }}">
-            <button type="submit">Delete</button>
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
-    </table>
-    {% endmacro %}
-
-    <div style="display: flex; flex-direction: row;">
-      <h1>BobaWay Admin Portal</h1>
-      <a href="logout"><button class="menu-button">Logout</button></a>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BobaWay Admin Portal</title>
+  <link rel="stylesheet" href="./static/styles/shared.css">
+  <link rel="stylesheet" href="/static/styles/sino-type.css">
+  <link rel="icon" type="image/x-icon" href="./static/img/flav/flav_8.png">
+  <link rel="apple-touch-icon" sizes="128x128" href="./static/img/flav/flav_8.png">
+  <meta property="og:image" content="./static/img/flav/flav_8.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="1024">
+  <script src="/static/scripts/admin-portal.js"></script>
+</head>
+<body>
+  <!-- Professional Navbar -->
+  <nav class="navbar">
+    <div class="navbar-content">
+      <a href="/home" class="navbar-brand">Admin Portal</a>
+      <div class="navbar-nav">
+        <div class="dropdown">
+          <button class="dropdown-toggle">Apps</button>
+          <div class="dropdown-content">
+            <a href="/app">BobaWay</a>
+            <a href="/tai-ping">Tai-Ping</a>
+            <a href="/typewanese">Typewanese</a>
+            <a href="/sino-type">Sino-Type</a>
+          </div>
+        </div>
+        <a href="/about">About</a>
+        <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQDR9Uki-ei757OyyAjvf-wzQFnhPuK3R4r0CKqUdoyXTgFX8I6DxVnCewjoWFyKN9rVjp7kyHIgJ9w/pubhtml?gid=0&single=true" target="_blank">Feedback</a>
+        <a href="logout" class="logout-link">Logout</a>
+      </div>
     </div>
+  </nav>
+
+  <div class="main-content">
+    {% macro language_table(language_value, entries) %}
+    <div class="language-section">
+      <h3 class="language-title">{{ language_value.title() }}</h3>
+      <div class="table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Hanzi</th>
+              <th>Romanization</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for entry in entries %}
+            <tr>
+              <td>{{ entry[0] }}</td>
+              <td>{{ entry[1] }}</td>
+              <td>
+                <form action="update-entry" method="POST" class="inline-form">
+                  <input type="hidden" name="language" value="{{ language_value }}">
+                  <input type="hidden" name="hanzi" value="{{ entry[0] }}">
+                  <input type="hidden" name="original_roman" value="{{ entry[1] }}">
+                  <input type="text" name="new_roman" placeholder="New romanization" class="edit-input">
+                  <button type="submit" class="edit-button">Edit</button>
+                </form>
+              </td>
+              <td>
+                <form action="delete-entry" method="POST" class="inline-form">
+                  <input type="hidden" name="language" value="{{ language_value }}">
+                  <input type="hidden" name="hanzi" value="{{ entry[0] }}">
+                  <input type="hidden" name="romanization" value="{{ entry[1] }}">
+                  <button type="submit" class="delete-button">Delete</button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endmacro %}
 
     {% with messages = get_flashed_messages() %}
       {% if messages %}
@@ -95,6 +122,128 @@
     {{ language_table("vietnamese", vietnamese) }}
     
     <br>
-    <p>If any issues arise, please email yao.tong2018@outlook.com</p>
-  </body>
+    <p class="contact-info">If any issues arise, please email yao.tong2018@outlook.com</p>
+  </div>
+
+  <style>
+    .logout-link {
+      background-color: #dc3545 !important;
+      color: white !important;
+    }
+    
+    .logout-link:hover {
+      background-color: #c82333 !important;
+    }
+
+    .language-section {
+      margin-bottom: 3rem;
+    }
+
+    .language-title {
+      font-family: Choko, sans-serif;
+      font-size: 1.5rem;
+      font-weight: normal;
+      color: rgb(60, 20, 0);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid rgb(226, 199, 140);
+    }
+
+    .table-container {
+      background-color: rgb(250, 230, 170);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 12px rgba(60, 20, 0, 0.1);
+      overflow-x: auto;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .admin-table th {
+      background-color: rgb(60, 20, 0);
+      color: rgb(250, 230, 170);
+      padding: 1rem;
+      text-align: left;
+      font-weight: 500;
+    }
+
+    .admin-table td {
+      padding: 1rem;
+      border-bottom: 1px solid rgb(226, 199, 140);
+    }
+
+    .admin-table tr:hover {
+      background-color: rgb(250, 230, 170);
+    }
+
+    .inline-form {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .edit-input {
+      padding: 0.5rem;
+      border: 1px solid rgb(226, 199, 140);
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    .edit-button {
+      background-color: rgb(60, 20, 0);
+      color: rgb(250, 230, 170);
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .edit-button:hover {
+      background-color: rgb(80, 40, 20);
+    }
+
+    .delete-button {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .delete-button:hover {
+      background-color: #c82333;
+    }
+
+    .contact-info {
+      text-align: center;
+      color: rgb(60, 20, 0);
+      opacity: 0.8;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgb(226, 199, 140);
+    }
+
+    @media (max-width: 768px) {
+      .inline-form {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .edit-input {
+        margin-bottom: 0.5rem;
+      }
+    }
+  </style>
+</body>
 </html>

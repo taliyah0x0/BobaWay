@@ -1,31 +1,202 @@
 <!DOCTYPE html>
-<html style="background-color: rgb(226, 199, 140)" id="background">
-  <head>
-    <title>BobaWay Admin Signup</title>
-    <link rel="stylesheet" href="/static/styles/sino-type.css">
-    <link rel="icon" type="image/x-icon" href="./static/img/flav/flav_8.png" class="favicon">
-    <link rel="apple-touch-icon" sizes="128x128" href="./static/img/flav/flav_8.png" class="favicon">
-    <meta property="og:image" content="./static/img/flav/flav_8.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="1024">
-    <meta property="og:image:height" content="1024">
-    <!-- <meta property="og:description" content="Romanization to Hanzi Keyboard"> -->
-  </head>
-  <body>
-    <h1>BobaWay Admin Signup</h1>
-    <form method="POST" action="">
-      {{ form.hidden_tag() }}
-      {{ form.username }}
-      {{ form.password }}
-      {{ form.confirm_password }}
-      {{ form.key }}
-      {{ form.submit }}
-    </form>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BobaWay Admin Signup</title>
+  <link rel="stylesheet" href="./static/styles/shared.css">
+  <link rel="icon" type="image/x-icon" href="./static/img/flav/flav_8.png">
+  <link rel="apple-touch-icon" sizes="128x128" href="./static/img/flav/flav_8.png">
+  <meta property="og:image" content="./static/img/flav/flav_8.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="1024">
+</head>
+<body>
+  <!-- Professional Navbar -->
+  <nav class="navbar">
+    <div class="navbar-content">
+      <a href="/home" class="navbar-brand">Admin Signup</a>
+      <div class="navbar-nav">
+        <div class="dropdown">
+          <button class="dropdown-toggle">Apps</button>
+          <div class="dropdown-content">
+            <a href="/app">BobaWay</a>
+            <a href="/tai-ping">Tai-Ping</a>
+            <a href="/typewanese">Typewanese</a>
+            <a href="/sino-type">Sino-Type</a>
+          </div>
+        </div>
+        <a href="/about">About</a>
+        <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQDR9Uki-ei757OyyAjvf-wzQFnhPuK3R4r0CKqUdoyXTgFX8I6DxVnCewjoWFyKN9rVjp7kyHIgJ9w/pubhtml?gid=0&single=true" target="_blank">Feedback</a>
+        <a href="/sino-type/admin-login">Login</a>
+      </div>
+    </div>
+  </nav>
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <p>{{messages[0]}}</p>
-      {% endif %}
-    {% endwith %}
-  </body>
+  <div class="main-content">
+    <div class="signup-container">
+      <div class="signup-card">
+        <h2 class="signup-title">Create Admin Account</h2>
+        <form method="POST" action="" class="signup-form">
+          {{ form.hidden_tag() }}
+          <div class="form-group">
+            <label for="username">Username</label>
+            {{ form.username(class="form-input", placeholder="Enter username") }}
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            {{ form.password(class="form-input", placeholder="Enter password") }}
+          </div>
+          <div class="form-group">
+            <label for="confirm_password">Confirm Password</label>
+            {{ form.confirm_password(class="form-input", placeholder="Confirm password") }}
+          </div>
+          <div class="form-group">
+            <label for="key">Admin Key</label>
+            {{ form.key(class="form-input", placeholder="Enter admin key") }}
+          </div>
+          {{ form.submit(class="signup-button") }}
+        </form>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="alert alert-error">
+              {{messages[0]}}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <div class="signup-links">
+          <a href="/sino-type/admin-login" class="login-link">Already have an account? Login</a>
+          <a href="/home" class="home-link">Back to Home</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .signup-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 70vh;
+    }
+
+    .signup-card {
+      background-color: rgb(250, 230, 170);
+      border-radius: 16px;
+      padding: 3rem;
+      box-shadow: 0 8px 24px rgba(60, 20, 0, 0.1);
+      width: 100%;
+      max-width: 450px;
+    }
+
+    .signup-title {
+      font-family: Choko, sans-serif;
+      font-size: 2rem;
+      font-weight: normal;
+      text-align: center;
+      margin-bottom: 2rem;
+      color: rgb(60, 20, 0);
+    }
+
+    .signup-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group label {
+      font-weight: 500;
+      color: rgb(60, 20, 0);
+    }
+
+    .form-input {
+      padding: 0.75rem 1rem;
+      border: 2px solid rgb(226, 199, 140);
+      border-radius: 8px;
+      font-family: Dosis, sans-serif;
+      font-size: 1rem;
+      background-color: white;
+      color: rgb(60, 20, 0);
+      transition: border-color 0.3s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: rgb(60, 20, 0);
+    }
+
+    .signup-button {
+      background-color: rgb(60, 20, 0);
+      color: rgb(250, 230, 170);
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-family: Dosis, sans-serif;
+      font-weight: 500;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 1rem;
+    }
+
+    .signup-button:hover {
+      background-color: rgb(80, 40, 20);
+      transform: translateY(-2px);
+    }
+
+    .alert {
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .alert-error {
+      background-color: #fee;
+      color: #c33;
+      border: 1px solid #fcc;
+    }
+
+    .signup-links {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgb(226, 199, 140);
+    }
+
+    .login-link, .home-link {
+      color: rgb(60, 20, 0);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .login-link:hover, .home-link:hover {
+      color: rgb(80, 40, 20);
+    }
+
+    @media (max-width: 480px) {
+      .signup-card {
+        padding: 2rem;
+        margin: 1rem;
+      }
+      
+      .signup-links {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+    }
+  </style>
+</body>
 </html> 
