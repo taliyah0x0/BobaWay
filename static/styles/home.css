@@ -1,0 +1,314 @@
+/* Import fonts */
+@font-face {
+  font-family: Choko;
+  src: url("choko.ttf");
+}
+
+@font-face {
+  font-family: Dosis;
+  src: url("dosis.ttf");
+}
+
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Dosis, sans-serif;
+  background-color: rgb(226, 199, 140);
+  color: rgb(60, 20, 0);
+  line-height: 1.6;
+}
+
+/* Header */
+.header {
+  background-color: rgb(250, 230, 170);
+  box-shadow: 0 4px 12px rgba(60, 20, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-family: Choko, sans-serif;
+  font-size: 2.5rem;
+  font-weight: normal;
+  color: rgb(60, 20, 0);
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-link {
+  color: rgb(60, 20, 0);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: rgb(226, 199, 140);
+  transform: translateY(-2px);
+}
+
+/* Main content */
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Hero section */
+.hero {
+  text-align: center;
+  padding: 4rem 0;
+  margin-bottom: 4rem;
+}
+
+.hero-title {
+  font-family: Choko, sans-serif;
+  font-size: 3.5rem;
+  font-weight: normal;
+  margin-bottom: 1.5rem;
+  color: rgb(60, 20, 0);
+}
+
+.hero-description {
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  color: rgb(60, 20, 0);
+  opacity: 0.9;
+}
+
+/* Tools section */
+.tools {
+  margin-bottom: 4rem;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.tool-card {
+  background-color: rgb(250, 230, 170);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(60, 20, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.tool-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 32px rgba(60, 20, 0, 0.15);
+  border-color: rgb(60, 20, 0);
+}
+
+.tool-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.tool-title {
+  font-family: Choko, sans-serif;
+  font-size: 1.5rem;
+  font-weight: normal;
+  margin-bottom: 1rem;
+  color: rgb(60, 20, 0);
+}
+
+.tool-description {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  color: rgb(60, 20, 0);
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+.tool-button {
+  display: inline-block;
+  background-color: rgb(60, 20, 0);
+  color: rgb(250, 230, 170);
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(60, 20, 0, 0.2);
+}
+
+.tool-button:hover {
+  background-color: rgb(80, 40, 20);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(60, 20, 0, 0.3);
+}
+
+/* About preview section */
+.about-preview {
+  background-color: rgb(250, 230, 170);
+  border-radius: 16px;
+  padding: 3rem;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(60, 20, 0, 0.1);
+  margin-bottom: 4rem;
+}
+
+.about-title {
+  font-family: Choko, sans-serif;
+  font-size: 2rem;
+  font-weight: normal;
+  margin-bottom: 1rem;
+  color: rgb(60, 20, 0);
+}
+
+.about-text {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: rgb(60, 20, 0);
+  opacity: 0.9;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about-link {
+  display: inline-block;
+  color: rgb(60, 20, 0);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border: 2px solid rgb(60, 20, 0);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.about-link:hover {
+  background-color: rgb(60, 20, 0);
+  color: rgb(250, 230, 170);
+}
+
+/* Footer */
+.footer {
+  background-color: rgb(250, 230, 170);
+  padding: 2rem;
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.footer-text {
+  font-size: 1rem;
+  color: rgb(60, 20, 0);
+  opacity: 0.8;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .header-content {
+    padding: 1rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .logo {
+    font-size: 2rem;
+  }
+
+  .nav {
+    gap: 1rem;
+  }
+
+  .main {
+    padding: 1rem;
+  }
+
+  .hero {
+    padding: 2rem 0;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .tools-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .tool-card {
+    padding: 1.5rem;
+  }
+
+  .about-preview {
+    padding: 2rem 1.5rem;
+  }
+
+  .about-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .tool-card {
+    padding: 1rem;
+  }
+
+  .tool-icon {
+    font-size: 2.5rem;
+  }
+
+  .tool-title {
+    font-size: 1.25rem;
+  }
+}
+
+/* Animation for cards */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tool-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.tool-card:nth-child(1) { animation-delay: 0.1s; }
+.tool-card:nth-child(2) { animation-delay: 0.2s; }
+.tool-card:nth-child(3) { animation-delay: 0.3s; }
+.tool-card:nth-child(4) { animation-delay: 0.4s; }
+.tool-card:nth-child(5) { animation-delay: 0.5s; }
+.tool-card:nth-child(6) { animation-delay: 0.6s; } 

@@ -38,8 +38,17 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'adminloginpage'
 
+@app.route("/", methods=["GET"])
+def index():
+  return redirect(url_for("home"))
+
+## HOME
+@app.route("/home", methods=["GET"])
+def home():
+  return render_template("home.html")
+
 ## BOBAWAY
-@app.route("/", methods=["GET", "POST"])
+@app.route("/app", methods=["GET", "POST"])
 def bobaway():
   return render_template("index.html")
 
