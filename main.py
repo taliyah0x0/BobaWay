@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for, flash, jsonify
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, login_required, logout_user
+from flask_mail import Mail, Message
 import os
 import requests
 
@@ -32,7 +33,16 @@ for row in cleaned_1:
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
 
+# Email configuration
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'riatalwar@hotmail.com'
+app.config['MAIL_PASSWORD'] = os.environ['MAIL_PASSWORD']
+app.config['MAIL_DEFAULT_SENDER'] = 'riatalwar@hotmail.com'
+
 bcrypt = Bcrypt(app)
+mail = Mail(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -56,6 +66,45 @@ def bobaway():
 @app.route("/about", methods=["GET"])
 def about():
   return render_template("about.html")
+
+# About page contact form
+@app.route("/send_message", methods=["POST"])
+def send_message():
+  try:
+    name = request.form.get("name")
+    email = request.form.get("email")
+    message_content = request.form.get("message")
+    
+    if not name or not email or not message_content:
+      flash("All fields are required.")
+      return redirect(url_for("about"))
+    
+    # Create email message
+    subject = f"New Message from {name}"
+    body = f"""
+            New message received from the BobaWay contact form:
+
+            Name: {name}
+            Email: {email}
+
+            Message:
+            {message_content}
+            """
+    
+    msg = Message(
+      subject=subject,
+      recipients=['ria.talwar2006@gmail.com'],
+      body=body
+    )
+    
+    mail.send(msg)
+    flash("Your message has been sent successfully!")
+    
+  except Exception as e:
+    print(f"Email error: {e}")
+    flash("Sorry, there was an error sending your message. Please try again.")
+  
+  return redirect(url_for("about"))
 
 ## ROMANIZATION
 @app.route("/romanization", methods=["GET"])
