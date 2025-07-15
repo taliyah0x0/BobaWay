@@ -1,150 +1,204 @@
 <!DOCTYPE html>
-<html style="background-color: rgb(226, 199, 140)" id="background">
-
+<html lang="en">
 <head>
-  <title>BobaWay | About</title>
-  <link rel="stylesheet" href="./static/styles/about_bobaway.css">
-    <link rel="icon" type="image/x-icon" href="./static/img/flav/flav_8.png" class="favicon">
-    <link rel="apple-touch-icon" sizes="128x128" href="./static/img/flav/flav_8.png" class="favicon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BobaWay | About</title>
+    <link rel="stylesheet" href="./static/styles/about_bobaway.css">
+    <link rel="icon" type="image/x-icon" href="./static/img/flav/flav_8.png">
+    <link rel="apple-touch-icon" sizes="128x128" href="./static/img/flav/flav_8.png">
     <meta property="og:image" content="./static/img/flav/flav_8.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1024">
     <meta property="og:image:height" content="1024">
     <meta property="og:description" content="Hi! I'm Taliyah, a Taiwanese-American student, content creator, and the developer of BobaWay. If you have any questions, please don't hesitate to use the form below to contact me!">
 </head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1 class="logo">BobaWay</h1>
+            <nav class="nav">
+                <div class="dropdown">
+                    <button class="nav-link dropdown-toggle">Apps</button>
+                    <div class="dropdown-content">
+                        <a href="/app" class="dropdown-item">BobaWay</a>
+                        <a href="/typewanese" class="dropdown-item">Typewanese</a>
+                        <a href="/tai-ping" class="dropdown-item">Tai-Ping</a>
+                        <a href="/sino-type" class="dropdown-item">Sino-Type</a>
+                    </div>
+                </div>
+                <a href="/" class="nav-link">Home</a>
+                <a href="/about" class="nav-link active">About</a>
+                <a href="mailto:taliyahengineering@gmail.com" target="_blank" class="nav-link">Feedback</a>
+                <a href="https://paypal.me/taliyah0x0" target="_blank" class="nav-link">Donate</a>
+            </nav>
+        </div>
+    </header>
 
-<body class="body-pad" onload="loadNow()">
-  <p id="play" style="display: none">0</p>
-  <div style="display: flex; flex-direction: column">
-    <div style="display: flex; flex: 1" class="bottom">
-      <a href="/" style="display: flex; flex: 6">
-        <h1 id="title">
-          BobaWay
-        </h1>
-      </a>
-      <div style="display: flex; flex-direction: row">
-        <a href="/about">
-          <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(0)" type="submit" onclick="goAbout()">
-              <h3>
-                About
-              </h3>
-          </button>
-        </a>
-        <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(1)">
-          <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQDR9Uki-ei757OyyAjvf-wzQFnhPuK3R4r0CKqUdoyXTgFX8I6DxVnCewjoWFyKN9rVjp7kyHIgJ9w/pubhtml?gid=0&single=true"
-            target="_blank">
-            <h3>
-              Feedback
-            </h3>
-          </a>
-        </button>
-        <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(2)">
-          <a href="https://paypal.me/taliyah0x0" target="_blank">
-            <h3>
-              Donate
-            </h3>
-          </a>
-        </button>
-      </div>
-    </div>
-    <div style="display: flex; flex: 7; flex-direction: column">
-      <div style="display: flex; padding-left: 5vw; padding-right: 5vw; padding-top: 1vw" class="bottom">
-        <div>
-          <img src="./static/portrait.jpg" class="portrait">
-          <div style="display: flex; justify-content: center;">
-            <a href="https://youtube.com/@taliyahengineering" target="_blank">
-              <img src="./static/img/youtube.png" class="icon"></a>
-            <a href="https://instagram.com/taliyahengineering" target="_blank">
-              <img src="./static/img/instagram.png" class="icon"></a>
-            <a href="https://facebook.com/taliyahengineering">
-              <img src="./static/img/facebook.png" class="icon" target="_blank"></a>
-            <a href="https://tiktok.com/@taliyahengineering" target="_blank">
-              <img src="./static/img/tiktok.png" class="icon"></a>
-          </div>
-        </div>
-        <div style="display: inline-block; margin-left: 4vw; margin-top: 0; flex: 2">
-          <p class="intro-text">
-            Hi! I'm Taliyah, a Taiwanese-American student, content creator, and the developer of BobaWay. If you have any questions, please don't hesitate to use the form below to contact me!
-            <br>
-            <br>
-            嗨！我是造作 Bobaway 的台裔女大生 Taliyah。如果有問題，請不要猶豫用下面的表跟我連絡！
-          </p>
-        <div id="current-news">
-        <img src="./static/img/left-arrow.png" class="slide-arrow" onclick="changeSlide(-1)">
-        </div>
-      </div>
-      <div style="display: inline-block; flex: 1.5">
-        <div class="message">
-        <h3>
-          Help me keep BobaWay running!
-        </h3>
-        <p>I need your generous support to pay for the cloud API this service uses. Please donate <a href="https://paypal.me/taliyah0x0" target="_blank">here</a>. Thank you for your contribution to spreading Taiwanese!
-          <br>
-          <br>
-          For sponsorships in further improving BobaWay or on my other inventions, please contact me directly using the form below!
-        </p>
-      </div>
-      </div>
-      </div>
-      <div style="display: flex; flex-direction: column; padding-left: 5vw; padding-right: 5vw; margin-top: 0">
-        <form>
-          <div style="display: flex;" class="bottom">
-            <div style="display: flex; flex-direction: column">
-              <h3 style="margin-bottom: 0; margin-top: 1vmax">Contact Me!</h3>
-              <input type="text" id="name" class="text-box small-box" placeholder="Name" required>
-              <input type="email" id="email" class="text-box small-box" placeholder="Email" required>
+    <main class="main">
+        <section class="hero">
+            <div class="hero-content">
+                <h2 class="hero-title">About BobaWay</h2>
+                <p class="hero-description">
+                    Meet the team behind BobaWay and learn about our mission to preserve and promote Taiwanese language and culture.
+                </p>
             </div>
-            <div style="display: inline-block; position: relative;">
-              <textarea class="text-box large-box" id="message" placeholder="Message" required></textarea>
-              <textarea id="color" name="color" style="display: none">9</textarea>
-              <div id="submit-shadow" class="submit-bt"></div>
-              <a href="" target="_blank" id="submit"><button class="submit-button submit-bt" onmouseover="submitMOV(0)"
-                  onmouseout="submitMOU(0)" onclick="submitForm()" type="submit">
-                  <h3 class="submit-text">Submit</h3>
-                </button></a>
+        </section>
+
+        <section class="founder">
+            <div class="founder-content">
+                <div class="founder-image">
+                    <img src="./static/portrait.jpg" alt="Taliyah Huang" class="portrait">
+                    <div class="social-links">
+                        <a href="https://youtube.com/@taliyahengineering" target="_blank" class="social-link">
+                            <img src="./static/img/youtube.png" alt="YouTube" class="social-icon">
+                        </a>
+                        <a href="https://instagram.com/taliyahengineering" target="_blank" class="social-link">
+                            <img src="./static/img/instagram.png" alt="Instagram" class="social-icon">
+                        </a>
+                        <a href="https://facebook.com/taliyahengineering" target="_blank" class="social-link">
+                            <img src="./static/img/facebook.png" alt="Facebook" class="social-icon">
+                        </a>
+                        <a href="https://tiktok.com/@taliyahengineering" target="_blank" class="social-link">
+                            <img src="./static/img/tiktok.png" alt="TikTok" class="social-icon">
+                        </a>
+                    </div>
+                </div>
+                <div class="founder-info">
+                    <h3 class="founder-name">Taliyah Huang</h3>
+                    <p class="founder-title">Founder & Developer</p>
+                    <p class="founder-bio">
+                      Hi! I'm Taliyah, a Taiwanese-American student, content creator, and the developer of BobaWay. 
+                      If you have any questions, please don't hesitate to use the form below to contact me!
+                    </p>
+                    <p class="founder-bio-taiwanese">
+                      嗨！我是造作 Bobaway 的台裔女大生 Taliyah。如果有問題，請不要猶豫用下面的表跟我連絡！
+                    </p>
+                </div>
             </div>
-          </div>
-        </form>
-      </div>
-    </div>
+        </section>
+
+        <section class="news">
+            <h3 class="section-title">Featured Media</h3>
+            <div class="news-carousel">
+                <button class="carousel-btn prev" onclick="changeSlide(-1)">‹</button>
+                <div class="news-container" id="current-news">
+                    <!-- News items will be populated by JavaScript -->
+                </div>
+                <button class="carousel-btn next" onclick="changeSlide(1)">›</button>
+            </div>
+        </section>
+
+        <section class="support">
+            <div class="support-card">
+                <h3 class="support-title">Help Keep BobaWay Running!</h3>
+                <p class="support-text">
+                    I need your generous support to pay for the cloud API this service uses. Please donate 
+                    <a href="https://paypal.me/taliyah0x0" target="_blank" class="support-link">here</a>. 
+                    Thank you for your contribution to spreading Taiwanese!
+                </p>
+                <p class="support-text">
+                    For sponsorships in further improving BobaWay or on my other inventions, please contact me directly using the form below!
+                </p>
+            </div>
+        </section>
+
+        <section class="team">
+            <h3 class="section-title">Our Team</h3>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-avatar">RT</div>
+                    <h4 class="team-name">Ria Talwar</h4>
+                    <p class="team-role">Developer</p>
+                    <p class="team-bio">
+                        Ria is a passionate computer science student at Johns Hopkins University who loves building creative projects.
+                    </p>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">SK</div>
+                    <h4 class="team-name">Sophia Kamome</h4>
+                    <p class="team-role">Designer</p>
+                    <p class="team-bio">
+                        Sophia ensures that BobaWay's tools are both beautiful and functional for users of all backgrounds.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact">
+            <h3 class="section-title">Contact Us</h3>
+            <form class="contact-form" id="contact-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" id="name" name="name" class="form-input" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" name="email" class="form-input" placeholder="your.email@example.com" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="message" class="form-label">Message</label>
+                    <textarea id="message" name="message" class="form-textarea" placeholder="Your message..." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-text">
+                Made with ❤️ for the Taiwanese language community
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        let news_titles = ['Featured','Interview','Interview','Interview','Interview','報道','訪問'];
+        let news_des = ['Taiwan Plus','Taiwan Plus','Talking Taiwan','Radio Taiwan International','TaiwaneseAmericanOrg','世界新聞網','寶島聯播網'];
+        let news_links = ['https://www.youtube.com/watch?v=qEXrODPL-Cw&t=277s','https://www.youtube.com/results?search_query=taiwan+plus+taliyah','https://talkingtaiwan.com/taliyah-huang-young-inventor-of-bobaway-online-translator-that-converts-english-to-taiwanese-ep-253/','https://en.rti.org.tw/radio/programMessagePlayer/programId/1435/id/108711','https://www.taiwaneseamerican.org/2023/07/taliyah-huang-interview-bobaway/','https://www.worldjournal.com/wj/story/121359/7289244','https://podcasters.spotify.com/pod/show/rkes7e3m79o/episodes/TaliyahBobaWay--20230724-e279v5h'];
+        let slide_page = 0;
+
+        function loadNow() {
+            const container = document.getElementById("current-news");
+            for (let i = 0; i < 3; i++) {
+                container.innerHTML += `
+                    <a href="${news_links[i]}" target="_blank" class="news-item">
+                        <h4>${news_titles[i]}</h4>
+                        <p>${news_des[i]}</p>
+                    </a>
+                `;
+            }
+        }
+
+        function changeSlide(index) {
+            const container = document.getElementById("current-news");
+            container.innerHTML = '';
+            slide_page += index;
+            
+            if (slide_page + 3 > news_titles.length) {
+                slide_page -= 1;
+            }
+            if (slide_page < 0) {
+                slide_page = 0;
+            }
+            
+            for (let i = slide_page; i < slide_page + 3; i++) {
+                container.innerHTML += `
+                    <a href="${news_links[i]}" target="_blank" class="news-item">
+                        <h4>${news_titles[i]}</h4>
+                        <p>${news_des[i]}</p>
+                    </a>
+                `;
+            }
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadNow();
+        });
+    </script>
 </body>
-  <script type="text/javascript" src="./static/scripts/index.js"></script>
-<script type="text/javascript">
-let news_titles = ['Featured','Interview','Interview','Interview','Interview','報道','訪問']
-let news_des = ['Taiwan Plus','Taiwan Plus','Talking Taiwan','Radio Taiwan International','TaiwaneseAmericanOrg','世界新聞網','寶島聯播網']
-let news_links = ['https://www.youtube.com/watch?v=qEXrODPL-Cw&t=277s','https://www.youtube.com/results?search_query=taiwan+plus+taliyah','https://talkingtaiwan.com/taliyah-huang-young-inventor-of-bobaway-online-translator-that-converts-english-to-taiwanese-ep-253/','https://en.rti.org.tw/radio/programMessagePlayer/programId/1435/id/108711','https://www.taiwaneseamerican.org/2023/07/taliyah-huang-interview-bobaway/','https://www.worldjournal.com/wj/story/121359/7289244','https://podcasters.spotify.com/pod/show/rkes7e3m79o/episodes/TaliyahBobaWay--20230724-e279v5h']
-let slide_page = 0
-
-function loadNow() {
-  for (var i = 0; i < 3; i++) {
-    document.getElementById("current-news").innerHTML += 
-    `<a href="${news_links[i]}" target="_blank" class="faq">\
-    <h3>${news_titles[i]}</h3>\
-    <p>${news_des[i]}</p>\
-    </a>`
-  }
-  document.getElementById("current-news").innerHTML += '<img src="./static/img/right-arrow.png" class="slide-arrow" onclick="changeSlide(1)">'
-}
-
-function changeSlide(index) {
-  document.getElementById("current-news").innerHTML = '';
-  document.getElementById("current-news").innerHTML += '<img src="./static/img/left-arrow.png" class="slide-arrow" onclick="changeSlide(-1)">';
-  slide_page += index;
-  if (slide_page + 3 > news_titles.length) {
-    slide_page -= 1;
-  }
-  if (slide_page < 0) {
-    slide_page = 0;
-  }
-  for (var i = slide_page; i < slide_page + 3; i++) {
-    document.getElementById("current-news").innerHTML += 
-    `<a href="${news_links[i]}" target="_blank" class="faq">\
-    <h3>${news_titles[i]}</h3>\
-    <p>${news_des[i]}</p>\
-    </a>`
-  }
-  document.getElementById("current-news").innerHTML += '<img src="./static/img/right-arrow.png" class="slide-arrow" onclick="changeSlide(1)">'
-}
-</script>
-
 </html>
