@@ -13,3 +13,4 @@ Flask-Login==0.6.3
 Flask-WTF==1.2.1
 WTForms==3.1.2
 psycopg2-binary
+Flask-Mail==0.10.0
