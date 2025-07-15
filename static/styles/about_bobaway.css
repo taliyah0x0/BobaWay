@@ -97,7 +97,8 @@ body {
   transition: transform 0.3s ease;
 }
 
-.dropdown:hover .dropdown-toggle::after {
+.dropdown:hover .dropdown-toggle::after,
+.dropdown-content:hover + .dropdown-toggle::after {
   transform: rotate(180deg);
 }
 
@@ -114,7 +115,8 @@ body {
   margin-top: 0.5rem;
 }
 
-.dropdown:hover .dropdown-content {
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover {
   display: block;
 }
 
