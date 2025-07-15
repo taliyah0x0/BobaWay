@@ -8,7 +8,6 @@ import requests
 from clean_csvs import clean_csv_1, clean_csv_2, clean_3_4_combined
 from typewanese_util import remove_recent_files, export_audio, get_options_tai
 from sinodb import SinoDB
-from secrets import SECRET_KEY
 from forms import LoginForm, SignupForm
 from user import User
 from sinotype_utils import checkHanzi, checkRoman, checkEntryExistence
@@ -30,7 +29,7 @@ for row in cleaned_1:
 
 
 app = Flask(__name__)
-app.secret_key = SECRET_KEY
+app.secret_key = os.environ['APP_KEY']
 
 bcrypt = Bcrypt(app)
 
