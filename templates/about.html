@@ -178,18 +178,19 @@
             container.innerHTML = '';
             slide_page += index;
             
-            if (slide_page + 3 > news_titles.length) {
-                slide_page -= 1;
+            if (slide_page >= news_titles.length) {
+                slide_page %= news_titles.length;
             }
             if (slide_page < 0) {
-                slide_page = 0;
+                slide_page = news_titles.length - 1;
             }
             
             for (let i = slide_page; i < slide_page + 3; i++) {
+                idx = i % news_titles.length;
                 container.innerHTML += `
-                    <a href="${news_links[i]}" target="_blank" class="news-item">
-                        <h4>${news_titles[i]}</h4>
-                        <p>${news_des[i]}</p>
+                    <a href="${news_links[idx]}" target="_blank" class="news-item">
+                        <h4>${news_titles[idx]}</h4>
+                        <p>${news_des[idx]}</p>
                     </a>
                 `;
             }
