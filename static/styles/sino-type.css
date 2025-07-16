@@ -2,6 +2,10 @@
 @import url('home.css');
 
 /* Sino-Type specific styles */
+.hero {
+    padding: 1rem;
+}
+
 .hero-description {
     margin-bottom: 0;
 }
@@ -108,7 +112,7 @@
 .textareas {
     color: rgb(60, 20, 0);
     padding: 1.5rem;
-    border: none;
+    border: 2px solid rgb(60, 20, 0);
     border-radius: 12px;
     background-color: rgb(250, 230, 170);
     font-family: Dosis, sans-serif;
@@ -120,6 +124,7 @@
 }
 
 .textareas:focus {
+    border-color: rgb(80, 40, 20);
     outline: none;
     box-shadow: 0 6px 16px rgba(60, 20, 0, 0.15);
 }
