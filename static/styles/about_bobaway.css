@@ -1,168 +1,3 @@
-/* Import fonts */
-@font-face {
-  font-family: Choko;
-  src: url("choko.ttf");
-}
-
-@font-face {
-  font-family: Dosis;
-  src: url("dosis.ttf");
-}
-
-/* Reset and base styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Dosis, sans-serif;
-  background-color: rgb(226, 199, 140);
-  color: rgb(60, 20, 0);
-  line-height: 1.6;
-}
-
-/* Header */
-.header {
-  background-color: rgb(250, 230, 170);
-  box-shadow: 0 4px 12px rgba(60, 20, 0, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.header-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  font-family: Choko, sans-serif;
-  font-size: 2.5rem;
-  font-weight: normal;
-  color: rgb(60, 20, 0);
-  text-decoration: none;
-}
-
-.nav {
-  display: flex;
-  gap: 2rem;
-  align-items: center;
-}
-
-.nav-link {
-  color: rgb(60, 20, 0);
-  text-decoration: none;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: Dosis, sans-serif;
-  font-size: 1rem;
-}
-
-.nav-link:hover {
-  background-color: rgb(226, 199, 140);
-  transform: translateY(-2px);
-}
-
-.nav-link.active {
-  background-color: rgb(60, 20, 0);
-  color: rgb(250, 230, 170);
-}
-
-/* Dropdown */
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-toggle {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.dropdown-toggle::after {
-  content: '▼';
-  font-size: 0.8rem;
-  transition: transform 0.3s ease;
-}
-
-.dropdown:hover .dropdown-toggle::after,
-.dropdown-content:hover + .dropdown-toggle::after {
-  transform: rotate(180deg);
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: rgb(250, 230, 170);
-  min-width: 160px;
-  box-shadow: 0 8px 16px rgba(60, 20, 0, 0.1);
-  border-radius: 8px;
-  z-index: 1;
-  top: 100%;
-  left: 0;
-}
-
-.dropdown:hover .dropdown-content,
-.dropdown-content:hover {
-  display: block;
-}
-
-.dropdown-item {
-  color: rgb(60, 20, 0);
-  padding: 0.75rem 1rem;
-  text-decoration: none;
-  display: block;
-  transition: background-color 0.3s ease;
-  border-radius: 8px;
-  margin: 0.25rem;
-}
-
-.dropdown-item:hover {
-  background-color: rgb(226, 199, 140);
-}
-
-/* Main content */
-.main {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-/* Hero section */
-.hero {
-  text-align: center;
-  padding: 4rem 0;
-  margin-bottom: 4rem;
-}
-
-.hero-title {
-  font-family: Choko, sans-serif;
-  font-size: 3.5rem;
-  font-weight: normal;
-  margin-bottom: 1.5rem;
-  color: rgb(60, 20, 0);
-}
-
-.hero-description {
-  font-size: 1.2rem;
-  max-width: 800px;
-  margin: 0 auto;
-  color: rgb(60, 20, 0);
-  opacity: 0.9;
-}
-
 /* Founder section */
 .founder {
   margin-bottom: 4rem;
@@ -500,52 +335,11 @@ body {
   box-shadow: 0 6px 16px rgba(60, 20, 0, 0.3);
 }
 
-/* Footer */
-.footer {
-  background-color: rgb(250, 230, 170);
-  padding: 2rem;
-  text-align: center;
-  margin-top: 4rem;
-}
-
-.footer-text {
-  font-size: 1rem;
-  color: rgb(60, 20, 0);
-  opacity: 0.8;
-}
-
 /* Responsive design */
 @media (max-width: 768px) {
-  .header-content {
-    padding: 1rem;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .logo {
-    font-size: 2rem;
-  }
-
   .nav {
-    gap: 1rem;
     flex-wrap: wrap;
     justify-content: center;
-  }
-
-  .main {
-    padding: 1rem;
-  }
-
-  .hero {
-    padding: 2rem 0;
-  }
-
-  .hero-title {
-    font-size: 2.5rem;
-  }
-
-  .hero-description {
-    font-size: 1rem;
   }
 
   .founder-content {
@@ -580,25 +374,16 @@ body {
     min-width: auto;
   }
 
-  .form-row {
-    grid-template-columns: 1fr;
-  }
-
   .team-grid {
     grid-template-columns: 1fr;
   }
 
-  .support-card,
-  .contact-form {
+  .support-card {
     padding: 2rem 1.5rem;
   }
 }
 
 @media (max-width: 480px) {
-  .hero-title {
-    font-size: 2rem;
-  }
-
   .founder-name {
     font-size: 1.5rem;
   }
