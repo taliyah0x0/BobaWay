@@ -1,73 +1,244 @@
-@font-face {
-    font-family: Choko;
-    src: url("choko.ttf");
+/* Import home page styles */
+@import url('home.css');
+
+/* Sino-Type specific styles */
+
+/* Tool section */
+.tool-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
 }
 
-@font-face {
-    font-family: Dosis;
-    src: url("dosis.ttf");
+/* Language filters */
+.languages {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: rgb(250, 230, 170);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(60, 20, 0, 0.1);
 }
 
-h3 {
-    text-align: center;
-    margin: 1vw;
-    margin-top: -0.2vw;
+.filter-label {
+    font-family: Choko, sans-serif;
+    font-size: 1.2rem;
     color: rgb(60, 20, 0);
-    font-family: Choko;
-  }
-  
-
-h2 {
-    font-family: Choko;
-    color: rgb(60, 20, 0);
+    margin: 0;
     font-weight: normal;
 }
 
-div {
-    font-size: 1.5rem;
-    font-family: Dosis;
-    -webkit-user-select: none; /* Safari */        
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE10+/Edge */
-    user-select: none; /* Standard */
-}
-
-.output_div {
+.languages label {
     display: flex;
     align-items: center;
-}
-
-label {
-    display: flex;
-    align-items: center;
-    font-size: 2.5rem;
-    font-family: Choko;
-    font-weight: normal;
-    margin-right: 1vw;
-}
-
-label:hover {
+    font-size: 1rem;
+    font-family: Dosis, sans-serif;
+    font-weight: 500;
+    color: rgb(60, 20, 0);
+    margin: 0;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-input:hover {
-    cursor: pointer;
+.languages label:hover {
+    transform: translateY(-2px);
 }
 
-input[type="checkbox"] {
+.languages input[type="checkbox"] {
     appearance: none;
-    margin-right: 0.5vw;
-    border-radius: 20%;
+    margin-right: 0.5rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 4px;
     border: 2px solid rgb(60, 20, 0);
     background-color: transparent;
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
-  
-input[type="checkbox"]:checked {
+
+.languages input[type="checkbox"]:checked {
     background-color: rgb(60, 20, 0);
     border: 2px solid rgb(60, 20, 0);
+    position: relative;
+}
+
+.languages input[type="checkbox"]:checked::after {
+    content: '✓';
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+/* Main tool interface */
+#boxes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.input-container,
+.output-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.box-title {
+    font-family: Choko, sans-serif;
+    font-size: 1.5rem;
+    font-weight: normal;
+    color: rgb(60, 20, 0);
+    text-align: center;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background-color: rgb(250, 230, 170);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(60, 20, 0, 0.1);
+}
+
+.textareas {
+    color: rgb(60, 20, 0);
+    padding: 1.5rem;
+    border: 2px solid rgb(60, 20, 0);
+    border-radius: 12px;
+    background-color: white;
+    font-family: Dosis, sans-serif;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    min-height: 200px;
+    box-shadow: 0 4px 12px rgba(60, 20, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.textareas:focus {
+    outline: none;
+    border-color: rgb(80, 40, 20);
+    box-shadow: 0 6px 16px rgba(60, 20, 0, 0.15);
+}
+
+#highlight-area,
+#highlight-area-2 {
+    position: absolute;
+    font-family: Dosis, sans-serif;
+    color: transparent;
+    background-color: rgba(250, 230, 170, 0.3);
+    pointer-events: none;
+    z-index: 1;
+}
+
+#input-area {
+    position: relative;
+    z-index: 2;
+    background-color: transparent;
+}
+
+#output-area {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-content: flex-start;
+    position: relative;
+    z-index: 2;
+}
+
+.output_div {
+    display: flex;
+    align-items: center;
+    background-color: rgb(250, 230, 170);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    margin: 0.25rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.output_div:hover {
+    background-color: rgb(226, 199, 140);
+    transform: translateY(-2px);
+    border-color: rgb(60, 20, 0);
+}
+
+/* Copy button */
+#copy-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-image: url("../img/copy.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    z-index: 3;
+}
+
+#copy-button:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Options section */
+.options-section {
+    background-color: rgb(250, 230, 170);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(60, 20, 0, 0.1);
+}
+
+.box-title3 {
+    font-family: Choko, sans-serif;
+    font-size: 1.5rem;
+    font-weight: normal;
+    color: rgb(60, 20, 0);
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+#options-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.options label {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    font-family: Dosis, sans-serif;
+    font-weight: 500;
+    color: rgb(60, 20, 0);
+    margin: 0;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    background-color: white;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    min-width: 6rem;
+    justify-content: center;
+}
+
+.options label:hover {
+    background-color: rgb(226, 199, 140);
+    border-color: rgb(60, 20, 0);
+    transform: translateY(-2px);
 }
 
 input[type="radio"] {
@@ -79,460 +250,128 @@ input[type="radio"] {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-}
-  
-input[type="radio"]:checked {
-    border: none;
-    background-image: url("../img/filled_steamer.png");
+    width: 2rem;
+    height: 2rem;
+    margin-right: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
+input[type="radio"]:checked {
+    background-image: url("../img/filled_steamer.png");
+    transform: scale(1.1);
+}
+
+/* Utility classes */
 span {
     background-color: rgb(226, 199, 140);
 }
 
-.textareas {
-    color: rgb(60, 20, 0);
-    padding: 1rem;
-    box-shadow: 5px 5px rgb(60, 20, 0);
-}
-
-.languages > label {
-    font-size: 2rem;
-    color: rgb(60, 20, 0);
-}
-
-.box-title {
-    height: 50px;
-    margin: 2rem 0 0 0;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-
-.box-title3 {
-    height: 50px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    display: none;
-    position: absolute;
-}
-
-#copy-button {
-    position: absolute;
-    background-image: url("../img/copy.png");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    opacity: 1;
-    transition: 0.3s ease-in-out;
-}
-
-#copy-button:hover {
-    cursor: pointer;
-    opacity: 0.8;
-}
-
-@media only screen and (min-aspect-ratio: 1/1) { /* For laptop */
-    #boxes {
-        display: flex;
-        flex-direction: row;
-    }
-
-    #input-area {
-        width: 45vw;
-        height: 20vh;
-        position: absolute;
-        top: calc(170px + 2rem);
-        font-size: 1.5rem;
-    }
-
-    #highlight-area-2 {
-        left: 50vw;
-    }
-    
-    #output-area {
-        width: 45vw;
-        height: 20vh;
-        position: absolute;
-        left: 50vw;
-        top: calc(170px + 2rem);
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 0;
-        align-content: flex-start;
-        font-size: 1.5rem;
-    }
-
-    #highlight-area, #highlight-area-2 {
-        width: 45vw;
-        height: 20vh;
-        position: absolute;
-        top: calc(170px + 2rem);
-        font-family: Dosis;
-        color: transparent;
-        font-size: 1.5rem;
-        background-color: #FAE6AA;
-    }
-
-    .box-title {
-        width: 48vw;
-    }
-
-    #copy-button {
-        top: calc(170px + 20vh - 1rem + 2rem);
-        left: calc(50vw + 45vw - 1rem);
-        width: 2.5rem;
-        height: 2.5rem;
-    }
-
-    input[type="checkbox"] {
-        height: 2rem;
-        width: 2rem;
-    }
-
-    .title {
-        margin: 1rem;
-        font-size: 3rem;
-    }
-
-    .box-title {
-        font-size: 2rem;
-    }
-
-    .options > label {
-        width: 6rem;
-        margin-left: 1rem;
-    }
-
-    input[type="radio"] {
-        height: 2.7rem;
-        width: 3rem;
-    }
-
-    .textareas {
-        border-radius: 10px;
-    }
-
-    .box-title3 {
-        top: calc(170px + 5rem + 20vh);
-    }
-
-    #options-wrapper {
-        position: absolute;
-        top: calc(170px + 7rem + 20vh);
-    }
-}
-
-@media only screen and (max-aspect-ratio: 1/1) { /* For phone */
-    #boxes {
-        display: flex;
-        flex-direction: column;
-    }
-
-    #input-area {
-        width: 90vw;
-        left: 3vw;
-        height: 25vh;
-        position: absolute;
-        top: calc(200px + 2rem);
-        font-size: 3rem;
-    }
-    
-    #output-area {
-        width: 68vw;
-        height: 25vh;
-        position: absolute;
-        left: 25vw;
-        top: calc(200px + 25vh + 10vw + 3rem);
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 0;
-        align-content: flex-start;
-        font-size: 3rem;
-    }
-
-    #highlight-area {
-        width: 90vw;
-        height: 25vh;
-        left: 3vw;
-        position: absolute;
-        top: calc(200px + 2rem);
-        font-family: Dosis;
-        color: transparent;
-        font-size: 3rem;
-        background-color: #FAE6AA;
-    }
-
-    #highlight-area-2 {
-        width: 68vw;
-        height: 25vh;
-        left: 25vw;
-        position: absolute;
-        top: calc(200px + 25vh + 10vw + 3rem);
-        font-family: Dosis;
-        color: transparent;
-        font-size: 3rem;
-        background-color: #FAE6AA;
-    }
-
-    .box-title1 {
-        width: 95vw;
-    }
-
-    .box-title2 {
-        position: absolute;
-        margin-left: 25vw;
-        width: 68vw;
-    }
-
-    .box-title3 {
-        font-size: 2.5rem;
-        top: calc(200px + 25vh + 10vw + 2rem);
-    }
-
-    #options-wrapper {
-        position: absolute;
-        top: calc(200px + 25vh + 10vw + 5rem);
-    }
-
-    #copy-button {
-        top: calc(170px + 25vh - 1rem + 10vw + 25vh + 3rem);
-        left: calc(93vw - 2.5rem);
-        width: 4rem;
-        height: 4rem;
-    }
-
-    input[type="checkbox"] {
-        height: 1.5rem;
-        width: 1.5rem;
-    }
-
-    .title {
-        margin: 1rem;
-        font-size: 5rem;
-    }
-
-    .box-title {
-        font-size: 2.5rem;
-    }
-
-    .output_div {
-        font-size: 3rem;
-    }
-
-    .options > label {
-        font-size: 3.5rem;
-        margin-left: 1rem;
-        width: 8rem;
-    }
-
-    input[type="radio"] {
-        height: 3.5rem;
-        width: 4rem;
-    }
-
-    .textareas {
-        border-radius: 30px;
-    }
-}
-  
-  h1 {
-    display: flex;
-    flex: 6;
-    margin: 1vw;
-    color: rgb(60, 20, 0);
-    font-family: Choko;
-  }
-  
-  .menu-button {
-    font-size: 2vw;
-    padding: 1vw;
-    border: none;
-    height: 3vmax;
-    cursor: default;
-    margin: 0 0.2vw 0 0.5vw;
-    background-color: rgb(226, 199, 140);
-    border-radius: 2vmax;
-  }
-  
-  .menu-button:hover {
-    cursor: pointer;
-  }
-  
-  a {
-    text-decoration: none;
-  }
-
-/* Dynamic Form Styles */
-#add-entry-form {
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 2rem;
-    border-radius: 10px;
-    margin: 2rem auto;
-    max-width: 800px;
-    box-shadow: 0 4px 8px rgba(60, 20, 0, 0.2);
-}
-
-.form-section {
-    margin-bottom: 1.5rem;
-}
-
-.form-section label {
-    font-size: 1.5rem;
-    color: rgb(60, 20, 0);
-    font-family: Choko;
-    display: block;
-    margin-bottom: 0.5rem;
-}
-
-#hanzi {
-    font-size: 1.5rem;
-    padding: 0.8rem;
-    border: 2px solid rgb(60, 20, 0);
-    border-radius: 5px;
-    text-align: center;
-    font-family: Dosis;
-}
-
-#romanization-container {
-    border: 1px solid rgba(60, 20, 0, 0.3);
-    border-radius: 8px;
-    padding: 1rem;
-    background-color: rgba(255, 255, 255, 0.5);
-    margin-bottom: 1rem;
-}
-
-.romanization-group {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.8rem;
-    padding: 0.5rem;
-    background-color: rgba(255, 255, 255, 0.7);
-    border-radius: 5px;
-}
-
-.romanization-group:last-child {
-    margin-bottom: 0;
-}
-
-.romanization-group select {
-    font-size: 1rem;
-    padding: 0.5rem;
-    border: 2px solid rgb(60, 20, 0);
-    border-radius: 5px;
-    background-color: white;
-    color: rgb(60, 20, 0);
-    font-family: Dosis;
-    min-width: 150px;
-}
-
-.romanization-group input[type="text"] {
-    font-size: 1rem;
-    padding: 0.5rem;
-    border: 2px solid rgb(60, 20, 0);
-    border-radius: 5px;
-    flex: 1;
-    font-family: Dosis;
-}
-
-.remove-romanization {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.3s;
-}
-
-.remove-romanization:hover {
-    background-color: #c82333;
-}
-
-.add-button {
-    background-color: rgb(60, 20, 0);
-    color: white;
-    border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-family: Dosis;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.add-button:hover {
-    background-color: rgb(80, 30, 0);
-}
-
-.submit-button {
-    background-color: rgb(60, 20, 0);
-    color: white;
-    border: none;
-    padding: 1rem 2rem;
-    border-radius: 5px;
-    font-size: 1.2rem;
-    font-family: Dosis;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 1rem;
-    transition: background-color 0.3s;
-}
-
-.submit-button:hover {
-    background-color: rgb(80, 30, 0);
-}
-
-/* Responsive adjustments for dynamic form */
-@media only screen and (max-aspect-ratio: 1/1) {
-    #add-entry-form {
-        margin: 1rem;
+/* Responsive design */
+@media (max-width: 768px) {
+    .tool-section {
         padding: 1rem;
     }
-    
-    .form-section label {
-        font-size: 2rem;
-    }
-    
-    #hanzi {
-        font-size: 2rem;
-        padding: 1rem;
-        width: 90%;
-    }
-    
-    .romanization-group {
+
+    .languages {
         flex-direction: column;
         gap: 0.8rem;
         align-items: stretch;
+        padding: 1rem;
     }
-    
-    .romanization-group select,
-    .romanization-group input[type="text"] {
+
+    .filter-label {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    .languages label {
+        font-size: 1.2rem;
+        justify-content: center;
+    }
+
+    .languages input[type="checkbox"] {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    #boxes {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .box-title {
+        font-size: 1.8rem;
+    }
+
+    .textareas {
         font-size: 1.5rem;
         padding: 1rem;
-        min-width: auto;
+        min-height: 150px;
     }
-    
-    .remove-romanization {
-        width: 40px;
-        height: 40px;
+
+    .output_div {
         font-size: 1.5rem;
-        align-self: center;
+        padding: 0.8rem 1.2rem;
     }
-    
-    .add-button,
-    .submit-button {
-        font-size: 1.5rem;
-        padding: 1.2rem 2rem;
+
+    #copy-button {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .options-section {
+        padding: 1.5rem;
+    }
+
+    .box-title3 {
+        font-size: 1.8rem;
+    }
+
+    .options label {
+        font-size: 1.2rem;
+        padding: 0.8rem 1.2rem;
+        min-width: 8rem;
+    }
+
+    input[type="radio"] {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .languages label {
+        font-size: 1.4rem;
+    }
+
+    .languages input[type="checkbox"] {
+        width: 1.8rem;
+        height: 1.8rem;
+    }
+
+    .box-title {
+        font-size: 2rem;
+    }
+
+    .textareas {
+        font-size: 1.8rem;
+        min-height: 120px;
+    }
+
+    .output_div {
+        font-size: 1.8rem;
+        padding: 1rem 1.5rem;
+    }
+
+    .options label {
+        font-size: 1.4rem;
+        padding: 1rem 1.5rem;
+        min-width: 10rem;
+    }
+
+    input[type="radio"] {
+        width: 3rem;
+        height: 3rem;
     }
 }
