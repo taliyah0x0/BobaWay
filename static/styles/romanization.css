@@ -1,0 +1,210 @@
+/* Import home page styles */
+@import url('home.css');
+
+/* Romanization specific styles */
+.romanization-hero {
+  text-align: center;
+  padding: 3rem 0;
+  margin-bottom: 3rem;
+}
+
+.romanization-title {
+  font-family: Choko, sans-serif;
+  font-size: 3rem;
+  font-weight: normal;
+  margin-bottom: 1rem;
+  color: rgb(60, 20, 0);
+}
+
+.romanization-subtitle {
+  font-size: 1.1rem;
+  max-width: 800px;
+  margin: 0 auto;
+  color: rgb(60, 20, 0);
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+.romanization-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.content-section {
+  background-color: rgb(250, 230, 170);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 24px rgba(60, 20, 0, 0.1);
+}
+
+.section-title {
+  font-family: Choko, sans-serif;
+  font-size: 1.8rem;
+  font-weight: normal;
+  margin-bottom: 1.5rem;
+  color: rgb(60, 20, 0);
+  text-align: center;
+}
+
+.section-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgb(60, 20, 0);
+  margin-bottom: 1.5rem;
+}
+
+.section-text a {
+  color: rgb(60, 20, 0);
+  text-decoration: underline;
+  transition: opacity 0.3s ease;
+}
+
+.section-text a:hover {
+  opacity: 0.7;
+}
+
+/* Tone table styles */
+.tone-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(60, 20, 0, 0.1);
+}
+
+.tone-table th {
+  background-color: rgb(60, 20, 0);
+  color: rgb(250, 230, 170);
+  padding: 0.75rem;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.tone-table td {
+  padding: 0.75rem;
+  text-align: center;
+  border-bottom: 1px solid rgb(226, 199, 140);
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.tone-table tr:nth-child(even) {
+  background-color: rgb(250, 240, 200);
+}
+
+.tone-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Examples table styles */
+.examples-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(60, 20, 0, 0.1);
+}
+
+.examples-table th {
+  background-color: rgb(60, 20, 0);
+  color: rgb(250, 230, 170);
+  padding: 1rem;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.examples-table td {
+  padding: 1rem;
+  text-align: center;
+  border-bottom: 1px solid rgb(226, 199, 140);
+  vertical-align: middle;
+}
+
+.examples-table tr:nth-child(even) {
+  background-color: rgb(250, 240, 200);
+}
+
+.examples-table tr:last-child td {
+  border-bottom: none;
+}
+
+.examples-table audio {
+  width: 100%;
+  max-width: 200px;
+  height: 40px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .romanization-title {
+    font-size: 2.5rem;
+  }
+
+  .romanization-content {
+    padding: 0 1rem;
+  }
+
+  .content-section {
+    padding: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .tone-table,
+  .examples-table {
+    font-size: 0.9rem;
+  }
+
+  .tone-table th,
+  .tone-table td {
+    padding: 0.5rem;
+  }
+
+  .examples-table th,
+  .examples-table td {
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .romanization-title {
+    font-size: 2rem;
+  }
+
+  .content-section {
+    padding: 1rem;
+  }
+
+  .tone-table th,
+  .tone-table td {
+    padding: 0.4rem;
+    font-size: 0.8rem;
+  }
+
+  .examples-table th,
+  .examples-table td {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+} 
