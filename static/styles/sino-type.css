@@ -2,6 +2,9 @@
 @import url('home.css');
 
 /* Sino-Type specific styles */
+.hero-description {
+    margin-bottom: 0;
+}
 
 /* Tool section */
 .tool-section {
@@ -105,9 +108,9 @@
 .textareas {
     color: rgb(60, 20, 0);
     padding: 1.5rem;
-    border: 2px solid rgb(60, 20, 0);
+    border: none;
     border-radius: 12px;
-    background-color: white;
+    background-color: rgb(250, 230, 170);
     font-family: Dosis, sans-serif;
     font-size: 1.2rem;
     line-height: 1.6;
@@ -118,7 +121,6 @@
 
 .textareas:focus {
     outline: none;
-    border-color: rgb(80, 40, 20);
     box-shadow: 0 6px 16px rgba(60, 20, 0, 0.15);
 }
 
