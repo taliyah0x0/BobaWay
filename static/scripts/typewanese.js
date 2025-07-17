@@ -85,6 +85,12 @@ function submitFormAjax() {
     // Update the display
     document.getElementById('black').innerHTML = newOgg;
     
+    // Clear and show the input box
+    const redTextarea = document.getElementById('red');
+    redTextarea.value = '';
+    redTextarea.style.display = 'block';
+    redTextarea.focus();
+    
     // Reload options
     loadOptions();
     
@@ -104,7 +110,6 @@ function enterTerm(word) {
   document.getElementById("path").value = 'typewanese-2';
   document.getElementById("black").innerHTML += " " + all_options[word];
   document.getElementById("ogg").value += " " + all_options[word];
-  document.getElementById("red").style.display = "none";
   
   submitFormAjax();
 }
