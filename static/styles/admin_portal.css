@@ -1,0 +1,513 @@
+/* Import home page styles */
+@import url('home.css');
+
+/* Admin Portal specific styles */
+
+/* Admin section */
+.admin-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Hero section for admin */
+.admin-hero {
+    text-align: center;
+    padding: 2rem 0;
+    margin-bottom: 3rem;
+}
+
+.admin-hero-title {
+    font-family: Choko, sans-serif;
+    font-size: 2.5rem;
+    font-weight: normal;
+    margin-bottom: 1rem;
+    color: rgb(60, 20, 0);
+}
+
+.admin-hero-description {
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    color: rgb(60, 20, 0);
+    opacity: 0.9;
+}
+
+/* Flash messages */
+.flash-messages {
+    margin-bottom: 2rem;
+}
+
+.flash-message {
+    background-color: rgb(250, 230, 170);
+    border: 2px solid rgb(60, 20, 0);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    color: rgb(60, 20, 0);
+    font-family: Dosis, sans-serif;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* Add entry form */
+#add-entry-form {
+    background-color: rgb(250, 230, 170);
+    padding: 2rem;
+    border-radius: 16px;
+    margin-bottom: 3rem;
+    box-shadow: 0 8px 24px rgba(60, 20, 0, 0.1);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+#add-entry-form:hover {
+    border-color: rgb(60, 20, 0);
+    box-shadow: 0 12px 32px rgba(60, 20, 0, 0.15);
+}
+
+.form-section {
+    margin-bottom: 1.5rem;
+}
+
+.form-section label {
+    font-size: 1.2rem;
+    color: rgb(60, 20, 0);
+    font-family: Choko, sans-serif;
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: normal;
+}
+
+#hanzi {
+    font-size: 1.5rem;
+    padding: 1rem;
+    border: 2px solid rgb(60, 20, 0);
+    border-radius: 8px;
+    text-align: center;
+    font-family: Dosis, sans-serif;
+    width: 100%;
+    max-width: 200px;
+    background-color: white;
+    transition: all 0.3s ease;
+}
+
+#hanzi:focus {
+    outline: none;
+    border-color: rgb(80, 40, 20);
+    box-shadow: 0 4px 12px rgba(60, 20, 0, 0.2);
+}
+
+#romanization-container {
+    border: 1px solid rgba(60, 20, 0, 0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 1rem;
+}
+
+.romanization-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    border: 1px solid rgba(60, 20, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.romanization-group:hover {
+    background-color: rgba(255, 255, 255, 1);
+    border-color: rgba(60, 20, 0, 0.3);
+}
+
+.romanization-group:last-child {
+    margin-bottom: 0;
+}
+
+.romanization-group select {
+    font-size: 1rem;
+    padding: 0.8rem;
+    border: 2px solid rgb(60, 20, 0);
+    border-radius: 8px;
+    background-color: white;
+    color: rgb(60, 20, 0);
+    font-family: Dosis, sans-serif;
+    min-width: 150px;
+    transition: all 0.3s ease;
+}
+
+.romanization-group select:focus {
+    outline: none;
+    border-color: rgb(80, 40, 20);
+    box-shadow: 0 4px 12px rgba(60, 20, 0, 0.2);
+}
+
+.romanization-group input[type="text"] {
+    font-size: 1rem;
+    padding: 0.8rem;
+    border: 2px solid rgb(60, 20, 0);
+    border-radius: 8px;
+    flex: 1;
+    font-family: Dosis, sans-serif;
+    transition: all 0.3s ease;
+}
+
+.romanization-group input[type="text"]:focus {
+    outline: none;
+    border-color: rgb(80, 40, 20);
+    box-shadow: 0 4px 12px rgba(60, 20, 0, 0.2);
+}
+
+.remove-romanization {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.remove-romanization:hover {
+    background-color: #c82333;
+    transform: scale(1.1);
+}
+
+.add-button {
+    background-color: rgb(60, 20, 0);
+    color: white;
+    border: none;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: Dosis, sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.add-button:hover {
+    background-color: rgb(80, 30, 0);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(60, 20, 0, 0.3);
+}
+
+.submit-button {
+    background-color: rgb(60, 20, 0);
+    color: white;
+    border: none;
+    padding: 1.2rem 2rem;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-family: Dosis, sans-serif;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.submit-button:hover {
+    background-color: rgb(80, 30, 0);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(60, 20, 0, 0.3);
+}
+
+/* Database entries section */
+.database-section {
+    background-color: rgb(250, 230, 170);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 8px 24px rgba(60, 20, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.database-title {
+    font-family: Choko, sans-serif;
+    font-size: 1.8rem;
+    font-weight: normal;
+    color: rgb(60, 20, 0);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.language-section {
+    margin-bottom: 3rem;
+}
+
+.language-section:last-child {
+    margin-bottom: 0;
+}
+
+.language-section h3 {
+    font-family: Choko, sans-serif;
+    font-size: 1.5rem;
+    font-weight: normal;
+    color: rgb(60, 20, 0);
+    margin-bottom: 1.5rem;
+    padding: 0.5rem 1rem;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(60, 20, 0, 0.1);
+    margin-bottom: 1rem;
+}
+
+th {
+    background-color: rgb(60, 20, 0);
+    color: rgb(250, 230, 170);
+    padding: 1rem;
+    text-align: left;
+    font-family: Choko, sans-serif;
+    font-size: 1.1rem;
+    font-weight: normal;
+}
+
+td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(60, 20, 0, 0.1);
+    font-family: Dosis, sans-serif;
+    font-size: 1rem;
+    color: rgb(60, 20, 0);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover {
+    background-color: rgba(250, 230, 170, 0.3);
+}
+
+/* Form within table */
+table form {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+table input[type="text"] {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    border: 1px solid rgb(60, 20, 0);
+    border-radius: 4px;
+    font-family: Dosis, sans-serif;
+    min-width: 120px;
+}
+
+table button {
+    background-color: rgb(60, 20, 0);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-family: Dosis, sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+table button:hover {
+    background-color: rgb(80, 30, 0);
+    transform: translateY(-1px);
+}
+
+table button[type="submit"]:last-child {
+    background-color: #dc3545;
+}
+
+table button[type="submit"]:last-child:hover {
+    background-color: #c82333;
+}
+
+/* Contact info */
+.contact-info {
+    text-align: center;
+    padding: 2rem;
+    background-color: rgb(250, 230, 170);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(60, 20, 0, 0.1);
+}
+
+.contact-info p {
+    font-family: Dosis, sans-serif;
+    font-size: 1rem;
+    color: rgb(60, 20, 0);
+    margin: 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .admin-section {
+        padding: 1rem;
+    }
+
+    .admin-hero-title {
+        font-size: 2rem;
+    }
+
+    .admin-hero-description {
+        font-size: 1rem;
+    }
+
+    #add-entry-form {
+        padding: 1.5rem;
+    }
+
+    .form-section label {
+        font-size: 1.4rem;
+    }
+
+    #hanzi {
+        font-size: 1.8rem;
+        padding: 1.2rem;
+        max-width: 100%;
+    }
+
+    .romanization-group {
+        flex-direction: column;
+        gap: 0.8rem;
+        align-items: stretch;
+    }
+
+    .romanization-group select,
+    .romanization-group input[type="text"] {
+        font-size: 1.2rem;
+        padding: 1rem;
+        min-width: auto;
+    }
+
+    .remove-romanization {
+        width: 40px;
+        height: 40px;
+        font-size: 1.4rem;
+        align-self: center;
+    }
+
+    .add-button,
+    .submit-button {
+        font-size: 1.3rem;
+        padding: 1.2rem 2rem;
+    }
+
+    .database-section {
+        padding: 1.5rem;
+    }
+
+    .database-title {
+        font-size: 1.6rem;
+    }
+
+    .language-section h3 {
+        font-size: 1.3rem;
+    }
+
+    table {
+        font-size: 0.9rem;
+    }
+
+    th,
+    td {
+        padding: 0.8rem;
+    }
+
+    table form {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    table input[type="text"] {
+        font-size: 1rem;
+        padding: 0.8rem;
+        min-width: auto;
+        width: 100%;
+    }
+
+    table button {
+        font-size: 1rem;
+        padding: 0.8rem 1.2rem;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-hero-title {
+        font-size: 1.8rem;
+    }
+
+    #add-entry-form {
+        padding: 1rem;
+    }
+
+    .form-section label {
+        font-size: 1.6rem;
+    }
+
+    #hanzi {
+        font-size: 2rem;
+        padding: 1.5rem;
+    }
+
+    .romanization-group select,
+    .romanization-group input[type="text"] {
+        font-size: 1.4rem;
+        padding: 1.2rem;
+    }
+
+    .remove-romanization {
+        width: 45px;
+        height: 45px;
+        font-size: 1.6rem;
+    }
+
+    .add-button,
+    .submit-button {
+        font-size: 1.5rem;
+        padding: 1.5rem 2.5rem;
+    }
+
+    .database-title {
+        font-size: 1.4rem;
+    }
+
+    .language-section h3 {
+        font-size: 1.2rem;
+    }
+
+    table {
+        font-size: 0.8rem;
+    }
+
+    th,
+    td {
+        padding: 0.6rem;
+    }
+
+    table input[type="text"] {
+        font-size: 1.2rem;
+        padding: 1rem;
+    }
+
+    table button {
+        font-size: 1.2rem;
+        padding: 1rem 1.5rem;
+    }
+} 

@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html style="background-color: rgb(226, 199, 140)" id="background">
-  <head>
-    <title>BobaWay Admin Page</title>
-    <link rel="stylesheet" href="/static/styles/sino-type.css">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BobaWay Admin Portal</title>
+    <link rel="stylesheet" href="/static/styles/admin_portal.css">
     <link rel="icon" type="image/x-icon" href="./static/img/flav/flav_8.png" class="favicon">
     <link rel="apple-touch-icon" sizes="128x128" href="./static/img/flav/flav_8.png" class="favicon">
     <meta property="og:image" content="./static/img/flav/flav_8.png">
@@ -10,92 +12,127 @@
     <meta property="og:image:width" content="1024">
     <meta property="og:image:height" content="1024">
     <script src="/static/scripts/admin-portal.js"></script>
-  </head>
-  <body>
-
-    {% macro language_table(language_value, entries) %}
-    <h3>{{ language_value }}</h3>
-    <table>
-      <tr>
-        <th>Hanzi</th>
-        <th>Romanization</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
-      {% for entry in entries %}
-      <tr>
-        <td>{{ entry[0] }}</td>
-        <td>{{ entry[1] }}</td>
-        <td>
-          <form action="update-entry" method="POST">
-            <input type="hidden" name="language" value="{{ language_value }}">
-            <input type="hidden" name="hanzi" value="{{ entry[0] }}">
-            <input type="hidden" name="original_roman" value="{{ entry[1] }}">
-            <input type="text" name="new_roman" placeholder="New romanization">
-            <button type="submit">Edit</button>
-          </form>
-        </td>
-        <td>
-          <form action="delete-entry" method="POST">
-            <input type="hidden" name="language" value="{{ language_value }}">
-            <input type="hidden" name="hanzi" value="{{ entry[0] }}">
-            <input type="hidden" name="romanization" value="{{ entry[1] }}">
-            <button type="submit">Delete</button>
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
-    </table>
-    {% endmacro %}
-
-    <div style="display: flex; flex-direction: row;">
-      <h1>BobaWay Admin Portal</h1>
-      <a href="/"><button class="menu-button">Home</button></a>
-      <a href="logout"><button class="menu-button">Logout</button></a>
-    </div>
-
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        {% for msg in messages %}
-          <p>{{msg}}</p>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-
-    <form action="add-entry" method="POST" id="add-entry-form">
-        <div class="form-section">
-            <label for="hanzi">Hanzi Character:</label>
-            <input type="text" name="hanzi" id="hanzi" placeholder="Enter the Hanzi" autocomplete="off" maxlength="1" required/>
-        </div>
-        
-        <div class="form-section">
-            <label>Romanizations:</label>
-            <div id="romanization-container">
-                <div class="romanization-group" data-index="1">
-                    <select name="language_1" required>
-                        <option value="Shanghainese">Shanghainese</option>
-                        <option value="Korean">Korean</option>
-                        <option value="Taiwanese">Taiwanese</option>
-                        <option value="Vietnamese">Vietnamese</option>
-                    </select>
-                    <input type="text" name="romanization_1" placeholder="Enter the romanization" autocomplete="off" maxlength="6" required/>
-                    <button type="button" class="remove-romanization" title="Remove this romanization">−</button>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1 class="logo">BobaWay</h1>
+            <nav class="nav">
+                <div class="dropdown">
+                    <button class="nav-link dropdown-toggle">Apps</button>
+                    <div class="dropdown-content">
+                        <a href="/app" class="dropdown-item">BobaWay</a>
+                        <a href="/typewanese" class="dropdown-item">Typewanese</a>
+                        <a href="/tai-ping" class="dropdown-item">Tai-Ping</a>
+                        <a href="/sino-type" class="dropdown-item">Sino-Type</a>
+                    </div>
                 </div>
-            </div>
-            <button type="button" id="add-romanization" class="add-button">+ Add Romanization</button>
+                <a href="/" class="nav-link">Home</a>
+                <a href="/about" class="nav-link">About</a>
+                <a href="mailto:taliyahengineering@gmail.com" target="_blank" class="nav-link">Feedback</a>
+                <a href="https://paypal.me/taliyah0x0" target="_blank" class="nav-link">Donate</a>
+                <a href="logout" class="nav-link">Logout</a>
+            </nav>
         </div>
-        
-        <input type="submit" value="Submit All" class="submit-button"/>
-    </form>
-    <br>
-    Current database entries: 
-    
-    {{ language_table("shanghainese", shanghainese) }}
-    {{ language_table("korean", korean) }}
-    {{ language_table("taiwanese", taiwanese) }}
-    {{ language_table("vietnamese", vietnamese) }}
-    
-    <br>
-    <p>If any issues arise, please email yao.tong2018@outlook.com</p>
-  </body>
+    </header>
+
+    <main class="admin-section">
+        <section class="admin-hero">
+            <div class="hero-content">
+                <h2 class="admin-hero-title">Admin Portal</h2>
+                <p class="admin-hero-description">
+                    Manage the language database for BobaWay. Add, edit, and delete entries for Taiwanese, Shanghainese, Korean, and Vietnamese romanizations.
+                </p>
+            </div>
+        </section>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for msg in messages %}
+                        <div class="flash-message">{{ msg }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <section class="add-entry-section">
+            <form action="add-entry" method="POST" id="add-entry-form">
+                <div class="form-section">
+                    <label for="hanzi">Hanzi Character:</label>
+                    <input type="text" name="hanzi" id="hanzi" placeholder="Enter the Hanzi" autocomplete="off" maxlength="1" required/>
+                </div>
+                
+                <div class="form-section">
+                    <label>Romanizations:</label>
+                    <div id="romanization-container">
+                        <div class="romanization-group" data-index="1">
+                            <select name="language_1" required>
+                                <option value="Shanghainese">Shanghainese</option>
+                                <option value="Korean">Korean</option>
+                                <option value="Taiwanese">Taiwanese</option>
+                                <option value="Vietnamese">Vietnamese</option>
+                            </select>
+                            <input type="text" name="romanization_1" placeholder="Enter the romanization" autocomplete="off" maxlength="6" required/>
+                            <button type="button" class="remove-romanization" title="Remove this romanization">−</button>
+                        </div>
+                    </div>
+                    <button type="button" id="add-romanization" class="add-button">+ Add Romanization</button>
+                </div>
+                
+                <input type="submit" value="Submit All" class="submit-button"/>
+            </form>
+        </section>
+
+        <section class="database-section">
+            <h3 class="database-title">Current Database Entries</h3>
+            
+            {% macro language_table(language_value, entries) %}
+            <div class="language-section">
+                <h3>{{ language_value }}</h3>
+                <table>
+                    <tr>
+                        <th>Hanzi</th>
+                        <th>Romanization</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                    {% for entry in entries %}
+                    <tr>
+                        <td>{{ entry[0] }}</td>
+                        <td>{{ entry[1] }}</td>
+                        <td>
+                            <form action="update-entry" method="POST">
+                                <input type="hidden" name="language" value="{{ language_value }}">
+                                <input type="hidden" name="hanzi" value="{{ entry[0] }}">
+                                <input type="hidden" name="original_roman" value="{{ entry[1] }}">
+                                <input type="text" name="new_roman" placeholder="New romanization">
+                                <button type="submit">Edit</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="delete-entry" method="POST">
+                                <input type="hidden" name="language" value="{{ language_value }}">
+                                <input type="hidden" name="hanzi" value="{{ entry[0] }}">
+                                <input type="hidden" name="romanization" value="{{ entry[1] }}">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            {% endmacro %}
+            
+            {{ language_table("Shanghainese", shanghainese) }}
+            {{ language_table("Korean", korean) }}
+            {{ language_table("Taiwanese", taiwanese) }}
+            {{ language_table("Vietnamese", vietnamese) }}
+        </section>
+
+        <section class="contact-info">
+            <p>If any issues arise, please email yao.tong2018@outlook.com</p>
+        </section>
+    </main>
+</body>
 </html>
