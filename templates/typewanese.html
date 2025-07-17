@@ -1,69 +1,77 @@
 <!DOCTYPE html>
-<html style="background-color: rgb(226, 199, 140)" id="background">
-  <head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BobaWay | Typewanese</title>
-    <link rel="stylesheet" href="./static/styles/typewanese.css">
-      <link rel="icon" type="image/x-icon" href="./static/img/flav/flav_8.png" class="favicon">
-  <link rel="apple-touch-icon" sizes="128x128" href="./static/img/flav/flav_8.png" class="favicon">
-  <meta property="og:image" content="./static/img/flav/flav_8.png">
+    <link rel="stylesheet" href="/static/styles/typewanese.css">
+    <link rel="icon" type="image/x-icon" href="./static/img/flav/flav_8.png" class="favicon">
+    <link rel="apple-touch-icon" sizes="128x128" href="./static/img/flav/flav_8.png" class="favicon">
+    <meta property="og:image" content="./static/img/flav/flav_8.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1024">
     <meta property="og:image:height" content="1024">
     <meta property="og:description" content="Easily type in Taiwanese!">
-  </head>
-  <body onload="loadOptions()" class="body-pad">
-    <div style="display: flex; flex: 1" class="bottom">
-      <a href="/" style="display: flex; flex: 6">
-        <h1 id="title">
-          Typewanese
-        </h1>
-      </a>
-      <div style="display: flex; flex-direction: row">
-          <a href="app">
-            <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(0)" type="submit">
-                <h3>
-                  BobaWay
-                </h3>
-            </button>
-          </a>
-          <a href="/about">
-            <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(1)" type="submit">
-                <h3>
-                  About
-                </h3>
-                <textarea id="path1" name="path" style="display: none">3</textarea>
-            </button>
-          </a>
-        <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(2)">
-          <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQDR9Uki-ei757OyyAjvf-wzQFnhPuK3R4r0CKqUdoyXTgFX8I6DxVnCewjoWFyKN9rVjp7kyHIgJ9w/pubhtml?gid=0&single=true" target="_blank">
-            <h3>
-              Feedback
-            </h3>
-          </a>
-        </button>
-        <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(3)">
-          <a href="https://paypal.me/taliyah0x0" target="_blank">
-            <h3>
-              Donate
-            </h3>
-          </a>
-        </button>
-      </div>
-    </div>
-    <form id="mainform" name="mainform" action="{{ url_for("typewanese")}}" method="post">
-      <div style="justify-content: center; align-items: middle; display: flex; flex-direction: column">
-        <textarea id="ogg" name="ogg" style="display: none">{{ogg}}</textarea>
-        <textarea id="hour" name="hour" style="display: none">{{hour}}</textarea>
-        <textarea id="options" name="options" style="display: none">{{options}}</textarea>
-        <textarea id="tai" name="tai" style="display: none">{{tai}}</textarea>
-        <textarea id="path" name="path" style="display: none">typewanese-1</textarea>
-        <div style="display: flex; flex-direction: row; align-items: center; justify-content: center">
-          <div id="text_box" name="text_box"><pre id="black">{{ogg}}</pre><textarea id="red" name="red" onchange="changePath()">&nbsp;{{red}}</textarea><img src="./static/img/copy.png" class="copy" onclick="copyTextToClipboard()"></div>
-          <button class="search-button" type="submit">Search</button>
+</head>
+<body onload="loadOptions()">
+    <header class="header">
+        <div class="header-content">
+            <h1 class="logo">BobaWay</h1>
+            <nav class="nav">
+                <div class="dropdown">
+                    <button class="nav-link dropdown-toggle">Apps</button>
+                    <div class="dropdown-content">
+                        <a href="/app" class="dropdown-item">BobaWay</a>
+                        <a href="/typewanese" class="dropdown-item">Typewanese</a>
+                        <a href="/tai-ping" class="dropdown-item">Tai-Ping</a>
+                        <a href="/sino-type" class="dropdown-item">Sino-Type</a>
+                    </div>
+                </div>
+                <a href="/" class="nav-link">Home</a>
+                <a href="/about" class="nav-link">About</a>
+                <a href="mailto:taliyahengineering@gmail.com" target="_blank" class="nav-link">Feedback</a>
+                <a href="https://paypal.me/taliyah0x0" target="_blank" class="nav-link">Donate</a>
+            </nav>
         </div>
-        <div id="options-container"></div>
-      </div>
-    </form>
-  </body>
-  <script type="text/javascript" src="./static/scripts/typewanese.js"></script>
+    </header>
+
+    <main class="main">
+        <section class="hero">
+            <div class="hero-content">
+                <h2 class="hero-title">Typewanese</h2>
+                <p class="hero-description">
+                    Type in Taiwanese with intelligent suggestions and audio playback. 
+                    Start typing in the input box below and get instant suggestions for Taiwanese romanization.
+                </p>
+            </div>
+        </section>
+
+        <section class="tool-section">
+            <div class="main-form-container">
+                <form id="mainform" name="mainform" action="{{ url_for('typewanese') }}" method="post">
+                    <div class="hidden-inputs">
+                        <textarea id="ogg" name="ogg" style="display: none">{{ogg}}</textarea>
+                        <textarea id="hour" name="hour" style="display: none">{{hour}}</textarea>
+                        <textarea id="options" name="options" style="display: none">{{options}}</textarea>
+                        <textarea id="tai" name="tai" style="display: none">{{tai}}</textarea>
+                        <textarea id="path" name="path" style="display: none">typewanese-1</textarea>
+                    </div>
+                    
+                    <div class="input-area">
+                        <div id="text_box" name="text_box">
+                            <pre id="black">{{ogg}}</pre>
+                            <textarea id="red" name="red" onchange="changePath()">&nbsp;{{red}}</textarea>
+                            <img src="./static/img/copy.png" class="copy" onclick="copyTextToClipboard()" alt="Copy">
+                        </div>
+                        <button class="search-button" type="submit">Search</button>
+                    </div>
+                    
+                    <div id="options-container"></div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script type="text/javascript" src="./static/scripts/typewanese.js"></script>
+</body>
 </html>
