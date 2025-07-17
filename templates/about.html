@@ -1,43 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BobaWay | About</title>
-    <link rel="stylesheet" href="./static/styles/about_bobaway.css">
-    <link rel="stylesheet" href="./static/styles/home.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="icon" type="image/x-icon" href="./static/img/flav/flav_8.png">
-    <link rel="apple-touch-icon" sizes="128x128" href="./static/img/flav/flav_8.png">
-    <meta property="og:image" content="./static/img/flav/flav_8.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="1024">
-    <meta property="og:image:height" content="1024">
-    <meta property="og:description" content="Hi! I'm Taliyah, a Taiwanese-American student, content creator, and the developer of BobaWay. If you have any questions, please don't hesitate to use the form below to contact me!">
-</head>
-<body>
-    <header class="header">
-        <div class="header-content">
-            <h1 class="logo">BobaWay</h1>
-            <nav class="nav">
-                <div class="dropdown">
-                    <button class="nav-link dropdown-toggle">Apps</button>
-                    <div class="dropdown-content">
-                        <a href="/app" class="dropdown-item">BobaWay</a>
-                        <a href="/typewanese" class="dropdown-item">Typewanese</a>
-                        <a href="/tai-ping" class="dropdown-item">Tai-Ping</a>
-                        <a href="/sino-type" class="dropdown-item">Sino-Type</a>
-                    </div>
-                </div>
-                <a href="/" class="nav-link">Home</a>
-                <a href="/about" class="nav-link active">About</a>
-                <a href="mailto:taliyahengineering@gmail.com" target="_blank" class="nav-link">Feedback</a>
-                <a href="https://paypal.me/taliyah0x0" target="_blank" class="nav-link">Donate</a>
-            </nav>
-        </div>
-    </header>
+{% extends "base.html" %}
 
-    <main class="main">
+{% set title = "BobaWay | About" %}
+{% set og_description = "Hi! I'm Taliyah, a Taiwanese-American student, content creator, and the developer of BobaWay. If you have any questions, please don't hesitate to use the form below to contact me!" %}
+{% set additional_css = ['styles/about_bobaway.css'] %}
+{% set additional_js = ['scripts/about.js'] %}
+
+{% block content %}
         <section class="hero">
             <div class="hero-content">
                 <h2 class="hero-title">About BobaWay</h2>
@@ -127,61 +95,8 @@
             </div>
         </section>
 
-    </main>
+{% endblock %}
 
-    <footer class="footer">
-        <div class="footer-content">
-            <p class="footer-text">
-                Made with ❤️ for the Taiwanese language community
-            </p>
-        </div>
-    </footer>
-
-    <script>
-        let news_titles = ['Featured','Interview','Interview','Interview','Interview','報道','訪問'];
-        let news_des = ['Taiwan Plus','Taiwan Plus','Talking Taiwan','Radio Taiwan International','TaiwaneseAmericanOrg','世界新聞網','寶島聯播網'];
-        let news_links = ['https://www.youtube.com/watch?v=qEXrODPL-Cw&t=277s','https://www.youtube.com/results?search_query=taiwan+plus+taliyah','https://talkingtaiwan.com/taliyah-huang-young-inventor-of-bobaway-online-translator-that-converts-english-to-taiwanese-ep-253/','https://en.rti.org.tw/radio/programMessagePlayer/programId/1435/id/108711','https://www.taiwaneseamerican.org/2023/07/taliyah-huang-interview-bobaway/','https://www.worldjournal.com/wj/story/121359/7289244','https://podcasters.spotify.com/pod/show/rkes7e3m79o/episodes/TaliyahBobaWay--20230724-e279v5h'];
-        let slide_page = 0;
-
-        function loadNow() {
-            const container = document.getElementById("current-news");
-            for (let i = 0; i < 3; i++) {
-                container.innerHTML += `
-                    <a href="${news_links[i]}" target="_blank" class="news-item">
-                        <h4>${news_titles[i]}</h4>
-                        <p>${news_des[i]}</p>
-                    </a>
-                `;
-            }
-        }
-
-        function changeSlide(index) {
-            const container = document.getElementById("current-news");
-            container.innerHTML = '';
-            slide_page += index;
-            
-            if (slide_page >= news_titles.length) {
-                slide_page %= news_titles.length;
-            }
-            if (slide_page < 0) {
-                slide_page = news_titles.length - 1;
-            }
-            
-            for (let i = slide_page; i < slide_page + 3; i++) {
-                idx = i % news_titles.length;
-                container.innerHTML += `
-                    <a href="${news_links[idx]}" target="_blank" class="news-item">
-                        <h4>${news_titles[idx]}</h4>
-                        <p>${news_des[idx]}</p>
-                    </a>
-                `;
-            }
-        }
-
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            loadNow();
-        });
-    </script>
-</body>
-</html>
+{% block extra_head %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+{% endblock %}

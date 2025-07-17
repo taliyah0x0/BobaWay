@@ -281,11 +281,6 @@
 
 /* Responsive design */
 @media (max-width: 768px) {
-  .nav {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
   .founder-content {
     grid-template-columns: 1fr;
     gap: 2rem;
