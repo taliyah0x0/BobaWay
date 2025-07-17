@@ -1,42 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BobaWay | Admin Login</title>
-    <link rel="stylesheet" href="/static/styles/home.css">
-    <link rel="stylesheet" href="/static/styles/admin.css">
-    <link rel="icon" type="image/x-icon" href="./static/img/flav/flav_8.png">
-    <link rel="apple-touch-icon" sizes="128x128" href="./static/img/flav/flav_8.png">
-    <meta property="og:image" content="./static/img/flav/flav_8.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="1024">
-    <meta property="og:image:height" content="1024">
-    <meta property="og:description" content="Admin login for BobaWay Taiwanese language tools">
-</head>
-<body>
-    <header class="header">
-        <div class="header-content">
-            <h1 class="logo">BobaWay</h1>
-            <nav class="nav">
-                <div class="dropdown">
-                    <button class="nav-link dropdown-toggle">Apps</button>
-                    <div class="dropdown-content">
-                        <a href="/app" class="dropdown-item">BobaWay</a>
-                        <a href="/typewanese" class="dropdown-item">Typewanese</a>
-                        <a href="/tai-ping" class="dropdown-item">Tai-Ping</a>
-                        <a href="/sino-type" class="dropdown-item">Sino-Type</a>
-                    </div>
-                </div>
-                <a href="/" class="nav-link">Home</a>
-                <a href="/about" class="nav-link">About</a>
-                <a href="mailto:taliyahengineering@gmail.com" target="_blank" class="nav-link">Feedback</a>
-                <a href="https://paypal.me/taliyah0x0" target="_blank" class="nav-link">Donate</a>
-            </nav>
-        </div>
-    </header>
+{% extends "base.html" %}
 
-    <main class="main">
+{% set title = "BobaWay | Admin Login" %}
+{% set og_description = "Admin login for BobaWay Taiwanese language tools" %}
+{% set additional_css = ['styles/admin.css'] %}
+
+{% block content %}
         <div class="admin-container">
             <h2 class="admin-title">Admin Login</h2>
             
@@ -64,14 +32,4 @@
                 {{ form.submit(class="submit-button") }}
             </form>
         </div>
-    </main>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <p class="footer-text">
-                Made with ❤️ for the Taiwanese language community
-            </p>
-        </div>
-    </footer>
-</body>
-</html>
+{% endblock %}
