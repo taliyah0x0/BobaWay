@@ -18,17 +18,95 @@ vowels = ['a','e','i','o','u','ng']
 let all_options = [];
 let all_tai = [];
 let audio_files = [];
+let isLoading = false;
 
 function changePath() {
   document.getElementById("path").value = 'typewanese-1';
 }
 
+function showLoading() {
+  isLoading = true;
+  const searchButton = document.querySelector('.search-button');
+  const originalText = searchButton.textContent;
+  searchButton.textContent = 'Searching...';
+  searchButton.disabled = true;
+  searchButton.style.opacity = '0.7';
+  
+  // Add loading spinner
+  const spinner = document.createElement('div');
+  spinner.className = 'loading-spinner';
+  searchButton.appendChild(spinner);
+}
+
+function hideLoading() {
+  isLoading = false;
+  const searchButton = document.querySelector('.search-button');
+  searchButton.textContent = 'Search';
+  searchButton.disabled = false;
+  searchButton.style.opacity = '1';
+  
+  // Remove loading spinner
+  const spinner = searchButton.querySelector('.loading-spinner');
+  if (spinner) {
+    spinner.remove();
+  }
+}
+
+function submitFormAjax() {
+  if (isLoading) return;
+  
+  showLoading();
+  
+  const form = document.getElementById('mainform');
+  const formData = new FormData(form);
+  
+  fetch(form.action, {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.text())
+  .then(html => {
+    // Create a temporary div to parse the HTML response
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+    
+    // Extract the new options and tai values
+    const newOptions = tempDiv.querySelector('#options').value;
+    const newTai = tempDiv.querySelector('#tai').value;
+    const newOgg = tempDiv.querySelector('#ogg').value;
+    const newHour = tempDiv.querySelector('#hour').value;
+    
+    // Update the hidden inputs
+    document.getElementById('options').value = newOptions;
+    document.getElementById('tai').value = newTai;
+    document.getElementById('ogg').value = newOgg;
+    document.getElementById('hour').value = newHour;
+    
+    // Update the display
+    document.getElementById('black').innerHTML = newOgg;
+    
+    // Reload options
+    loadOptions();
+    
+    hideLoading();
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    hideLoading();
+    // Fallback to regular form submission on error
+    document.mainform.submit();
+  });
+}
+
 function enterTerm(word) {
+  if (isLoading) return;
+  
   document.getElementById("path").value = 'typewanese-2';
   document.getElementById("black").innerHTML += " " + all_options[word];
   document.getElementById("ogg").value += " " + all_options[word];
   document.getElementById("red").style.display = "none";
-  document.mainform.submit();
+  
+  submitFormAjax();
 }
 
 function loadOptions() {
@@ -51,6 +129,9 @@ function loadOptions() {
     }
   }
   all_tai = tai_string.split(',');
+
+  // Clear existing options
+  document.getElementById("options-container").innerHTML = '';
 
   if (all_options[0].length > 1) {
     for (let i = 0; i < all_options.length; i++) {
@@ -103,15 +184,17 @@ function playOption(word) {
 }
 
 function stopOption(word) {
-  audio_files[word].pause();
-  audio_files[word].currentTime = 0;
+  if (audio_files[word]) {
+    audio_files[word].pause();
+    audio_files[word].currentTime = 0;
+  }
   var options = document.getElementsByClassName("option-button");
   options[word].style.border = 'none';
 }
 
 function copyTextToClipboard() {
-          document.getElementsByClassName("copy")[0].src = "./static/img/light-copy.png";
-  let ogg = document.getElementById("ogg").innerHTML;
+  document.getElementsByClassName("copy")[0].src = "./static/img/light-copy.png";
+  let ogg = document.getElementById("ogg").value;
   let text = ogg.split(" ");
 
   if (!navigator.clipboard) {
@@ -131,11 +214,11 @@ function copyTextToClipboard() {
     }
   }
 
-  let hour = document.getElementById("hour").innerHTML;
+  let hour = document.getElementById("hour").value;
   playSound(hour, 0, cleaned_text.length, cleaned_text);
   
   setTimeout(() => {
-            document.getElementsByClassName("copy")[0].src = "./static/img/copy.png";
+    document.getElementsByClassName("copy")[0].src = "./static/img/copy.png";
   },200);
 }
 
@@ -157,16 +240,25 @@ function playSound(hour, file, file_count, cleaned_text) {
 
 var selected_option = -1;
 
+// Prevent form submission and use AJAX instead
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('mainform');
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    submitFormAjax();
+  });
+});
+
 document.addEventListener('keydown', function(event) {
   if (event.keyCode == 13) { //Enter
-      if (selected_option == -1) {
+    if (selected_option == -1) {
       var textarea = document.getElementById("red");
       textarea.blur();
       var updatedValue = textarea.value.replace(/(\r\n|\n|\r)/gm, "");
       textarea.value = updatedValue;
-      document.mainform.submit();
+      submitFormAjax();
     } else {
-        enterTerm(selected_option);
+      enterTerm(selected_option);
     }
   }
 
