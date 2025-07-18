@@ -1,6 +1,3 @@
-/* Import home page styles */
-@import url('home.css');
-
 /* Romanization specific styles */
 .romanization-hero {
   text-align: center;

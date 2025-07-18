@@ -1,6 +1,3 @@
-/* Import existing navbar styles from home.css */
-@import url("home.css");
-
 /* Admin-specific styles */
 body {
   min-height: 100vh;
