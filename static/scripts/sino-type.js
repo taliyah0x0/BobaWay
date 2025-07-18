@@ -15,22 +15,11 @@ let old = "";
 let lastWord = "";
 let last_index = 0;
 function initiate () {
-    let text = document.getElementById("input-area").innerHTML;
-    text = text.replace(/&nbsp;/g, " ");
     let output = document.getElementById("output-area");
     let options = document.getElementsByClassName("options");
 
     let index = -1;
-    const selection = window.getSelection();
-    let cursorPosition = 0;
-
-    if (selection.rangeCount > 0) {
-        const range = selection.getRangeAt(0); // Get the first range of the selection
-        const preCaretRange = range.cloneRange(); // Clone the range
-        preCaretRange.selectNodeContents(document.getElementById("input-area")); // Set the cloned range to the start of the editable div
-        preCaretRange.setEnd(range.startContainer, range.startOffset); // Set the end of the range to the caret
-        cursorPosition = preCaretRange.toString().length; // Get the length of the text in the range
-    }
+    let {text, cursorPosition} = getCursorPosition();
 
     // locate the word at the cursor position
     let start = cursorPosition;
@@ -369,3 +358,171 @@ async function loadLanguageData() {
 
 // Call this function when the page loads
 loadLanguageData();
+
+// Get the current cursor position
+function getCursorPosition() {
+    let inputArea = document.getElementById("input-area");
+    let text = inputArea.innerHTML;
+    text = text.replace(/&nbsp;/g, " ");
+    const selection = window.getSelection();
+    let cursorPosition = 0;
+
+    if (selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0); // Get the first range of the selection
+        const preCaretRange = range.cloneRange(); // Clone the range
+        preCaretRange.selectNodeContents(inputArea); // Set the cloned range to the start of the editable div
+        preCaretRange.setEnd(range.startContainer, range.startOffset); // Set the end of the range to the caret
+        cursorPosition = preCaretRange.toString().length; // Get the length of the text in the range
+    }
+    return {text, cursorPosition};
+}
+
+// Hover highlight functionality
+let lastHoverTime = 0;
+const HOVER_THROTTLE = 100; // milliseconds
+
+function setupHoverHighlighting() {
+    const inputArea = document.getElementById("input-area");
+    const outputArea = document.getElementById("output-area");
+    
+    // Add event listeners for input area hover with throttling
+    inputArea.addEventListener('mousemove', (event) => {
+        const now = Date.now();
+        if (now - lastHoverTime > HOVER_THROTTLE) {
+            handleInputHover(event);
+            lastHoverTime = now;
+        }
+    });
+    inputArea.addEventListener('mouseout', clearHoverHighlights);
+    
+    // Add event listeners for output area hover
+    outputArea.addEventListener('mouseover', handleOutputHover);
+    outputArea.addEventListener('mouseout', clearHoverHighlights);
+}
+
+function handleInputHover(event) {
+    let {text, cursorPosition} = getCursorPosition();
+    
+    // Find the word at cursor position
+    const tokens = text.split(/(\s+|[^\w\s])/g).filter(token => token.trim());
+    let charIndex = 0;
+    let wordIndex = -1;
+    
+    for (let i = 0; i < tokens.length; i++) {
+        const tokenStart = charIndex;
+        const tokenEnd = charIndex + tokens[i].length;
+        
+        if (cursorPosition >= tokenStart && cursorPosition <= tokenEnd) {
+            wordIndex = i;
+            break;
+        }
+        charIndex = tokenEnd + 1;
+    }
+    
+    if (wordIndex >= 0) {
+        highlightCorrespondingWords(wordIndex);
+    }
+}
+
+function handleOutputHover(event) {
+    if (event.target.classList.contains('output_div')) {
+        const outputDivs = Array.from(document.getElementsByClassName('output_div'));
+        const wordIndex = outputDivs.indexOf(event.target);
+        
+        if (wordIndex >= 0) {
+            highlightCorrespondingWords(wordIndex);
+        }
+    }
+}
+
+function highlightCorrespondingWords(wordIndex) {
+    // Clear any existing highlights
+    clearHoverHighlights();
+    
+    // Highlight the input word
+    highlightInputWord(wordIndex);
+    
+    // Highlight the output word
+    highlightOutputWord(wordIndex);
+}
+
+function highlightInputWord(wordIndex) {
+    const highlightArea = document.getElementById("highlight-area");
+    if (!highlightArea) return;
+    
+    // Get the current text and tokens
+    const text = highlightArea.innerHTML;
+    const tokens = text.split(/(\s+|[^\w\s])/g).filter(token => token.trim());
+    
+    if (wordIndex >= 0 && wordIndex < tokens.length) {
+        // Create a temporary overlay for hover highlighting
+        const hoverOverlay = document.getElementById("hover-overlay") || createHoverOverlay();
+        hoverOverlay.style.display = "block";
+        
+        // Position the overlay to highlight the specific word
+        const wordToHighlight = tokens[wordIndex];
+        
+        // Use the existing boldWord function to highlight the word
+        // First, clear any existing highlights
+        unboldAll("highlight-area");
+        
+        // Create a temporary highlight by wrapping the word in a span
+        const regex = new RegExp(`\\b${wordToHighlight}\\b`, 'g');
+        const highlightedText = text.replace(regex, `<span class="hover-highlight">${wordToHighlight}</span>`);
+        
+        // Temporarily update the highlight area
+        const originalContent = highlightArea.innerHTML;
+        highlightArea.innerHTML = highlightedText;
+        
+        // Store the original content to restore later
+        if (!highlightArea.dataset.originalContent) {
+            highlightArea.dataset.originalContent = originalContent;
+        }
+    }
+}
+
+function createHoverOverlay() {
+    const overlay = document.createElement('div');
+    overlay.id = 'hover-overlay';
+    overlay.className = 'hover-highlight';
+    overlay.style.position = 'fixed';
+    overlay.style.zIndex = '1000';
+    overlay.style.pointerEvents = 'none';
+    overlay.style.display = 'none';
+    document.body.appendChild(overlay);
+    return overlay;
+}
+
+function highlightOutputWord(wordIndex) {
+    const outputDivs = document.getElementsByClassName('output_div');
+    
+    if (wordIndex >= 0 && wordIndex < outputDivs.length) {
+        outputDivs[wordIndex].classList.add('hover-highlight');
+    }
+}
+
+function clearHoverHighlights() {
+    // Hide the hover overlay
+    const hoverOverlay = document.getElementById("hover-overlay");
+    if (hoverOverlay) {
+        hoverOverlay.style.display = "none";
+    }
+    
+    // Restore original highlight area content
+    const highlightArea = document.getElementById("highlight-area");
+    if (highlightArea && highlightArea.dataset.originalContent) {
+        highlightArea.innerHTML = highlightArea.dataset.originalContent;
+        delete highlightArea.dataset.originalContent;
+    }
+    
+    // Remove hover highlights from output area
+    const outputDivs = document.getElementsByClassName('output_div');
+    Array.from(outputDivs).forEach(div => {
+        div.classList.remove('hover-highlight');
+    });
+}
+
+// Initialize hover highlighting when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    setupHoverHighlighting();
+});
