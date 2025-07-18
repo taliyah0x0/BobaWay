@@ -1,3 +1,4 @@
+let intervalId;
 const input_area = document.getElementById("input-area");
 input_area.addEventListener("focus", () => {
     intervalId = setInterval(initiate, 200); // Run every 1 second
@@ -31,6 +32,7 @@ function initiate () {
         cursorPosition = preCaretRange.toString().length; // Get the length of the text in the range
     }
 
+    // locate the word at the cursor position
     let start = cursorPosition;
     while (start > 0 && /\S/.test(text[start - 1])) {
         start--;
@@ -46,6 +48,7 @@ function initiate () {
     let tokens = text.split(/(\s+|[^\w\s])/g).filter(token => token.trim());
     let charIndex = 0;
 
+    // locate the index of the word at the cursor position
     for (let i = 0; i < tokens.length; i++) {
         const tokenStart = charIndex;
         const tokenEnd = charIndex + tokens[i].length;
@@ -60,16 +63,9 @@ function initiate () {
         charIndex = tokenEnd + 1; // +1 for the space
     }
 
+    // check if the word has been deleted
     const originalTokens = old.split(/(\s+|[^\w\s])/g).filter(token => token.trim());
     let deleted = -1;
-    /*if (originalTokens.length > tokens.length) {
-        for (let i = 0; i < originalTokens.length; i++) {
-            if (originalTokens[i] !== tokens[i]) {
-                deleted = i; // Index of the deleted word
-                break;
-            }
-        }
-    }*/
     for (let i = 0; i < originalTokens.length; i++) {
         if (originalTokens[i] !== tokens[i]) {
             deleted = i; // Index of the deleted word
@@ -81,78 +77,71 @@ function initiate () {
         deleted = originalTokens.length - 1;
     }
 
+    // remove the deleted element from the output
     const all = document.getElementsByClassName("output_div");
-    let all_inners = [];
-    for (var i = 0; i < all.length; i++) {
-        all_inners.push(all[i].innerHTML);
+    let all_inners = Array.from(all, el => el.innerHTML);
+    if (deleted !== -1) {
+        all_inners.splice(deleted, 1);
+        output.innerHTML = all_inners.map(inner => `<div class="output_div">${inner}</div>`).join('');
     }
 
-    if (deleted != -1) {
-        output.innerHTML = "";
-        for (var i = 0; i < all_inners.length; i++) {
-            if (i != deleted) {
-                output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
-            }
-        }
-        all_inners.pop(deleted);
-    }
-
-    let temp = [];
+    // get the hanzi options for the word
+    let hanzi_options = [];
     if (word in jsonData) {
         for (var i = 0; i < 4; i++) {
             if (languages_included[i]) {
-                temp = temp.concat(jsonData[word][i]);
+                hanzi_options = hanzi_options.concat(jsonData[word][i]);
             }
         }
     }
-    if (word in jsonData && temp.length > 0) {
+    if (hanzi_options.length > 0) {
         if (index >= all_inners.length) {
+            // fill in the options for the new word
             document.getElementById("options-wrapper").innerHTML += `<div class="options" style="display: flex; flex-direction: column"></div>`;
             options[index].innerHTML = "";
-            for (var i = 0; i < temp.length; i++) {
-                options[index].innerHTML += `<label><input name="${word}_${index}" type="radio" class="${index}" value="${temp[i]}" onclick="editOutput(${index}, '${word}', ${i})">${temp[i]}</label>`;
+            for (var i = 0; i < hanzi_options.length; i++) {
+                options[index].innerHTML += `<label><input name="${word}_${index}" type="radio" class="${index}" value="${hanzi_options[i]}" onclick="editOutput(${index}, '${word}', ${i})">${hanzi_options[i]}</label>`;
             }
             document.getElementsByClassName(`${index}`)[0].checked = true;
-            output.innerHTML += `<div class="output_div">${temp[0]}</div>`;
+            output.innerHTML += `<div class="output_div">${hanzi_options[0]}</div>`;
             save.push(0);
         } else {
+            for (var i = 0; i < options.length; i++) {
+                options[i].style.display = "none";
+            }
+            document.getElementsByClassName("box-title3")[0].style.display = "flex";
+            options[index].style.display = "flex";
+            if (last_index != index) {
+                let radios = document.getElementsByClassName(`${index}`);
+                let m = radios[save[index]].value;
+                radios[save[index]].checked = true;
 
-        for (var i = 0; i < options.length; i++) {
-            options[i].style.display = "none";
+                output.innerHTML = "";
+                for (var i = 0; i < index; i++) {
+                    output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
+                }
+                output.innerHTML += `<div class="output_div">${m}</div>`;
+                for (var i = index + 1; i < all_inners.length; i++) {
+                    output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
+                }
+            } else if (options[index].innerHTML == "") {
+                options[index].innerHTML = "";
+                for (var i = 0; i < temp.length; i++) {
+                    options[index].innerHTML += `<label><input name="${word}_${index}" type="radio" class="${index}" value="${temp[i]}" onclick="editOutput(${index}, '${word}', ${i})">${temp[i]}</label>`;
+                }
+                save[index] = 0;
+                document.getElementsByClassName(`${index}`)[0].checked = true;
+
+                output.innerHTML = "";
+                for (var i = 0; i < index; i++) {
+                    output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
+                }
+                output.innerHTML += `<div class="output_div">${jsonData[word][0][0]}</div>`;
+                for (var i = index + 1; i < all_inners.length; i++) {
+                    output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
+                }
+            }
         }
-        document.getElementsByClassName("box-title3")[0].style.display = "flex";
-        options[index].style.display = "flex";
-        if (last_index != index) {
-            let radios = document.getElementsByClassName(`${index}`);
-            let m = radios[save[index]].value;
-            radios[save[index]].checked = true;
-
-            output.innerHTML = "";
-            for (var i = 0; i < index; i++) {
-                output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
-            }
-            output.innerHTML += `<div class="output_div">${m}</div>`;
-            for (var i = index + 1; i < all_inners.length; i++) {
-                output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
-            }
-        } else if (options[index].innerHTML == "") {
-            options[index].innerHTML = "";
-            for (var i = 0; i < temp.length; i++) {
-                options[index].innerHTML += `<label><input name="${word}_${index}" type="radio" class="${index}" value="${temp[i]}" onclick="editOutput(${index}, '${word}', ${i})">${temp[i]}</label>`;
-            }
-            save[index] = 0;
-            document.getElementsByClassName(`${index}`)[0].checked = true;
-
-            output.innerHTML = "";
-            for (var i = 0; i < index; i++) {
-                output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
-            }
-            output.innerHTML += `<div class="output_div">${jsonData[word][0][0]}</div>`;
-            for (var i = index + 1; i < all_inners.length; i++) {
-                output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
-            }
-        }
-    }
     } else if (/^[a-zA-Z\s]+$/.test(word) && old != text) {
         for (var i = 0; i < options.length; i++) {
             options[i].style.display = "none";
@@ -340,11 +329,13 @@ function boldDiv(index) {
     wrapCharInTextNode(container, index);
 }
 
+// Edit the languages included in the hanzi options
 let languages_included = [1, 0, 0, 0];
 function editLanguages(index) {
     languages_included[index] = !languages_included[index] ? 1 : 0;
 }
 
+// Helper function to copy the hanzi output to the clipboard
 function copy() {
     const all = document.getElementsByClassName("output_div");
     let text = "";
@@ -354,6 +345,7 @@ function copy() {
     navigator.clipboard.writeText(text);
 }
 
+// Load the language data from the API
 let jsonData; // Global variable to store the fetched JSON
 async function loadLanguageData() {
     try {
@@ -377,15 +369,3 @@ async function loadLanguageData() {
 
 // Call this function when the page loads
 loadLanguageData();
-
-function menuMOU() {
-    let menus = document.getElementsByClassName("menu-button");
-    for (var i = 0; i < menus.length; i++) {
-        menus[i].style.backgroundColor = "rgb(226, 199, 140)";
-    }
-}
-    
-function menuMOV(select) {
-    let menus = document.getElementsByClassName("menu-button");
-    menus[select].style.backgroundColor = "#FAE6AA";
-}
