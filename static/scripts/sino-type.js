@@ -20,10 +20,22 @@ function getHanziOptions(word) {
     return hanzi_options;
 }
 
+// Set the output at the given index
+function setOutputAtIndex(index, hanzi) {
+    // get the current output
+    const all = document.getElementsByClassName("output_div");
+    const all_inners = Array.from(all, el => el.innerHTML);
+    let output = document.getElementById("output-area");
+
+    // update the output at the given index
+    const newHTML = all_inners.map(inner => `<div class="output_div">${inner}</div>`);
+    newHTML[index] = `<div class="output_div">${hanzi}</div>`;
+    output.innerHTML = newHTML.join('');
+}
+
 function initiate () {
     let text = document.getElementById("input-area").innerHTML;
     text = text.replace(/&nbsp;/g, " ");
-    let output = document.getElementById("output-area");
     let options = document.getElementsByClassName("options");
 
     let index = -1;
@@ -99,6 +111,9 @@ function initiate () {
             document.getElementById("options-wrapper").innerHTML += `<div class="options" style="display: flex; flex-direction: column"></div>`;
             options[index].innerHTML = hanzi_options.map((hanzi, i) => `<label><input name="${word}_${index}" type="radio" class="${index}" value="${hanzi}" onclick="editOutput(${index}, '${word}', ${i})">${hanzi}</label>`).join('');
             document.getElementsByClassName(`${index}`)[0].checked = true;
+
+
+            let output = document.getElementById("output-area");
             output.innerHTML += `<div class="output_div">${hanzi_options[0]}</div>`;
             save.push(0);
         } else {
@@ -112,9 +127,7 @@ function initiate () {
                 let m = radios[save[index]].value;
                 radios[save[index]].checked = true;
 
-                const newHTML = all_inners.map(inner => `<div class="output_div">${inner}</div>`);
-                newHTML[index] = `<div class="output_div">${m}</div>`;
-                output.innerHTML = newHTML.join('');
+                setOutputAtIndex(index, m);
             } else if (options[index].innerHTML == "") {
                 options[index].innerHTML = "";
                 for (var i = 0; i < hanzi_options.length; i++) {
@@ -123,9 +136,7 @@ function initiate () {
                 save[index] = 0;
                 document.getElementsByClassName(`${index}`)[0].checked = true;
 
-                const newHTML = all_inners.map(inner => `<div class="output_div">${inner}</div>`);
-                newHTML[index] = `<div class="output_div">${hanzi_options[0]}</div>`;
-                output.innerHTML = newHTML.join('');
+                setOutputAtIndex(index, hanzi_options[0]);
             }
         }
     } else if (/^[a-zA-Z\s]+$/.test(word) && old != text) {
@@ -133,14 +144,7 @@ function initiate () {
             options[i].style.display = "none";
         }
         document.getElementsByClassName("box-title3")[0].style.display = "none";
-        output.innerHTML = "";
-        for (var i = 0; i < index; i++) {
-            output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
-        }
-        output.innerHTML += `<div class="output_div">${word}</div>`;
-        for (var i = index + 1; i < all_inners.length; i++) {
-            output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
-        }
+        setOutputAtIndex(index, word);
     } else {
         for (var i = 0; i < options.length; i++) {
             options[i].style.display = "none";
@@ -154,16 +158,9 @@ function initiate () {
 }
 
 function editOutput(index, word, radio) {
-    // get the current output
-    const all = document.getElementsByClassName("output_div");
-    const all_inners = Array.from(all, el => el.innerHTML);
-    let output = document.getElementById("output-area");
-
     // update the output with the new hanzi option
     const hanzi_options = getHanziOptions(word);
-    const newHTML = all_inners.map(inner => `<div class="output_div">${inner}</div>`);
-    newHTML[index] = `<div class="output_div">${hanzi_options[radio]}</div>`;
-    output.innerHTML = newHTML.join('');
+    setOutputAtIndex(index, hanzi_options[radio]);
     save[index] = radio;
 }
 
