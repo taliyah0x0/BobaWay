@@ -28,9 +28,28 @@
 .admin-hero-description {
     font-size: 1.1rem;
     max-width: 600px;
-    margin: 0 auto;
+    margin: 0 auto 1.5rem auto;
     color: rgb(60, 20, 0);
     opacity: 0.9;
+}
+
+.logout-button {
+    display: inline-block;
+    background-color: #dc3545;
+    color: white;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    font-family: Dosis, sans-serif;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
+}
+
+.logout-button:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(220, 53, 69, 0.3);
 }
 
 /* Flash messages */
