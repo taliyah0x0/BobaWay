@@ -1,19 +1,11 @@
-let intervalId;
-const input_area = document.getElementById("input-area");
-input_area.addEventListener("focus", () => {
-    intervalId = setInterval(initiate, 200); // Run every 1 second
-});
-
-// Stop the loop when the textarea loses focus
-input_area.addEventListener("blur", () => {
-    clearInterval(intervalId); // Stop the interval
-});
-
+// GLOBAL VARIABLES
+let jsonData; // Store the fetched JSON
 let save = [];
-
 let old = "";
 let lastWord = "";
 let last_index = 0;
+
+// FUNCTIONS
 function initiate () {
     let text = document.getElementById("input-area").innerHTML;
     text = text.replace(/&nbsp;/g, " ");
@@ -346,7 +338,6 @@ function copy() {
 }
 
 // Load the language data from the API
-let jsonData; // Global variable to store the fetched JSON
 async function loadLanguageData() {
     try {
         const response = await fetch('/api/all-languages-data');
@@ -367,5 +358,24 @@ async function loadLanguageData() {
     }
 }
 
+// Setup the interval behavior for the input area
+function setupInputAreaInterval() {
+    let intervalId;
+    const input_area = document.getElementById("input-area");
+    input_area.addEventListener("focus", () => {
+        intervalId = setInterval(initiate, 200); // Run every 0.2 seconds
+    });
+
+    // Stop the loop when the textarea loses focus
+    input_area.addEventListener("blur", () => {
+        clearInterval(intervalId); // Stop the interval
+    });
+}
+
+
+// SETUP
 // Call this function when the page loads
 loadLanguageData();
+
+// Call this function to set up the interval behavior
+setupInputAreaInterval();
