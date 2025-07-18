@@ -280,12 +280,14 @@ span {
     box-shadow: 0 2px 4px rgba(60, 20, 0, 0.2);
 }
 
-#hover-overlay {
-    background-color: rgba(255, 200, 100, 0.8) !important;
+/* Hover highlight styles for input area */
+#highlight-area .hover-highlight {
+    background-color: rgb(255, 200, 100) !important;
     border-radius: 4px;
-    border: 2px solid rgb(60, 20, 0);
+    padding: 2px 4px;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 8px rgba(60, 20, 0, 0.3);
+    box-shadow: 0 2px 4px rgba(60, 20, 0, 0.2);
+    display: inline-block;
 }
 
 .output_div.hover-highlight {

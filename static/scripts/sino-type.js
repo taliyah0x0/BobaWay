@@ -449,48 +449,20 @@ function highlightCorrespondingWords(wordIndex) {
 function highlightInputWord(wordIndex) {
     const highlightArea = document.getElementById("highlight-area");
     if (!highlightArea) return;
-    
     // Get the current text and tokens
     const text = highlightArea.innerHTML;
     const tokens = text.split(/(\s+|[^\w\s])/g).filter(token => token.trim());
-    
     if (wordIndex >= 0 && wordIndex < tokens.length) {
-        // Create a temporary overlay for hover highlighting
-        const hoverOverlay = document.getElementById("hover-overlay") || createHoverOverlay();
-        hoverOverlay.style.display = "block";
-        
-        // Position the overlay to highlight the specific word
-        const wordToHighlight = tokens[wordIndex];
-        
-        // Use the existing boldWord function to highlight the word
-        // First, clear any existing highlights
-        unboldAll("highlight-area");
-        
-        // Create a temporary highlight by wrapping the word in a span
-        const regex = new RegExp(`\\b${wordToHighlight}\\b`, 'g');
-        const highlightedText = text.replace(regex, `<span class="hover-highlight">${wordToHighlight}</span>`);
-        
-        // Temporarily update the highlight area
-        const originalContent = highlightArea.innerHTML;
-        highlightArea.innerHTML = highlightedText;
-        
         // Store the original content to restore later
         if (!highlightArea.dataset.originalContent) {
-            highlightArea.dataset.originalContent = originalContent;
+            highlightArea.dataset.originalContent = text;
         }
+        // Use a regex to wrap the hovered word in a span for highlighting
+        const wordToHighlight = tokens[wordIndex];
+        const wordBoundaryRegex = new RegExp(`(^|\s)(${wordToHighlight})(\s|$)`, 'g');
+        const highlightedText = text.replace(wordBoundaryRegex, `$1<span class="hover-highlight">$2</span>$3`);
+        highlightArea.innerHTML = highlightedText;
     }
-}
-
-function createHoverOverlay() {
-    const overlay = document.createElement('div');
-    overlay.id = 'hover-overlay';
-    overlay.className = 'hover-highlight';
-    overlay.style.position = 'fixed';
-    overlay.style.zIndex = '1000';
-    overlay.style.pointerEvents = 'none';
-    overlay.style.display = 'none';
-    document.body.appendChild(overlay);
-    return overlay;
 }
 
 function highlightOutputWord(wordIndex) {
@@ -502,19 +474,12 @@ function highlightOutputWord(wordIndex) {
 }
 
 function clearHoverHighlights() {
-    // Hide the hover overlay
-    const hoverOverlay = document.getElementById("hover-overlay");
-    if (hoverOverlay) {
-        hoverOverlay.style.display = "none";
-    }
-    
     // Restore original highlight area content
     const highlightArea = document.getElementById("highlight-area");
     if (highlightArea && highlightArea.dataset.originalContent) {
         highlightArea.innerHTML = highlightArea.dataset.originalContent;
         delete highlightArea.dataset.originalContent;
     }
-    
     // Remove hover highlights from output area
     const outputDivs = document.getElementsByClassName('output_div');
     Array.from(outputDivs).forEach(div => {
