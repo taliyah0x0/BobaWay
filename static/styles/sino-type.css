@@ -170,6 +170,60 @@
     border-color: rgb(60, 20, 0);
 }
 
+.output_div.hover-highlight,
+.input-word.hover-highlight {
+    background-color: rgb(226, 199, 140) !important;
+    border-color: rgb(60, 20, 0) !important;
+    transform: translateY(-2px) !important;
+}
+
+.input-container,
+.output-container {
+    position: relative;
+}
+
+.highlight-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+    border-radius: 12px;
+    padding: 1.5rem;
+    font-family: Dosis, sans-serif;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: transparent;
+    background: transparent;
+}
+
+/* Word span styling */
+.word-span {
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: inline-block;
+    border: 2px solid transparent;
+}
+
+.word-span:hover {
+    background-color: rgba(226, 199, 140, 0.5);
+}
+
+.word-span.active-word {
+    background-color: rgb(226, 199, 140);
+    border-color: rgb(60, 20, 0);
+}
+
+.word-span.hover-highlight {
+    background-color: rgb(226, 199, 140) !important;
+    border-color: rgb(60, 20, 0) !important;
+    transform: translateY(-1px) !important;
+}
+
 /* Copy button */
 #copy-button {
     position: absolute;

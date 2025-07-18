@@ -1,6 +1,8 @@
+let intervalId;
+
 const input_area = document.getElementById("input-area");
 input_area.addEventListener("focus", () => {
-    intervalId = setInterval(initiate, 200); // Run every 1 second
+    intervalId = setInterval(initiate, 200); // Run every 200ms
 });
 
 // Stop the loop when the textarea loses focus
@@ -9,77 +11,30 @@ input_area.addEventListener("blur", () => {
 });
 
 let save = [];
-
 let old = "";
 let lastWord = "";
 let last_index = 0;
-function initiate () {
-    let text = document.getElementById("input-area").innerHTML;
-    text = text.replace(/&nbsp;/g, " ");
+
+function initiate() {
+    let rawText = document.getElementById("input-area").innerText || "";
     let output = document.getElementById("output-area");
     let options = document.getElementsByClassName("options");
 
-    let index = -1;
-    const selection = window.getSelection();
-    let cursorPosition = 0;
-
-    if (selection.rangeCount > 0) {
-        const range = selection.getRangeAt(0); // Get the first range of the selection
-        const preCaretRange = range.cloneRange(); // Clone the range
-        preCaretRange.selectNodeContents(document.getElementById("input-area")); // Set the cloned range to the start of the editable div
-        preCaretRange.setEnd(range.startContainer, range.startOffset); // Set the end of the range to the caret
-        cursorPosition = preCaretRange.toString().length; // Get the length of the text in the range
+    // Parse text into tokens and get current word index
+    const tokens = parseTextIntoTokens(rawText);
+    const index = getCurrentWordIndex();
+    
+    // Update input display with spans
+    updateInputDisplay(tokens);
+    
+    let word = "";
+    if (index >= 0 && index < tokens.length) {
+        word = tokens[index].toLowerCase();
     }
 
-    let start = cursorPosition;
-    while (start > 0 && /\S/.test(text[start - 1])) {
-        start--;
-    }
-    let end = cursorPosition;
-    while (end < text.length && /\S/.test(text[end])) {
-        end++;
-    }
-
-    let word = text.slice(start, end);
-    word = word.toLowerCase();
-
-    let tokens = text.split(/(\s+|[^\w\s])/g).filter(token => token.trim());
-    let charIndex = 0;
-
-    for (let i = 0; i < tokens.length; i++) {
-        const tokenStart = charIndex;
-        const tokenEnd = charIndex + tokens[i].length;
-
-        // Check if the cursor position is within the current token
-        if (cursorPosition >= tokenStart && cursorPosition <= tokenEnd) {
-            index = i;
-            break;
-        }
-
-        // Advance the character index, accounting for spaces between tokens
-        charIndex = tokenEnd + 1; // +1 for the space
-    }
-
-    const originalTokens = old.split(/(\s+|[^\w\s])/g).filter(token => token.trim());
-    let deleted = -1;
-    /*if (originalTokens.length > tokens.length) {
-        for (let i = 0; i < originalTokens.length; i++) {
-            if (originalTokens[i] !== tokens[i]) {
-                deleted = i; // Index of the deleted word
-                break;
-            }
-        }
-    }*/
-    for (let i = 0; i < originalTokens.length; i++) {
-        if (originalTokens[i] !== tokens[i]) {
-            deleted = i; // Index of the deleted word
-            break;
-        }
-    }
-
-    if (originalTokens.length > tokens.length) {
-        deleted = originalTokens.length - 1;
-    }
+    // Handle deletions
+    const originalTokens = parseTextIntoTokens(old);
+    let deleted = findDeletedTokenIndex(originalTokens, tokens);
 
     const all = document.getElementsByClassName("output_div");
     let all_inners = [];
@@ -98,21 +53,29 @@ function initiate () {
     }
 
     let temp = [];
-    if (word in jsonData) {
+    if (jsonData && word in jsonData) {
         for (var i = 0; i < 4; i++) {
-            if (languages_included[i]) {
+            if (languages_included[i] && jsonData[word][i]) {
                 temp = temp.concat(jsonData[word][i]);
             }
         }
     }
-    if (word in jsonData && temp.length > 0) {
+    if (jsonData && word in jsonData && temp.length > 0) {
         if (index >= all_inners.length) {
-            document.getElementById("options-wrapper").innerHTML += `<div class="options" style="display: flex; flex-direction: column"></div>`;
-            options[index].innerHTML = "";
-            for (var i = 0; i < temp.length; i++) {
-                options[index].innerHTML += `<label><input name="${word}_${index}" type="radio" class="${index}" value="${temp[i]}" onclick="editOutput(${index}, '${word}', ${i})">${temp[i]}</label>`;
+            const optionsWrapper = document.getElementById("options-wrapper");
+            if (optionsWrapper) {
+                optionsWrapper.innerHTML += `<div class="options" style="display: flex; flex-direction: column"></div>`;
             }
-            document.getElementsByClassName(`${index}`)[0].checked = true;
+            if (options[index]) {
+                options[index].innerHTML = "";
+                for (var i = 0; i < temp.length; i++) {
+                    options[index].innerHTML += `<label><input name="${word}_${index}" type="radio" class="${index}" value="${temp[i]}" onclick="editOutput(${index}, '${word}', ${i})">${temp[i]}</label>`;
+                }
+                const radioButtons = document.getElementsByClassName(`${index}`);
+                if (radioButtons.length > 0) {
+                    radioButtons[0].checked = true;
+                }
+            }
             output.innerHTML += `<div class="output_div">${temp[0]}</div>`;
             save.push(0);
         } else {
@@ -120,44 +83,59 @@ function initiate () {
         for (var i = 0; i < options.length; i++) {
             options[i].style.display = "none";
         }
-        document.getElementsByClassName("box-title3")[0].style.display = "flex";
-        options[index].style.display = "flex";
+        const boxTitle = document.getElementsByClassName("box-title3")[0];
+        if (boxTitle) {
+            boxTitle.style.display = "flex";
+        }
+        if (options[index]) {
+            options[index].style.display = "flex";
+        }
         if (last_index != index) {
             let radios = document.getElementsByClassName(`${index}`);
-            let m = radios[save[index]].value;
-            radios[save[index]].checked = true;
+            if (radios.length > 0 && save[index] !== undefined && radios[save[index]]) {
+                let m = radios[save[index]].value;
+                radios[save[index]].checked = true;
 
-            output.innerHTML = "";
-            for (var i = 0; i < index; i++) {
-                output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
+                output.innerHTML = "";
+                for (var i = 0; i < index; i++) {
+                    output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
+                }
+                output.innerHTML += `<div class="output_div">${m}</div>`;
+                for (var i = index + 1; i < all_inners.length; i++) {
+                    output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
+                }
             }
-            output.innerHTML += `<div class="output_div">${m}</div>`;
-            for (var i = index + 1; i < all_inners.length; i++) {
-                output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
-            }
-        } else if (options[index].innerHTML == "") {
+        } else if (options[index] && options[index].innerHTML == "") {
             options[index].innerHTML = "";
             for (var i = 0; i < temp.length; i++) {
                 options[index].innerHTML += `<label><input name="${word}_${index}" type="radio" class="${index}" value="${temp[i]}" onclick="editOutput(${index}, '${word}', ${i})">${temp[i]}</label>`;
             }
             save[index] = 0;
-            document.getElementsByClassName(`${index}`)[0].checked = true;
+            const radioButtons = document.getElementsByClassName(`${index}`);
+            if (radioButtons.length > 0) {
+                radioButtons[0].checked = true;
+            }
 
             output.innerHTML = "";
             for (var i = 0; i < index; i++) {
                 output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
             }
-            output.innerHTML += `<div class="output_div">${jsonData[word][0][0]}</div>`;
+            if (jsonData[word] && jsonData[word][0] && jsonData[word][0][0]) {
+                output.innerHTML += `<div class="output_div">${jsonData[word][0][0]}</div>`;
+            }
             for (var i = index + 1; i < all_inners.length; i++) {
                 output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
             }
         }
     }
-    } else if (/^[a-zA-Z\s]+$/.test(word) && old != text) {
+    } else if (/^[a-zA-Z\s]+$/.test(word) && old != rawText) {
         for (var i = 0; i < options.length; i++) {
             options[i].style.display = "none";
         }
-        document.getElementsByClassName("box-title3")[0].style.display = "none";
+        const boxTitle = document.getElementsByClassName("box-title3")[0];
+        if (boxTitle) {
+            boxTitle.style.display = "none";
+        }
         output.innerHTML = "";
         for (var i = 0; i < index; i++) {
             output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
@@ -170,31 +148,110 @@ function initiate () {
         for (var i = 0; i < options.length; i++) {
             options[i].style.display = "none";
         }
-        document.getElementsByClassName("box-title3")[0].style.display = "none";
+        const boxTitle = document.getElementsByClassName("box-title3")[0];
+        if (boxTitle) {
+            boxTitle.style.display = "none";
+        }
     }
-    old = text;
+    old = rawText;
     lastWord = word;
     last_index = index;
-    document.getElementById("highlight-area").innerHTML = text;
-    unboldAll("highlight-area");
-    boldWord(index);
-    let bold = text.charAt(cursorPosition - 1) != " ";
-    correctHighlight(index, bold);
 }
 
-function correctHighlight(index, bold) {
-    const highlightDiv = document.getElementById("highlight-area-2");
-    const all = document.getElementsByClassName("output_div");
-    highlightDiv.innerHTML = "";
-    for (var i = 0; i < all.length; i++) {
-        highlightDiv.innerHTML += all[i].innerHTML;
+// Helper function to parse text into clean tokens
+function parseTextIntoTokens(text) {
+    if (!text) return [];
+    return text.split(/(\s+|[^\w\s])/g).filter(token => token.trim());
+}
+
+// Helper function to find deleted token index
+function findDeletedTokenIndex(originalTokens, currentTokens) {
+    if (originalTokens.length <= currentTokens.length) return -1;
+    
+    for (let i = 0; i < originalTokens.length; i++) {
+        if (i >= currentTokens.length || originalTokens[i] !== currentTokens[i]) {
+            return i;
+        }
     }
-    let counter = 0;
-    for (var i = 0; i < index; i++) {
-        counter += all[i].innerHTML.length;
+    return originalTokens.length - 1;
+}
+
+// Get the current word index based on cursor position or active span
+function getCurrentWordIndex() {
+    const selection = window.getSelection();
+    if (selection.rangeCount === 0) return -1;
+    
+    const range = selection.getRangeAt(0);
+    let node = range.startContainer;
+    
+    // If we're in a text node, find its parent span
+    if (node.nodeType === Node.TEXT_NODE) {
+        node = node.parentNode;
     }
-    unboldAll("highlight-area-2");
-    if (bold) boldDiv(counter);
+    
+    // Check if we're in a word span
+    if (node.classList && node.classList.contains('word-span')) {
+        return parseInt(node.dataset.index) || -1;
+    }
+    
+    // Fallback: find closest word span
+    const inputArea = document.getElementById("input-area");
+    const wordSpans = inputArea.querySelectorAll('.word-span');
+    
+    for (let i = 0; i < wordSpans.length; i++) {
+        if (wordSpans[i].contains(node) || node === wordSpans[i]) {
+            return parseInt(wordSpans[i].dataset.index) || -1;
+        }
+    }
+    
+    return -1;
+}
+
+// Update input display with clickable word spans
+function updateInputDisplay(tokens) {
+    const inputArea = document.getElementById("input-area");
+    let html = '';
+    
+    for (let i = 0; i < tokens.length; i++) {
+        html += `<span class="word-span" data-index="${i}" onclick="setActiveWord(${i})">${tokens[i]}</span>`;
+        if (i < tokens.length - 1) {
+            html += ' ';
+        }
+    }
+    
+    // Preserve cursor position
+    const selection = window.getSelection();
+    const currentIndex = getCurrentWordIndex();
+    
+    inputArea.innerHTML = html;
+    
+    // Restore cursor to the same word if possible
+    if (currentIndex >= 0 && currentIndex < tokens.length) {
+        const targetSpan = inputArea.querySelector(`[data-index="${currentIndex}"]`);
+        if (targetSpan) {
+            const range = document.createRange();
+            range.selectNodeContents(targetSpan);
+            range.collapse(false); // Move cursor to end
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+    }
+}
+
+// Set active word (for click events)
+function setActiveWord(index) {
+    // Remove active class from all spans
+    const spans = document.querySelectorAll('.word-span');
+    spans.forEach(span => span.classList.remove('active-word'));
+    
+    // Add active class to clicked span
+    const targetSpan = document.querySelector(`[data-index="${index}"]`);
+    if (targetSpan) {
+        targetSpan.classList.add('active-word');
+    }
+    
+    // Trigger initiate to update options
+    setTimeout(initiate, 0);
 }
 
 function editOutput(index, word, radio) {
@@ -208,136 +265,21 @@ function editOutput(index, word, radio) {
     for (var i = 0; i < index; i++) {
         output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
     }
-    let temp = jsonData[word][0];
-    for (var i = 0; i < 4; i++) {
-        if (languages_included[i]) {
-            temp = temp.concat(jsonData[word][i]);
+    let temp = [];
+    if (jsonData && word in jsonData) {
+        for (var i = 0; i < 4; i++) {
+            if (languages_included[i] && jsonData[word][i]) {
+                temp = temp.concat(jsonData[word][i]);
+            }
         }
     }
-    output.innerHTML += `<div class="output_div">${temp[radio]}</div>`;
+    if (temp[radio]) {
+        output.innerHTML += `<div class="output_div">${temp[radio]}</div>`;
+    }
     for (var i = index + 1; i < all_inners.length; i++) {
         output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
     }
     save[index] = radio;
-}
-
-function unboldAll(element) {
-    const highlightDiv = document.getElementById(`${element}`);
-
-    function removeBoldTags(node) {
-        if (!node) return;
-
-        if (node.nodeName === "span") {
-            // Replace the bold node with its text content
-            while (node.firstChild) {
-                node.parentNode.insertBefore(node.firstChild, node);
-            }
-            node.parentNode.removeChild(node);
-        } else if (node.hasChildNodes()) {
-            // Recursively process child nodes
-            Array.from(node.childNodes).forEach(removeBoldTags);
-        }
-    }
-
-    // Start processing from the highlightDiv
-    Array.from(highlightDiv.childNodes).forEach(removeBoldTags);
-}
-
-function boldWord(index) {
-    const highlightDiv = document.getElementById("highlight-area");
-
-    function wrapTokenAtIndex(node, tokenIndex) {
-        if (node.nodeType === Node.TEXT_NODE) {
-            const text = node.nodeValue;
-            const tokens = text.split(/\s+/); // Split text into tokens
-            let charIndex = 0;
-
-            // Traverse tokens to find the target token at the given index
-            for (let i = 0; i < tokens.length; i++) {
-                const tokenStart = charIndex;
-                const tokenEnd = charIndex + tokens[i].length;
-
-                if (i === tokenIndex) {
-                    const parent = node.parentNode;
-
-                    // Split the text around the target token
-                    const before = text.slice(0, tokenStart);
-                    const target = text.slice(tokenStart, tokenEnd);
-                    const after = text.slice(tokenEnd);
-
-                    // Replace the original text node with new nodes
-                    if (before) parent.insertBefore(document.createTextNode(before), node);
-
-                    const boldElement = document.createElement('span');
-                    boldElement.style.fontWeight = 'bold';
-                    boldElement.textContent = target;
-                    parent.insertBefore(boldElement, node);
-
-                    if (after) parent.insertBefore(document.createTextNode(after), node);
-
-                    parent.removeChild(node); // Remove the original text node
-                    return;
-                }
-
-                // Update charIndex to the next token
-                charIndex = tokenEnd + 1; // +1 for the space
-            }
-        } else if (node.nodeType === Node.ELEMENT_NODE) {
-            // Process child nodes recursively
-            Array.from(node.childNodes).forEach(child => wrapTokenAtIndex(child, tokenIndex));
-        }
-    }
-
-    wrapTokenAtIndex(highlightDiv, index);
-}
-
-function boldDiv(index) {
-    const container = document.getElementById("highlight-area-2");
-
-    function wrapCharInTextNode(node, charIndex) {
-        if (node.nodeType === Node.TEXT_NODE) {
-            const text = node.nodeValue;
-
-            if (charIndex >= 0 && charIndex < text.length) {
-                const parent = node.parentNode;
-
-                // Split the text into three parts: before, target character, and after
-                const before = text.slice(0, charIndex);
-                let non_abc = 1;
-                while (/^[a-zA-Z\s]+$/.test(text.charAt(charIndex + non_abc)) && text.charAt(charIndex + non_abc) != "") {
-                    non_abc++;
-                }
-                const target = text.slice(charIndex, charIndex + non_abc);
-                const after = text.slice(charIndex + non_abc);
-
-                // Replace the original text node with new nodes
-                if (before) parent.insertBefore(document.createTextNode(before), node);
-
-                const wrappedChar = document.createElement('span');
-                wrappedChar.style.backgroundColor = 'rgb(226, 199, 140)'; // Highlight style
-                wrappedChar.textContent = target;
-                parent.insertBefore(wrappedChar, node);
-
-                if (after) parent.insertBefore(document.createTextNode(after), node);
-
-                parent.removeChild(node); // Remove the original text node
-                return;
-            }
-        } else if (node.nodeType === Node.ELEMENT_NODE) {
-            // Traverse child nodes recursively
-            for (let child of Array.from(node.childNodes)) {
-                const charLength = child.textContent.length;
-                if (charIndex < charLength) {
-                    wrapCharInTextNode(child, charIndex);
-                    return;
-                } else {
-                    charIndex -= charLength;
-                }
-            }
-        }
-    }
-
-    wrapCharInTextNode(container, index);
 }
 
 let languages_included = [1, 0, 0, 0];
@@ -351,7 +293,11 @@ function copy() {
     for (var i = 0; i < all.length; i++) {
         text += all[i].innerHTML;
     }
-    navigator.clipboard.writeText(text);
+    try {
+        navigator.clipboard.writeText(text);
+    } catch (err) {
+        console.error('Failed to copy text: ', err);
+    }
 }
 
 let jsonData; // Global variable to store the fetched JSON
@@ -378,6 +324,119 @@ async function loadLanguageData() {
 // Call this function when the page loads
 loadLanguageData();
 
+// Simplified hover functionality using span-based approach
+function setupHoverFunctionality() {
+    const inputArea = document.getElementById("input-area");
+    const outputArea = document.getElementById("output-area");
+    
+    // Use event delegation for dynamically created spans
+    inputArea.addEventListener('mouseover', handleInputHover);
+    inputArea.addEventListener('mouseout', clearHoverHighlight);
+    
+    outputArea.addEventListener('mouseover', handleOutputHover);
+    outputArea.addEventListener('mouseout', clearHoverHighlight);
+}
+
+function handleInputHover(event) {
+    if (event.target.classList.contains('word-span')) {
+        const wordIndex = parseInt(event.target.dataset.index);
+        const word = event.target.textContent;
+        
+        if (wordIndex >= 0) {
+            highlightCorrespondingWords(wordIndex);
+            showOptionsForWord(wordIndex, word);
+        }
+    }
+}
+
+function handleOutputHover(event) {
+    if (event.target.classList.contains('output_div')) {
+        const outputDivs = Array.from(document.getElementsByClassName('output_div'));
+        const wordIndex = outputDivs.indexOf(event.target);
+        
+        if (wordIndex >= 0) {
+            highlightCorrespondingWords(wordIndex);
+            
+            // Get the corresponding input word
+            const inputSpan = document.querySelector(`[data-index="${wordIndex}"]`);
+            if (inputSpan) {
+                showOptionsForWord(wordIndex, inputSpan.textContent);
+            }
+        }
+    }
+}
+
+function highlightCorrespondingWords(wordIndex) {
+    // Clear previous highlights
+    clearHoverHighlight();
+    
+    // Highlight input word span
+    const inputSpan = document.querySelector(`[data-index="${wordIndex}"]`);
+    if (inputSpan) {
+        inputSpan.classList.add('hover-highlight');
+    }
+    
+    // Highlight output word
+    const outputDivs = document.getElementsByClassName('output_div');
+    if (wordIndex >= 0 && wordIndex < outputDivs.length) {
+        outputDivs[wordIndex].classList.add('hover-highlight');
+    }
+}
+
+function showOptionsForWord(wordIndex, word) {
+    const options = document.getElementsByClassName("options");
+    const boxTitle = document.getElementsByClassName("box-title3")[0];
+    
+    // Hide all options first
+    for (let i = 0; i < options.length; i++) {
+        options[i].style.display = "none";
+    }
+    
+    // Check if word has translations
+    if (word && jsonData && word.toLowerCase() in jsonData) {
+        const lowerWord = word.toLowerCase();
+        let temp = [];
+        
+        for (let i = 0; i < 4; i++) {
+            if (languages_included[i] && jsonData[lowerWord][i]) {
+                temp = temp.concat(jsonData[lowerWord][i]);
+            }
+        }
+        
+        if (temp.length > 0 && wordIndex < options.length && boxTitle) {
+            boxTitle.style.display = "flex";
+            options[wordIndex].style.display = "flex";
+        }
+    }
+}
+
+function clearHoverHighlight() {
+    // Clear input highlights
+    const inputSpans = document.querySelectorAll('.word-span');
+    inputSpans.forEach(span => span.classList.remove('hover-highlight'));
+    
+    // Clear output highlights
+    const outputDivs = document.getElementsByClassName('output_div');
+    for (let div of outputDivs) {
+        div.classList.remove('hover-highlight');
+    }
+    
+    // Hide options when not hovering
+    const options = document.getElementsByClassName("options");
+    for (let i = 0; i < options.length; i++) {
+        options[i].style.display = "none";
+    }
+    const boxTitle = document.getElementsByClassName("box-title3")[0];
+    if (boxTitle) {
+        boxTitle.style.display = "none";
+    }
+}
+
+// Initialize hover functionality when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    setupHoverFunctionality();
+});
+
 function menuMOU() {
     let menus = document.getElementsByClassName("menu-button");
     for (var i = 0; i < menus.length; i++) {
@@ -387,5 +446,7 @@ function menuMOU() {
     
 function menuMOV(select) {
     let menus = document.getElementsByClassName("menu-button");
-    menus[select].style.backgroundColor = "#FAE6AA";
+    if (menus[select]) {
+        menus[select].style.backgroundColor = "#FAE6AA";
+    }
 }
