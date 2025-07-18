@@ -4,6 +4,7 @@ let save = [];
 let old = "";
 let lastWord = "";
 let last_index = 0;
+let languages_included = [1, 0, 0, 0];
 
 // FUNCTIONS
 // Get the hanzi options for the word
@@ -180,7 +181,6 @@ function editOutput(index, word, radio) {
 }
 
 // Edit the languages included in the hanzi options
-let languages_included = [1, 0, 0, 0];
 function editLanguages(index) {
     languages_included[index] = !languages_included[index] ? 1 : 0;
 }
