@@ -37,6 +37,7 @@ function initiate () {
     let text = document.getElementById("input-area").innerHTML;
     text = text.replace(/&nbsp;/g, " ");
     let options = document.getElementsByClassName("options");
+    let output = document.getElementById("output-area");
 
     let index = -1;
     const selection = window.getSelection();
@@ -113,7 +114,6 @@ function initiate () {
             document.getElementsByClassName(`${index}`)[0].checked = true;
 
 
-            let output = document.getElementById("output-area");
             output.innerHTML += `<div class="output_div">${hanzi_options[0]}</div>`;
             save.push(0);
         } else {
@@ -154,7 +154,6 @@ function initiate () {
     old = text;
     lastWord = word;
     last_index = index;
-    document.getElementById("highlight-area").innerHTML = text;
 }
 
 function editOutput(index, word, radio) {

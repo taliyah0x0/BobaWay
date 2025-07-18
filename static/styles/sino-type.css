@@ -126,16 +126,6 @@
     box-shadow: 0 6px 16px rgba(60, 20, 0, 0.15);
 }
 
-#highlight-area,
-#highlight-area-2 {
-    position: absolute;
-    font-family: Dosis, sans-serif;
-    color: transparent;
-    background-color: rgba(250, 230, 170, 0.3);
-    pointer-events: none;
-    z-index: 1;
-}
-
 #input-area {
     position: relative;
     z-index: 2;
