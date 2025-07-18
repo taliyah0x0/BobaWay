@@ -95,12 +95,9 @@ function initiate () {
 
     if (hanzi_options.length > 0) {
         if (index >= all_inners.length) {
-            // fill in the options for the new word
+            // fill in the options for the new word at end of the output
             document.getElementById("options-wrapper").innerHTML += `<div class="options" style="display: flex; flex-direction: column"></div>`;
-            options[index].innerHTML = "";
-            for (var i = 0; i < hanzi_options.length; i++) {
-                options[index].innerHTML += `<label><input name="${word}_${index}" type="radio" class="${index}" value="${hanzi_options[i]}" onclick="editOutput(${index}, '${word}', ${i})">${hanzi_options[i]}</label>`;
-            }
+            options[index].innerHTML = hanzi_options.map((hanzi, i) => `<label><input name="${word}_${index}" type="radio" class="${index}" value="${hanzi}" onclick="editOutput(${index}, '${word}', ${i})">${hanzi}</label>`).join('');
             document.getElementsByClassName(`${index}`)[0].checked = true;
             output.innerHTML += `<div class="output_div">${hanzi_options[0]}</div>`;
             save.push(0);
@@ -115,30 +112,20 @@ function initiate () {
                 let m = radios[save[index]].value;
                 radios[save[index]].checked = true;
 
-                output.innerHTML = "";
-                for (var i = 0; i < index; i++) {
-                    output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
-                }
-                output.innerHTML += `<div class="output_div">${m}</div>`;
-                for (var i = index + 1; i < all_inners.length; i++) {
-                    output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
-                }
+                const newHTML = all_inners.map(inner => `<div class="output_div">${inner}</div>`);
+                newHTML[index] = `<div class="output_div">${m}</div>`;
+                output.innerHTML = newHTML.join('');
             } else if (options[index].innerHTML == "") {
                 options[index].innerHTML = "";
-                for (var i = 0; i < temp.length; i++) {
-                    options[index].innerHTML += `<label><input name="${word}_${index}" type="radio" class="${index}" value="${temp[i]}" onclick="editOutput(${index}, '${word}', ${i})">${temp[i]}</label>`;
+                for (var i = 0; i < hanzi_options.length; i++) {
+                    options[index].innerHTML += `<label><input name="${word}_${index}" type="radio" class="${index}" value="${hanzi_options[i]}" onclick="editOutput(${index}, '${word}', ${i})">${hanzi_options[i]}</label>`;
                 }
                 save[index] = 0;
                 document.getElementsByClassName(`${index}`)[0].checked = true;
 
-                output.innerHTML = "";
-                for (var i = 0; i < index; i++) {
-                    output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
-                }
-                output.innerHTML += `<div class="output_div">${jsonData[word][0][0]}</div>`;
-                for (var i = index + 1; i < all_inners.length; i++) {
-                    output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
-                }
+                const newHTML = all_inners.map(inner => `<div class="output_div">${inner}</div>`);
+                newHTML[index] = `<div class="output_div">${hanzi_options[0]}</div>`;
+                output.innerHTML = newHTML.join('');
             }
         }
     } else if (/^[a-zA-Z\s]+$/.test(word) && old != text) {
