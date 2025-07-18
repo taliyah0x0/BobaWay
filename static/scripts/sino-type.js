@@ -6,6 +6,19 @@ let lastWord = "";
 let last_index = 0;
 
 // FUNCTIONS
+// Get the hanzi options for the word
+function getHanziOptions(word) {
+    let hanzi_options = [];
+    if (word in jsonData) {
+        for (var i = 0; i < 4; i++) {
+            if (languages_included[i]) {
+                hanzi_options = hanzi_options.concat(jsonData[word][i]);
+            }
+        }
+    }
+    return hanzi_options;
+}
+
 function initiate () {
     let text = document.getElementById("input-area").innerHTML;
     text = text.replace(/&nbsp;/g, " ");
@@ -77,15 +90,8 @@ function initiate () {
         output.innerHTML = all_inners.map(inner => `<div class="output_div">${inner}</div>`).join('');
     }
 
-    // get the hanzi options for the word
-    let hanzi_options = [];
-    if (word in jsonData) {
-        for (var i = 0; i < 4; i++) {
-            if (languages_included[i]) {
-                hanzi_options = hanzi_options.concat(jsonData[word][i]);
-            }
-        }
-    }
+    const hanzi_options = getHanziOptions(word);
+
     if (hanzi_options.length > 0) {
         if (index >= all_inners.length) {
             // fill in the options for the new word
@@ -157,168 +163,20 @@ function initiate () {
     lastWord = word;
     last_index = index;
     document.getElementById("highlight-area").innerHTML = text;
-    unboldAll("highlight-area");
-    boldWord(index);
-    let bold = text.charAt(cursorPosition - 1) != " ";
-    correctHighlight(index, bold);
-}
-
-function correctHighlight(index, bold) {
-    const highlightDiv = document.getElementById("highlight-area-2");
-    const all = document.getElementsByClassName("output_div");
-    highlightDiv.innerHTML = "";
-    for (var i = 0; i < all.length; i++) {
-        highlightDiv.innerHTML += all[i].innerHTML;
-    }
-    let counter = 0;
-    for (var i = 0; i < index; i++) {
-        counter += all[i].innerHTML.length;
-    }
-    unboldAll("highlight-area-2");
-    if (bold) boldDiv(counter);
 }
 
 function editOutput(index, word, radio) {
+    // get the current output
     const all = document.getElementsByClassName("output_div");
-    const all_inners = [];
-    for (var i = 0; i < all.length; i++) {
-        all_inners.push(all[i].innerHTML);
-    }
+    const all_inners = Array.from(all, el => el.innerHTML);
     let output = document.getElementById("output-area");
-    output.innerHTML = "";
-    for (var i = 0; i < index; i++) {
-        output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
-    }
-    let temp = jsonData[word][0];
-    for (var i = 0; i < 4; i++) {
-        if (languages_included[i]) {
-            temp = temp.concat(jsonData[word][i]);
-        }
-    }
-    output.innerHTML += `<div class="output_div">${temp[radio]}</div>`;
-    for (var i = index + 1; i < all_inners.length; i++) {
-        output.innerHTML += `<div class="output_div">${all_inners[i]}</div>`;
-    }
+
+    // update the output with the new hanzi option
+    const hanzi_options = getHanziOptions(word);
+    const newHTML = all_inners.map(inner => `<div class="output_div">${inner}</div>`);
+    newHTML[index] = `<div class="output_div">${hanzi_options[radio]}</div>`;
+    output.innerHTML = newHTML.join('');
     save[index] = radio;
-}
-
-function unboldAll(element) {
-    const highlightDiv = document.getElementById(`${element}`);
-
-    function removeBoldTags(node) {
-        if (!node) return;
-
-        if (node.nodeName === "span") {
-            // Replace the bold node with its text content
-            while (node.firstChild) {
-                node.parentNode.insertBefore(node.firstChild, node);
-            }
-            node.parentNode.removeChild(node);
-        } else if (node.hasChildNodes()) {
-            // Recursively process child nodes
-            Array.from(node.childNodes).forEach(removeBoldTags);
-        }
-    }
-
-    // Start processing from the highlightDiv
-    Array.from(highlightDiv.childNodes).forEach(removeBoldTags);
-}
-
-function boldWord(index) {
-    const highlightDiv = document.getElementById("highlight-area");
-
-    function wrapTokenAtIndex(node, tokenIndex) {
-        if (node.nodeType === Node.TEXT_NODE) {
-            const text = node.nodeValue;
-            const tokens = text.split(/\s+/); // Split text into tokens
-            let charIndex = 0;
-
-            // Traverse tokens to find the target token at the given index
-            for (let i = 0; i < tokens.length; i++) {
-                const tokenStart = charIndex;
-                const tokenEnd = charIndex + tokens[i].length;
-
-                if (i === tokenIndex) {
-                    const parent = node.parentNode;
-
-                    // Split the text around the target token
-                    const before = text.slice(0, tokenStart);
-                    const target = text.slice(tokenStart, tokenEnd);
-                    const after = text.slice(tokenEnd);
-
-                    // Replace the original text node with new nodes
-                    if (before) parent.insertBefore(document.createTextNode(before), node);
-
-                    const boldElement = document.createElement('span');
-                    boldElement.style.fontWeight = 'bold';
-                    boldElement.textContent = target;
-                    parent.insertBefore(boldElement, node);
-
-                    if (after) parent.insertBefore(document.createTextNode(after), node);
-
-                    parent.removeChild(node); // Remove the original text node
-                    return;
-                }
-
-                // Update charIndex to the next token
-                charIndex = tokenEnd + 1; // +1 for the space
-            }
-        } else if (node.nodeType === Node.ELEMENT_NODE) {
-            // Process child nodes recursively
-            Array.from(node.childNodes).forEach(child => wrapTokenAtIndex(child, tokenIndex));
-        }
-    }
-
-    wrapTokenAtIndex(highlightDiv, index);
-}
-
-function boldDiv(index) {
-    const container = document.getElementById("highlight-area-2");
-
-    function wrapCharInTextNode(node, charIndex) {
-        if (node.nodeType === Node.TEXT_NODE) {
-            const text = node.nodeValue;
-
-            if (charIndex >= 0 && charIndex < text.length) {
-                const parent = node.parentNode;
-
-                // Split the text into three parts: before, target character, and after
-                const before = text.slice(0, charIndex);
-                let non_abc = 1;
-                while (/^[a-zA-Z\s]+$/.test(text.charAt(charIndex + non_abc)) && text.charAt(charIndex + non_abc) != "") {
-                    non_abc++;
-                }
-                const target = text.slice(charIndex, charIndex + non_abc);
-                const after = text.slice(charIndex + non_abc);
-
-                // Replace the original text node with new nodes
-                if (before) parent.insertBefore(document.createTextNode(before), node);
-
-                const wrappedChar = document.createElement('span');
-                wrappedChar.style.backgroundColor = 'rgb(226, 199, 140)'; // Highlight style
-                wrappedChar.textContent = target;
-                parent.insertBefore(wrappedChar, node);
-
-                if (after) parent.insertBefore(document.createTextNode(after), node);
-
-                parent.removeChild(node); // Remove the original text node
-                return;
-            }
-        } else if (node.nodeType === Node.ELEMENT_NODE) {
-            // Traverse child nodes recursively
-            for (let child of Array.from(node.childNodes)) {
-                const charLength = child.textContent.length;
-                if (charIndex < charLength) {
-                    wrapCharInTextNode(child, charIndex);
-                    return;
-                } else {
-                    charIndex -= charLength;
-                }
-            }
-        }
-    }
-
-    wrapCharInTextNode(container, index);
 }
 
 // Edit the languages included in the hanzi options
