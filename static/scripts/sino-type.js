@@ -5,6 +5,7 @@ let old = "";
 let lastWord = "";
 let last_index = 0;
 let languages_included = [1, 0, 0, 0];
+let wordMapping = []; // Store mapping between input words and output divs
 
 // FUNCTIONS
 // Get the hanzi options for the word
@@ -154,6 +155,11 @@ function initiate () {
     old = text;
     lastWord = word;
     last_index = index;
+    
+    // Add highlighting functionality only after output is updated
+    setTimeout(() => {
+        addOutputHoverListeners();
+    }, 10);
 }
 
 function editOutput(index, word, radio) {
@@ -176,6 +182,92 @@ function copy() {
         text += all[i].innerHTML;
     }
     navigator.clipboard.writeText(text);
+}
+
+// Highlight functionality
+function highlightWord(wordIndex) {
+    // Clear all previous highlights
+    clearAllHighlights();
+    
+    // Highlight corresponding output div
+    const outputDivs = document.querySelectorAll('#output-area .output_div');
+    if (outputDivs[wordIndex]) {
+        outputDivs[wordIndex].classList.add('word-highlight');
+    }
+}
+
+function highlightInputWord(wordIndex) {
+    // Clear all previous highlights
+    clearAllHighlights();
+    
+    // Highlight corresponding output div
+    const outputDivs = document.querySelectorAll('#output-area .output_div');
+    if (outputDivs[wordIndex]) {
+        outputDivs[wordIndex].classList.add('word-highlight');
+    }
+}
+
+function clearAllHighlights() {
+    const highlightedElements = document.querySelectorAll('.word-highlight');
+    highlightedElements.forEach(el => el.classList.remove('word-highlight'));
+}
+
+function addInputAreaHoverListener() {
+    const inputArea = document.getElementById('input-area');
+    
+    inputArea.addEventListener('mousemove', (e) => {
+        // Get the current text and split into words
+        const text = (inputArea.textContent || inputArea.innerText).replace(/\s+/g, ' ').trim();
+        const words = text.split(/\s+/).filter(word => word.length > 0);
+        
+        // Get character position from mouse coordinates
+        const range = document.caretRangeFromPoint(e.clientX, e.clientY);
+        if (!range) return;
+        
+        const selection = window.getSelection();
+        const tempRange = document.createRange();
+        tempRange.selectNodeContents(inputArea);
+        tempRange.setEnd(range.startContainer, range.startOffset);
+        const charPosition = tempRange.toString().length;
+        
+        // Find which word the character position falls into
+        let currentPos = 0;
+        let wordIndex = -1;
+        
+        for (let i = 0; i < words.length; i++) {
+            const wordStart = currentPos;
+            const wordEnd = currentPos + words[i].length;
+            
+            if (charPosition >= wordStart && charPosition <= wordEnd) {
+                wordIndex = i;
+                break;
+            }
+            
+            currentPos = wordEnd + 1; // +1 for space
+        }
+        
+        if (wordIndex >= 0 && wordIndex < words.length) {
+            highlightInputWord(wordIndex);
+        }
+    });
+    
+    inputArea.addEventListener('mouseleave', clearAllHighlights);
+}
+
+function addOutputHoverListeners() {
+    const outputDivs = document.querySelectorAll('#output-area .output_div');
+    outputDivs.forEach((div, index) => {
+        // Remove existing event listeners
+        div.removeEventListener('mouseenter', div._hoverHandler);
+        div.removeEventListener('mouseleave', div._leaveHandler);
+        
+        // Add new event listeners
+        div._hoverHandler = () => highlightWord(index);
+        div._leaveHandler = clearAllHighlights;
+        
+        div.addEventListener('mouseenter', div._hoverHandler);
+        div.addEventListener('mouseleave', div._leaveHandler);
+    });
 }
 
 // Load the language data from the API
@@ -220,3 +312,6 @@ loadLanguageData();
 
 // Call this function to set up the interval behavior
 setupInputAreaInterval();
+
+// Initialize highlight functionality
+addInputAreaHoverListener();

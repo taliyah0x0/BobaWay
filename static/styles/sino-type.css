@@ -154,12 +154,6 @@
     border: 2px solid transparent;
 }
 
-.output_div:hover {
-    background-color: rgb(226, 199, 140);
-    transform: translateY(-2px);
-    border-color: rgb(60, 20, 0);
-}
-
 /* Copy button */
 #copy-button {
     position: absolute;
@@ -259,6 +253,27 @@ input[type="radio"]:checked {
 /* Utility classes */
 span {
     background-color: rgb(226, 199, 140);
+}
+
+/* Highlight classes */
+.word-highlight {
+    background-color: rgb(226, 199, 140);
+    transform: translateY(-2px);
+    border-color: rgb(60, 20, 0);
+    border-radius: 4px;
+    padding: 2px 4px;
+    transition: background-color 0.2s ease;
+}
+
+.word-hoverable {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.word-hoverable:hover {
+    background-color: rgb(255, 235, 120);
+    border-radius: 4px;
+    padding: 2px 4px;
 }
 
 /* Responsive design */
