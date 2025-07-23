@@ -23,7 +23,12 @@
     <header class="header">
         <div class="header-content">
             <h1 class="logo" onclick="window.location.href='/'">BobaWay</h1>
-            <nav class="nav">
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="nav" id="nav">
                 <div class="dropdown">
                     <button class="nav-link dropdown-toggle">Apps</button>
                     <div class="dropdown-content">
@@ -53,6 +58,8 @@
             </p>
         </div>
     </footer>
+
+    <script src="{{ url_for('static', filename='scripts/nav.js') }}"></script>
 
     {% if additional_js %}
         {% for js_file in additional_js %}
