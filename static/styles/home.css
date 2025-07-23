@@ -428,6 +428,15 @@ body {
   .about-title {
     font-size: 1.5rem;
   }
+
+  .footer {
+    padding: 1.5rem 1rem;
+    margin-top: 2rem;
+  }
+
+  .footer-text {
+    font-size: 0.9rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -458,6 +467,15 @@ body {
 
   .tool-title {
     font-size: 1.25rem;
+  }
+
+  .footer {
+    padding: 1rem 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .footer-text {
+    font-size: 0.85rem;
   }
 }
 
