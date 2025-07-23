@@ -257,23 +257,27 @@ span {
 
 /* Highlight classes */
 .word-highlight {
-    background-color: rgb(226, 199, 140);
+    background-color: rgb(226, 199, 140) !important;
     transform: translateY(-2px);
-    border-color: rgb(60, 20, 0);
+    border: 2px solid rgb(60, 20, 0) !important;
     border-radius: 4px;
     padding: 2px 4px;
-    transition: background-color 0.2s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(60, 20, 0, 0.2);
+}
+
+.input-word-highlight {
+    background-color: rgb(255, 235, 120) !important;
+    border-radius: 4px;
+    padding: 2px 4px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(60, 20, 0, 0.15);
+    border: 1px solid rgb(60, 20, 0);
 }
 
 .word-hoverable {
     cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.word-hoverable:hover {
-    background-color: rgb(255, 235, 120);
-    border-radius: 4px;
-    padding: 2px 4px;
+    transition: all 0.3s ease;
 }
 
 /* Responsive design */

@@ -6,6 +6,7 @@ let lastWord = "";
 let last_index = 0;
 let languages_included = [1, 0, 0, 0];
 let wordMapping = []; // Store mapping between input words and output divs
+let isProcessingInput = false; // Flag to prevent highlight interference during input processing
 
 // FUNCTIONS
 // Get the hanzi options for the word
@@ -35,8 +36,9 @@ function setOutputAtIndex(index, hanzi) {
 }
 
 function initiate () {
-    let text = document.getElementById("input-area").innerHTML;
-    text = text.replace(/&nbsp;/g, " ");
+    // Use textContent instead of innerHTML to avoid issues with highlight spans
+    const inputArea = document.getElementById("input-area");
+    let text = (inputArea.textContent || inputArea.innerText || "").replace(/\s+/g, " ");
     let options = document.getElementsByClassName("options");
     let output = document.getElementById("output-area");
 
@@ -156,17 +158,23 @@ function initiate () {
     lastWord = word;
     last_index = index;
     
-    // Add highlighting functionality only after output is updated
     setTimeout(() => {
         addOutputHoverListeners();
     }, 10);
 }
 
 function editOutput(index, word, radio) {
+    clearAllHighlights();
     // update the output with the new hanzi option
     const hanzi_options = getHanziOptions(word);
     setOutputAtIndex(index, hanzi_options[radio]);
     save[index] = radio;
+    
+    // After updating output, highlight both the romanization and hanzi
+    setTimeout(() => {
+        addOutputHoverListeners();
+        highlightWord(index);
+    }, 10);
 }
 
 // Edit the languages included in the hanzi options
@@ -186,6 +194,9 @@ function copy() {
 
 // Highlight functionality
 function highlightWord(wordIndex) {
+    // Don't highlight during input processing
+    // if (isProcessingInput) return;
+    
     // Clear all previous highlights
     clearAllHighlights();
     
@@ -193,38 +204,128 @@ function highlightWord(wordIndex) {
     const outputDivs = document.querySelectorAll('#output-area .output_div');
     if (outputDivs[wordIndex]) {
         outputDivs[wordIndex].classList.add('word-highlight');
+    }
+    
+    // Highlight corresponding input word
+    highlightInputWordAtIndex(wordIndex);
+}
+
+function highlightInputWordAtIndex(wordIndex) {
+    const inputArea = document.getElementById('input-area');
+    const text = (inputArea.textContent || inputArea.innerText).replace(/\s+/g, ' ').trim();
+    const words = text.split(/\s+/).filter(word => word.length > 0);
+    
+    if (wordIndex >= 0 && wordIndex < words.length) {
+        // Create a temporary range to find the word boundaries
+        const textNodes = getTextNodes(inputArea);
+        let currentPos = 0;
+        let wordStart = -1;
+        let wordEnd = -1;
+        
+        // Find the character positions of the word
+        for (let i = 0; i < words.length; i++) {
+            if (i === wordIndex) {
+                wordStart = currentPos;
+                wordEnd = currentPos + words[i].length;
+                break;
+            }
+            currentPos += words[i].length + 1; // +1 for space
+        }
+        
+        if (wordStart >= 0 && wordEnd >= 0) {
+            // Find the text node and offset for the word boundaries
+            const startInfo = findTextNodeAndOffset(textNodes, wordStart);
+            const endInfo = findTextNodeAndOffset(textNodes, wordEnd);
+            
+            if (startInfo && endInfo) {
+                // Create a range and wrap it with a highlight span
+                const range = document.createRange();
+                range.setStart(startInfo.node, startInfo.offset);
+                range.setEnd(endInfo.node, endInfo.offset);
+                
+                try {
+                    const contents = range.extractContents();
+                    const highlightSpan = document.createElement('span');
+                    highlightSpan.className = 'input-word-highlight';
+                    highlightSpan.appendChild(contents);
+                    range.insertNode(highlightSpan);
+                } catch (e) {
+                    // Fallback if range operations fail
+                    console.warn('Could not highlight input word:', e);
+                }
+            }
+        }
     }
 }
 
-function highlightInputWord(wordIndex) {
-    // Clear all previous highlights
-    clearAllHighlights();
-    
-    // Highlight corresponding output div
-    const outputDivs = document.querySelectorAll('#output-area .output_div');
-    if (outputDivs[wordIndex]) {
-        outputDivs[wordIndex].classList.add('word-highlight');
+function getTextNodes(element) {
+    const textNodes = [];
+    const walker = document.createTreeWalker(
+        element,
+        NodeFilter.SHOW_TEXT,
+        null,
+        false
+    );
+    let node;
+    while (node = walker.nextNode()) {
+        textNodes.push(node);
     }
+    return textNodes;
+}
+
+function findTextNodeAndOffset(textNodes, targetOffset) {
+    let currentOffset = 0;
+    for (const node of textNodes) {
+        const nodeLength = node.textContent.length;
+        if (targetOffset <= currentOffset + nodeLength) {
+            return {
+                node: node,
+                offset: targetOffset - currentOffset
+            };
+        }
+        currentOffset += nodeLength;
+    }
+    return null;
 }
 
 function clearAllHighlights() {
-    const highlightedElements = document.querySelectorAll('.word-highlight');
-    highlightedElements.forEach(el => el.classList.remove('word-highlight'));
+    const highlightedElements = document.querySelectorAll('.word-highlight, .input-word-highlight');
+    highlightedElements.forEach(el => {
+        if (el.classList.contains('input-word-highlight')) {
+            // For input highlights, replace the span with its text content
+            const parent = el.parentNode;
+            parent.replaceChild(document.createTextNode(el.textContent), el);
+            parent.normalize(); // Merge adjacent text nodes
+        } else {
+            el.classList.remove('word-highlight');
+        }
+    });
 }
 
 function addInputAreaHoverListener() {
     const inputArea = document.getElementById('input-area');
+    let lastHighlightedIndex = -1;
     
     inputArea.addEventListener('mousemove', (e) => {
+        // Don't highlight during input processing
+        if (isProcessingInput) return;
+        
         // Get the current text and split into words
         const text = (inputArea.textContent || inputArea.innerText).replace(/\s+/g, ' ').trim();
         const words = text.split(/\s+/).filter(word => word.length > 0);
+        
+        if (words.length === 0) {
+            if (lastHighlightedIndex !== -1) {
+                clearAllHighlights();
+                lastHighlightedIndex = -1;
+            }
+            return;
+        }
         
         // Get character position from mouse coordinates
         const range = document.caretRangeFromPoint(e.clientX, e.clientY);
         if (!range) return;
         
-        const selection = window.getSelection();
         const tempRange = document.createRange();
         tempRange.selectNodeContents(inputArea);
         tempRange.setEnd(range.startContainer, range.startOffset);
@@ -246,12 +347,22 @@ function addInputAreaHoverListener() {
             currentPos = wordEnd + 1; // +1 for space
         }
         
-        if (wordIndex >= 0 && wordIndex < words.length) {
-            highlightInputWord(wordIndex);
+        // Only update highlighting if we're hovering over a different word
+        if (wordIndex !== lastHighlightedIndex) {
+            if (wordIndex >= 0 && wordIndex < words.length) {
+                highlightWord(wordIndex);
+                lastHighlightedIndex = wordIndex;
+            } else {
+                clearAllHighlights();
+                lastHighlightedIndex = -1;
+            }
         }
     });
     
-    inputArea.addEventListener('mouseleave', clearAllHighlights);
+    inputArea.addEventListener('mouseleave', () => {
+        clearAllHighlights();
+        lastHighlightedIndex = -1;
+    });
 }
 
 function addOutputHoverListeners() {
@@ -262,7 +373,10 @@ function addOutputHoverListeners() {
         div.removeEventListener('mouseleave', div._leaveHandler);
         
         // Add new event listeners
-        div._hoverHandler = () => highlightWord(index);
+        div._hoverHandler = () => {
+            if (isProcessingInput) return;
+            highlightWord(index);
+        };
         div._leaveHandler = clearAllHighlights;
         
         div.addEventListener('mouseenter', div._hoverHandler);
@@ -296,11 +410,14 @@ function setupInputAreaInterval() {
     let intervalId;
     const input_area = document.getElementById("input-area");
     input_area.addEventListener("focus", () => {
+        isProcessingInput = true;
+        clearAllHighlights();
         intervalId = setInterval(initiate, 200); // Run every 0.2 seconds
     });
 
     // Stop the loop when the textarea loses focus
     input_area.addEventListener("blur", () => {
+        isProcessingInput = false;
         clearInterval(intervalId); // Stop the interval
     });
 }
