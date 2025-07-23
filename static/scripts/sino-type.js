@@ -194,9 +194,6 @@ function copy() {
 
 // Highlight functionality
 function highlightWord(wordIndex) {
-    // Don't highlight during input processing
-    // if (isProcessingInput) return;
-    
     // Clear all previous highlights
     clearAllHighlights();
     
