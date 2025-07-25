@@ -58,47 +58,46 @@
         <section class="database-section">
             <h3 class="database-title">Current Database Entries</h3>
             
-            {% macro language_table(language_value, entries) %}
-            <div class="language-section">
-                <h3>{{ language_value }}</h3>
-                <table>
+            <table class="database-table">
+                <thead>
                     <tr>
+                        <th>Code</th>
                         <th>Hanzi</th>
                         <th>Romanization</th>
-                        <th>Edit</th>
+                        <th>Language</th>
+                        <th>Edit Romanization</th>
                         <th>Delete</th>
                     </tr>
-                    {% for entry in entries %}
+                </thead>
+                <tbody>
+                    {% for entry in all_entries|sort(attribute='code') %}
                     <tr>
-                        <td>{{ entry[0] }}</td>
-                        <td>{{ entry[1] }}</td>
+                        <td>{{ entry.code }}</td>
+                        <td>{{ entry.hanzi }}</td>
+                        <td>{{ entry.roman }}</td>
+                        <td>{{ entry.language|title }}</td>
                         <td>
-                            <form action="update-entry" method="POST">
-                                <input type="hidden" name="language" value="{{ language_value }}">
-                                <input type="hidden" name="hanzi" value="{{ entry[0] }}">
-                                <input type="hidden" name="original_roman" value="{{ entry[1] }}">
-                                <input type="text" name="new_roman" placeholder="New romanization">
-                                <button type="submit">Edit</button>
+                            <form action="update-entry" method="POST" class="edit-form">
+                                <input type="hidden" name="language" value="{{ entry.language }}">
+                                <input type="hidden" name="hanzi_id" value="{{ entry.code }}">
+                                <input type="hidden" name="hanzi" value="{{ entry.hanzi }}">
+                                <input type="hidden" name="original_roman" value="{{ entry.roman }}">
+                                <input type="text" name="new_roman" placeholder="New romanization" class="edit-input">
+                                <button type="submit" class="edit-button">Edit</button>
                             </form>
                         </td>
                         <td>
-                            <form action="delete-entry" method="POST">
-                                <input type="hidden" name="language" value="{{ language_value }}">
-                                <input type="hidden" name="hanzi" value="{{ entry[0] }}">
-                                <input type="hidden" name="romanization" value="{{ entry[1] }}">
-                                <button type="submit">Delete</button>
+                            <form action="delete-entry" method="POST" class="delete-form">
+                                <input type="hidden" name="language" value="{{ entry.language }}">
+                                <input type="hidden" name="hanzi_id" value="{{ entry.code }}">
+                                <input type="hidden" name="romanization" value="{{ entry.roman }}">
+                                <button type="submit" class="delete-button">Delete</button>
                             </form>
                         </td>
                     </tr>
                     {% endfor %}
-                </table>
-            </div>
-            {% endmacro %}
-            
-            {{ language_table("Shanghainese", shanghainese) }}
-            {{ language_table("Korean", korean) }}
-            {{ language_table("Taiwanese", taiwanese) }}
-            {{ language_table("Vietnamese", vietnamese) }}
+                </tbody>
+            </table>
         </section>
 
         <section class="contact-info">

@@ -249,8 +249,14 @@ def adminportal():
     korean = db.fetch_all_entries("korean")
     taiwanese = db.fetch_all_entries("taiwanese")
     vietnamese = db.fetch_all_entries("vietnamese")
+    all_entries = [
+        *[{**entry, "language": "shanghainese"} for entry in shanghainese], 
+        *[{**entry, "language": "korean"} for entry in korean], 
+        *[{**entry, "language": "taiwanese"} for entry in taiwanese], 
+        *[{**entry, "language": "vietnamese"} for entry in vietnamese]
+    ]
 
-    return render_template("adminportal.html", shanghainese=shanghainese, korean=korean, taiwanese=taiwanese, vietnamese=vietnamese)
+    return render_template("adminportal.html", all_entries=all_entries)
 
 
 # ADMIN REQUESTS
@@ -320,12 +326,12 @@ def add_entry():
 def delete_entry():
     db = SinoDB()
     language = request.form["language"].lower()
-    hanzi = request.form["hanzi"]
+    hanzi_id = request.form["hanzi_id"]
     roman = request.form["romanization"].lower()
     
     try:
-        db.delete_translation_entry(language, hanzi, roman)
-        flash(f"You have deleted ({hanzi}, {roman}) from the {language} database.", "info")
+        db.delete_translation_entry(language, hanzi_id, roman)
+        flash(f"You have deleted ({hanzi_id}, {roman}) from the {language} database.", "info")
     except Exception as e:
         flash(f"Error deleting entry. Please try again.")
         print(f"Delete error: {e}")
@@ -339,17 +345,18 @@ def update_entry():
     db = SinoDB()
     language = request.form["language"].lower()
     hanzi = request.form["hanzi"]
+    hanzi_id = request.form["hanzi_id"]
     original_roman = request.form["original_roman"].lower()
     new_roman = request.form["new_roman"].lower()
 
     if not checkRoman(new_roman):
         flash("The romanji must consist entirely of Latin characters, no punctuation.")
     elif checkEntryExistence(db, language, hanzi, new_roman):
-        flash(f"You have already added ({hanzi}, {new_roman}) to the {language} database. Try deleting this entry or choosing a different romanization.", "info")
+        flash(f"You have already added ({hanzi} ({hanzi_id}), {new_roman}) to the {language} database. Try deleting this entry or choosing a different romanization.", "info")
     else:
         try:
-            db.update_translation_entry(language, hanzi, original_roman, new_roman)
-            flash(f"You have updated ({hanzi}, {original_roman}) to ({hanzi}, {new_roman}) in the {language} database.", "info")
+            db.update_translation_entry(language, hanzi_id, original_roman, new_roman)
+            flash(f"You have updated ({hanzi} ({hanzi_id}), {original_roman}) to ({hanzi} ({hanzi_id}), {new_roman}) in the {language} database.", "info")
         except Exception as e:
             flash(f"Error updating entry. Please try again.")
             print(f"Update error: {e}")
