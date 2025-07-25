@@ -104,6 +104,7 @@
     background-color: rgb(250, 230, 170);
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(60, 20, 0, 0.1);
+    position: relative;
 }
 
 .textareas {
@@ -154,11 +155,14 @@
     border: 2px solid transparent;
 }
 
+
+
 /* Copy button */
 #copy-button {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
     width: 2.5rem;
     height: 2.5rem;
     background-image: url("../img/copy.png");
@@ -168,7 +172,6 @@
     opacity: 0.7;
     transition: all 0.3s ease;
     cursor: pointer;
-    z-index: 3;
 }
 
 #copy-button:hover {
