@@ -1,138 +1,157 @@
-<!DOCTYPE html>
-<html style="background-color: rgb(226, 199, 140)" id="background">
-  <head>
-    <title>BobaWay | Tai-Ping</title>
-    <link rel="stylesheet" href="./static/styles/tai-ping.css">
-      <link rel="icon" type="image/x-icon" href="./static/img/flav/flav_8.png" class="favicon">
-  <link rel="apple-touch-icon" sizes="128x128" href="./static/img/flav/flav_8.png" class="favicon">
-  <meta property="og:image" content="./static/img/flav/flav_8.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="1024">
-    <meta property="og:image:height" content="1024">
-    <meta property="og:description" content="Easily type in Taiwanese!">
-  </head>
-  <body onload="start()">
-    <div style="display: flex; flex: 1" class="bottom">
-      <a href="/" style="display: flex; flex: 6">
-        <h1 id="title">
-          Tai-Ping
-        </h1>
-      </a>
-      <div style="display: flex; flex-direction: row">
-          <a href="app">
-            <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(0)" type="submit">
-                <h3>
-                  BobaWay
-                </h3>
-            </button>
-          </a>
-          <a href="/about">
-            <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(1)" type="submit">
-                <h3>
-                  About
-                </h3>
-            </button>
-          </a>
-        <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(2)">
-          <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQDR9Uki-ei757OyyAjvf-wzQFnhPuK3R4r0CKqUdoyXTgFX8I6DxVnCewjoWFyKN9rVjp7kyHIgJ9w/pubhtml?gid=0&single=true" target="_blank">
-            <h3>
-              Feedback
-            </h3>
-          </a>
-        </button>
-        <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(3)">
-          <a href="https://paypal.me/taliyah0x0" target="_blank">
-            <h3>
-              Donate
-            </h3>
-          </a>
-        </button>
+{% extends "base.html" %}
+
+{% set title = "BobaWay | Tai-Ping" %}
+{% set additional_css = ["styles/tai-ping.css"] %}
+{% set additional_js = ["scripts/tai-ping.js"] %}
+{% set og_description = "Easily type in Taiwanese!" %}
+
+{% block extra_head %}
+<style>
+  body {
+    background-color: rgb(226, 199, 140) !important;
+  }
+  
+  .main {
+    padding: 0;
+    min-height: calc(100vh - 120px); /* Account for header and footer */
+  }
+  
+  /* Ensure the tai-ping content takes full available height */
+  .main > div {
+    min-height: 100%;
+  }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof start === 'function') {
+      start();
+    }
+  });
+</script>
+{% endblock %}
+
+{% block content %}
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+  <div style="display: flex; flex: 1" class="bottom">
+    <a href="/" style="display: flex; flex: 6">
+      <h1 id="title">
+        Tai-Ping
+      </h1>
+    </a>
+    <div style="display: flex; flex-direction: row">
+        <a href="app">
+          <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(0)" type="submit">
+              <h3>
+                BobaWay
+              </h3>
+          </button>
+        </a>
+        <a href="/about">
+          <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(1)" type="submit">
+              <h3>
+                About
+              </h3>
+          </button>
+        </a>
+      <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(2)">
+        <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQDR9Uki-ei757OyyAjvf-wzQFnhPuK3R4r0CKqUdoyXTgFX8I6DxVnCewjoWFyKN9rVjp7kyHIgJ9w/pubhtml?gid=0&single=true" target="_blank">
+          <h3>
+            Feedback
+          </h3>
+        </a>
+      </button>
+      <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(3)">
+        <a href="https://paypal.me/taliyah0x0" target="_blank">
+          <h3>
+            Donate
+          </h3>
+        </a>
+      </button>
+    </div>
+  </div>
+  <form id="mainform" name="mainform" action="{{ url_for("tai_ping")}}" method="post" style="padding-top: 1rem;">
+    <div style="justify-content: center; align-items: middle; display: flex; flex-direction: column">
+      <textarea id="page" name="page" style="display: none">{{page}}</textarea>
+      <textarea id="full" name="full" style="display: none">{{full}}</textarea>
+      <textarea id="files" name="files" style="display: none">{{files}}</textarea>
+      <textarea id="filename" name="filename" style="display: none">{{filename}}</textarea>
+      <textarea id="og" name="og" style="display: none">{{og}}</textarea>
+      <textarea id="ogg" name="ogg" style="display: none">{{ogg}}</textarea>
+      <textarea id="endings" name="endings" style="display: none">{{endings}}</textarea>
+      <textarea id="change" name="change" style="display: none">{{change}}</textarea>
+      <textarea id="slider_val" name="slider_val" style="display: none">{{slider}}</textarea>
+      <textarea id="prev" name="prev" style="display: none">{{prev}}</textarea>
+      <textarea id="last" name="last" style="display: none">{{last}}</textarea>
+    <div style="display: flex; flex-direction: row;">
+      <div id="text_box" onclick="play()" name="text_box"><pre id="black">{{ogg}}</pre><pre id="red">{{og}}</pre><pre id="underline">{{change}}</pre><img src="{{ url_for('static', filename='img/copy.png') }}" class="copy" onclick="copyTextToClipboard()"></div>
+    </div>
+      <div class="swap-direction">
+        <div class="set">
+          <button type="button" class="small-key" onclick="tone(0)">2</button>
+          <button type="button" class="small-key" onclick="tone(1)">3</button>
+          <button type="button" class="small-key" onclick="tone(2)">4</button>
+          <button type="button" class="small-key" onclick="tone(3)">5</button>
+          <button type="button" class="small-key" onclick="tone(4)">7</button>
+          <button type="button" class="small-key" onclick="tone(5)">8</button>
+        </div>
+      <div class="set">
+        <button type="button" class="large-key" onclick="key(0)">p</button>
+        <button type="button" class="large-key" onclick="key(1)">ts</button>
+        <button type="button" class="large-key" onclick="key(2)">t</button>
+      </div>
+      <div class="set">
+        <button type="button" class="large-key" onclick="key(3)">ph</button>
+        <button type="button" class="large-key" onclick="key(4)">tsh</button>
+        <button type="button" class="large-key" onclick="key(5)">th</button>
+      </div>
+      <div class="set">
+        <button type="button" class="large-key" onclick="key(6)">k</button>
+        <button type="button" class="large-key" onclick="key(7)">ch</button>
+        <button type="button" class="large-key" onclick="key(8)">s</button>
+      </div>
+      <div class="set">
+        <button type="button" class="large-key" onclick="key(9)">kh</button>
+        <button type="button" class="large-key" onclick="key(10)">chh</button>
+        <button type="button" class="large-key" onclick="key(11)">j</button>
+      </div>
+      <div class="set">
+        <button type="button" class="large-key" onclick="key(12)">b</button>
+        <button type="button" class="large-key" onclick="key(13)">l</button>
+        <button type="button" class="large-key" onclick="key(14)">m</button>
+      </div>
+      <div class="set">
+        <button type="button" class="large-key" onclick="key(15)">d</button>
+        <button type="button" class="large-key" onclick="key(16)">g</button>
+        <button type="button" class="large-key" onclick="key(17)">h</button>
+      </div>
+      <div class="set">
+        <button type="button" class="large-key" onclick="key(18)">e</button>
+        <button type="button" class="large-key" onclick="key(19)">n</button>
+        <button type="button" class="large-key" onclick="key(20)">ng</button>
+      </div>
+  <div class="last-set">
+    <div class="set">
+    <div style="display: flex; flex-direction: row">
+      <button type="button" class="large-key" onclick="key(21)">a</button>
+        <button type="button" class="large-key" onclick="key(22)">i</button>
+    </div>
+    <div style="display: flex; flex-direction: row">
+      <button type="button" class="large-key" onclick="key(23)">o</button>
+        <button type="button" class="large-key" onclick="key(24)">u</button>
+    </div>
+    </div>
+          <button type="button" class="medium-key" onclick="backspace()">BACKSPACE</button>
+          <button type="button" class="medium-key" onclick="enter(0)">SPACE</button>
+    <button type="button" class="medium-key" onclick="enter(1)">ENTER</button>
+    <div class="slider-box">
+      <input type="range" min="1" max="3" value="1" id="slider" name="slider" style="display: none">
+       <img src="{{ url_for('static', filename='img/light-0.png') }}" class="arrow" style="float: left;" onclick="update(0)" disabled>
+      <h3 id="level">Easy</h3>
+      <img src="{{ url_for('static', filename='img/1.png') }}" class="arrow" style="float: right" onclick="update(1)"> 
+     </div>
       </div>
     </div>
-    <form id="mainform" name="mainform" action="{{ url_for("tai_ping")}}" method="post">
-      <div style="justify-content: center; align-items: middle; display: flex; flex-direction: column">
-        <textarea id="page" name="page" style="display: none">{{page}}</textarea>
-        <textarea id="full" name="full" style="display: none">{{full}}</textarea>
-        <textarea id="files" name="files" style="display: none">{{files}}</textarea>
-        <textarea id="filename" name="filename" style="display: none">{{filename}}</textarea>
-        <textarea id="og" name="og" style="display: none">{{og}}</textarea>
-        <textarea id="ogg" name="ogg" style="display: none">{{ogg}}</textarea>
-        <textarea id="endings" name="endings" style="display: none">{{endings}}</textarea>
-        <textarea id="change" name="change" style="display: none">{{change}}</textarea>
-        <textarea id="slider_val" name="slider_val" style="display: none">{{slider}}</textarea>
-        <textarea id="prev" name="prev" style="display: none">{{prev}}</textarea>
-        <textarea id="last" name="last" style="display: none">{{last}}</textarea>
-      <div style="display: flex; flex-direction: row;">
-        <div id="text_box" onclick="play()" name="text_box"><pre id="black">{{ogg}}</pre><pre id="red">{{og}}</pre><pre id="underline">{{change}}</pre><img src="./static/img/copy.png" class="copy" onclick="copyTextToClipboard()"></div>
-      </div>
-        <div class="swap-direction">
-          <div class="set">
-            <button type="button" class="small-key" onclick="tone(0)">2</button>
-            <button type="button" class="small-key" onclick="tone(1)">3</button>
-            <button type="button" class="small-key" onclick="tone(2)">4</button>
-            <button type="button" class="small-key" onclick="tone(3)">5</button>
-            <button type="button" class="small-key" onclick="tone(4)">7</button>
-            <button type="button" class="small-key" onclick="tone(5)">8</button>
-          </div>
-        <div class="set">
-          <button type="button" class="large-key" onclick="key(0)">p</button>
-          <button type="button" class="large-key" onclick="key(1)">ts</button>
-          <button type="button" class="large-key" onclick="key(2)">t</button>
-        </div>
-        <div class="set">
-          <button type="button" class="large-key" onclick="key(3)">ph</button>
-          <button type="button" class="large-key" onclick="key(4)">tsh</button>
-          <button type="button" class="large-key" onclick="key(5)">th</button>
-        </div>
-        <div class="set">
-          <button type="button" class="large-key" onclick="key(6)">k</button>
-          <button type="button" class="large-key" onclick="key(7)">ch</button>
-          <button type="button" class="large-key" onclick="key(8)">s</button>
-        </div>
-        <div class="set">
-          <button type="button" class="large-key" onclick="key(9)">kh</button>
-          <button type="button" class="large-key" onclick="key(10)">chh</button>
-          <button type="button" class="large-key" onclick="key(11)">j</button>
-        </div>
-        <div class="set">
-          <button type="button" class="large-key" onclick="key(12)">b</button>
-          <button type="button" class="large-key" onclick="key(13)">l</button>
-          <button type="button" class="large-key" onclick="key(14)">m</button>
-        </div>
-        <div class="set">
-          <button type="button" class="large-key" onclick="key(15)">d</button>
-          <button type="button" class="large-key" onclick="key(16)">g</button>
-          <button type="button" class="large-key" onclick="key(17)">h</button>
-        </div>
-        <div class="set">
-          <button type="button" class="large-key" onclick="key(18)">e</button>
-          <button type="button" class="large-key" onclick="key(19)">n</button>
-          <button type="button" class="large-key" onclick="key(20)">ng</button>
-        </div>
-    <div class="last-set">
-      <div class="set">
-      <div style="display: flex; flex-direction: row">
-        <button type="button" class="large-key" onclick="key(21)">a</button>
-          <button type="button" class="large-key" onclick="key(22)">i</button>
-      </div>
-      <div style="display: flex; flex-direction: row">
-        <button type="button" class="large-key" onclick="key(23)">o</button>
-          <button type="button" class="large-key" onclick="key(24)">u</button>
-      </div>
-      </div>
-            <button type="button" class="medium-key" onclick="backspace()">BACKSPACE</button>
-            <button type="button" class="medium-key" onclick="enter(0)">SPACE</button>
-      <button type="button" class="medium-key" onclick="enter(1)">ENTER</button>
-      <div class="slider-box">
-        <input type="range" min="1" max="3" value="1" id="slider" name="slider" style="display: none">
-         <img src="./static/img/light-0.png" class="arrow" style="float: left;" onclick="update(0)" disabled>
-        <h3 id="level">Easy</h3>
-        <img src="./static/img/1.png" class="arrow" style="float: right" onclick="update(1)"> 
-       </div>
-        </div>
-      </div>
-      </div>
-    </form>
-  </body>
-  <script type="text/javascript" src="./static/scripts/tai-ping.js"></script>
-</html>
+    </div>
+  </form>
+</div>
+{% endblock %}
