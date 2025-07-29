@@ -6,21 +6,6 @@
 {% set og_description = "Easily type in Taiwanese!" %}
 
 {% block extra_head %}
-<style>
-  body {
-    background-color: rgb(226, 199, 140) !important;
-  }
-  
-  .main {
-    padding: 0;
-    min-height: calc(100vh - 120px); /* Account for header and footer */
-  }
-  
-  /* Ensure the tai-ping content takes full available height */
-  .main > div {
-    min-height: 100%;
-  }
-</style>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     if (typeof start === 'function') {
@@ -32,43 +17,6 @@
 
 {% block content %}
 <div style="min-height: 100vh; display: flex; flex-direction: column;">
-  <div style="display: flex; flex: 1" class="bottom">
-    <a href="/" style="display: flex; flex: 6">
-      <h1 id="title">
-        Tai-Ping
-      </h1>
-    </a>
-    <div style="display: flex; flex-direction: row">
-        <a href="app">
-          <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(0)" type="submit">
-              <h3>
-                BobaWay
-              </h3>
-          </button>
-        </a>
-        <a href="/about">
-          <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(1)" type="submit">
-              <h3>
-                About
-              </h3>
-          </button>
-        </a>
-      <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(2)">
-        <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQDR9Uki-ei757OyyAjvf-wzQFnhPuK3R4r0CKqUdoyXTgFX8I6DxVnCewjoWFyKN9rVjp7kyHIgJ9w/pubhtml?gid=0&single=true" target="_blank">
-          <h3>
-            Feedback
-          </h3>
-        </a>
-      </button>
-      <button class="menu-button" onmouseout="menuMOU()" onmouseover="menuMOV(3)">
-        <a href="https://paypal.me/taliyah0x0" target="_blank">
-          <h3>
-            Donate
-          </h3>
-        </a>
-      </button>
-    </div>
-  </div>
   <form id="mainform" name="mainform" action="{{ url_for("tai_ping")}}" method="post" style="padding-top: 1rem;">
     <div style="justify-content: center; align-items: middle; display: flex; flex-direction: column">
       <textarea id="page" name="page" style="display: none">{{page}}</textarea>
