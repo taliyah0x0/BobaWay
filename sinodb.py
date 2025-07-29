@@ -36,7 +36,7 @@ class SinoDB(DB):
 
   def get_entry_by_hanzi_and_roman(self, language, hanzi, roman):
     """Get entry by hanzi and romanization"""
-    return self.execute(f"SELECT c.hanzi_id FROM {language} l JOIN characters c ON l.hanzi_id = c.id WHERE c.hanzi = %s AND l.roman = %s", (hanzi, roman))
+    return self.execute(f"SELECT l.hanzi_id FROM {language} l JOIN characters c ON l.hanzi_id = c.id WHERE c.hanzi = %s AND l.roman = %s", (hanzi, roman))
   
   def create_translation_entry(self, language, hanzi, roman):
     """Create a new translation entry using character ID"""

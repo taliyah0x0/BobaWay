@@ -70,7 +70,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for entry in all_entries|sort(attribute='code') %}
+                    {% for entry in all_entries|sort(attribute='code', reverse=True) %}
                     <tr>
                         <td>{{ entry.code }}</td>
                         <td>{{ entry.hanzi }}</td>
