@@ -72,25 +72,40 @@ class SinoDB(DB):
   # Words management methods
   def get_character_with_romanizations(self, character_id, language):
     """Get character details with romanizations for a specific language"""
-    character_result = self.execute("SELECT id, hanzi FROM characters WHERE id = %s", (character_id,))
-    if not character_result:
+    try:
+      character_result = self.execute("SELECT id, hanzi FROM characters WHERE id = %s", (character_id,))
+      if not character_result:
+        return None
+      
+      character_id, hanzi = character_result[0]
+      
+      try:
+        romanizations = self.execute(f"SELECT roman FROM {language} WHERE hanzi_id = %s ORDER BY roman", (character_id,))
+        romanizations_list = [r[0] for r in romanizations] if romanizations else []
+      except Exception as e:
+        print(f"Error getting romanizations for character {character_id} in {language}: {e}")
+        romanizations_list = []
+      
+      return {
+        'id': character_id,
+        'character': hanzi,
+        'romanizations': romanizations_list
+      }
+    except Exception as e:
+      print(f"Error getting character {character_id}: {e}")
       return None
-    
-    character_id, hanzi = character_result[0]
-    romanizations = self.execute(f"SELECT roman FROM {language} WHERE hanzi_id = %s ORDER BY roman", (character_id,))
-    
-    return {
-      'id': character_id,
-      'character': hanzi,
-      'romanizations': [r[0] for r in romanizations] if romanizations else []
-    }
 
   def create_word(self, romanization, language, character_ids):
     """Create a new word entry"""
-    return self.execute(
-      "INSERT INTO words (romanization, language, characters) VALUES (%s, %s, %s) RETURNING id", 
-      (romanization, language, character_ids)
-    )
+    try:
+      result = self.execute(
+        "INSERT INTO words (romanization, language, characters) VALUES (%s, %s, %s) RETURNING id", 
+        (romanization, language, character_ids)
+      )
+      return result if result else None
+    except Exception as e:
+      print(f"Error creating word: {e}")
+      return None
 
   def get_words(self, language=None, limit=None, offset=None):
     """Get words with character details"""
@@ -119,48 +134,74 @@ class SinoDB(DB):
       base_query += " OFFSET %s" 
       params.append(offset)
     
-    words_result = self.execute(base_query, params)
-    
-    words = []
-    for word_row in words_result:
-      word_id, romanization, word_language, character_ids = word_row
+    try:
+      words_result = self.execute(base_query, params)
       
-      # Get character details
-      character_details = []
-      if character_ids:
-        placeholders = ','.join(['%s'] * len(character_ids))
-        char_query = f"SELECT id, hanzi FROM characters WHERE id IN ({placeholders}) ORDER BY array_position(%s, id)"
-        char_result = self.execute(char_query, character_ids + [character_ids])
-        character_details = [{'id': r[0], 'character': r[1]} for r in char_result]
+      # Handle empty result or None
+      if not words_result:
+        return []
       
-      words.append({
-        'id': word_id,
-        'romanization': romanization,
-        'language': word_language,
-        'characters': character_ids,
-        'character_details': character_details
-      })
-    
-    return words
+      words = []
+      for word_row in words_result:
+        word_id, romanization, word_language, character_ids = word_row
+        
+        # Get character details
+        character_details = []
+        if character_ids:
+          try:
+            placeholders = ','.join(['%s'] * len(character_ids))
+            char_query = f"SELECT id, hanzi FROM characters WHERE id IN ({placeholders}) ORDER BY array_position(%s, id)"
+            char_result = self.execute(char_query, character_ids + [character_ids])
+            if char_result:
+              character_details = [{'id': r[0], 'character': r[1]} for r in char_result]
+          except Exception as e:
+            print(f"Error getting character details: {e}")
+            # Still add the word but without character details
+            character_details = []
+        
+        words.append({
+          'id': word_id,
+          'romanization': romanization,
+          'language': word_language,
+          'characters': character_ids or [],
+          'character_details': character_details
+        })
+      
+      return words
+    except Exception as e:
+      print(f"Error getting words: {e}")
+      return []
 
   def update_word(self, word_id, romanization, language, character_ids):
     """Update an existing word"""
-    return self.execute(
-      "UPDATE words SET romanization = %s, language = %s, characters = %s WHERE id = %s",
-      (romanization, language, character_ids, word_id)
-    )
+    try:
+      return self.execute(
+        "UPDATE words SET romanization = %s, language = %s, characters = %s WHERE id = %s",
+        (romanization, language, character_ids, word_id)
+      )
+    except Exception as e:
+      print(f"Error updating word {word_id}: {e}")
+      return False
 
   def delete_word(self, word_id):
     """Delete a word"""
-    return self.execute("DELETE FROM words WHERE id = %s", (word_id,))
+    try:
+      return self.execute("DELETE FROM words WHERE id = %s", (word_id,))
+    except Exception as e:
+      print(f"Error deleting word {word_id}: {e}")
+      return False
 
   def check_duplicate_word(self, romanization, language, character_ids):
     """Check for duplicate words"""
-    result = self.execute(
-      "SELECT COUNT(*) FROM words WHERE romanization = %s AND language = %s AND characters = %s",
-      (romanization, language, character_ids)
-    )
-    return result[0][0] > 0 if result else False
+    try:
+      result = self.execute(
+        "SELECT COUNT(*) FROM words WHERE romanization = %s AND language = %s AND characters = %s",
+        (romanization, language, character_ids)
+      )
+      return result[0][0] > 0 if result and result[0] else False
+    except Exception as e:
+      print(f"Error checking duplicate word: {e}")
+      return False
 
   def get_all_languages(self):
     """Get all available languages"""

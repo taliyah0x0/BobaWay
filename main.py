@@ -264,10 +264,20 @@ def adminportal():
 @login_required
 def admin_words():
     """Display the words management interface"""
-    db = SinoDB()
-    words = db.get_words(limit=50)
-    languages = db.get_all_languages()
-    return render_template("admin_words.html", words=words, languages=languages)
+    try:
+        db = SinoDB()
+        words = db.get_words(limit=50)
+        languages = db.get_all_languages()
+        
+        # Ensure words is always a list
+        if words is None:
+            words = []
+        
+        return render_template("admin_words.html", words=words, languages=languages)
+    except Exception as e:
+        print(f"Error loading admin words page: {e}")
+        flash("Error loading words management page. Please try again.")
+        return redirect(url_for("adminportal"))
 
 @app.route("/api/characters/<int:character_id>", methods=["GET"])
 @login_required
@@ -302,10 +312,15 @@ def get_words_api():
         
         words = db.get_words(language=language, limit=limit, offset=offset)
         
+        # Ensure words is always a list
+        if words is None:
+            words = []
+        
         return jsonify({"success": True, "words": words})
     
     except Exception as e:
-        return jsonify({"success": False, "error": str(e)}), 500
+        print(f"Error getting words: {e}")
+        return jsonify({"success": False, "error": "Failed to retrieve words"}), 500
 
 @app.route("/api/words", methods=["POST"])
 @login_required
@@ -317,8 +332,8 @@ def create_word():
         if not data:
             return jsonify({"success": False, "error": "No data provided"}), 400
         
-        romanization = data.get('romanization')
-        language = data.get('language')
+        romanization = data.get('romanization', '').strip()
+        language = data.get('language', '').strip()
         character_ids = data.get('characters', [])
         
         # Validation
@@ -326,7 +341,7 @@ def create_word():
             return jsonify({"success": False, "error": "Romanization is required"}), 400
         if not language:
             return jsonify({"success": False, "error": "Language is required"}), 400
-        if not character_ids:
+        if not character_ids or not isinstance(character_ids, list) or len(character_ids) == 0:
             return jsonify({"success": False, "error": "At least one character is required"}), 400
         
         db = SinoDB()
@@ -340,11 +355,16 @@ def create_word():
         
         # Create the word
         result = db.create_word(romanization, language, character_ids)
-        word_id = result[0][0] if result else None
+        
+        if not result:
+            return jsonify({"success": False, "error": "Failed to save word. Please try again."}), 500
+        
+        word_id = result[0][0] if result and result[0] else None
         
         return jsonify({"success": True, "word_id": word_id})
     
     except Exception as e:
+        print(f"Error creating word: {e}")
         return jsonify({"success": False, "error": "Failed to save word. Please try again."}), 500
 
 @app.route("/api/words/<int:word_id>", methods=["PUT"])
@@ -357,8 +377,8 @@ def update_word_api(word_id):
         if not data:
             return jsonify({"success": False, "error": "No data provided"}), 400
         
-        romanization = data.get('romanization')
-        language = data.get('language')
+        romanization = data.get('romanization', '').strip()
+        language = data.get('language', '').strip()
         character_ids = data.get('characters', [])
         
         # Validation
@@ -366,7 +386,7 @@ def update_word_api(word_id):
             return jsonify({"success": False, "error": "Romanization is required"}), 400
         if not language:
             return jsonify({"success": False, "error": "Language is required"}), 400
-        if not character_ids:
+        if not character_ids or not isinstance(character_ids, list) or len(character_ids) == 0:
             return jsonify({"success": False, "error": "At least one character is required"}), 400
         
         db = SinoDB()
@@ -375,11 +395,15 @@ def update_word_api(word_id):
             return jsonify({"success": False, "error": "Invalid language"}), 400
         
         # Update the word
-        db.update_word(word_id, romanization, language, character_ids)
+        result = db.update_word(word_id, romanization, language, character_ids)
+        
+        if result is False:
+            return jsonify({"success": False, "error": "Failed to update word. Word may not exist."}), 404
         
         return jsonify({"success": True})
     
     except Exception as e:
+        print(f"Error updating word {word_id}: {e}")
         return jsonify({"success": False, "error": "Failed to update word. Please try again."}), 500
 
 @app.route("/api/words/<int:word_id>", methods=["DELETE"])
@@ -388,11 +412,15 @@ def delete_word_api(word_id):
     """Delete a word"""
     try:
         db = SinoDB()
-        db.delete_word(word_id)
+        result = db.delete_word(word_id)
+        
+        if result is False:
+            return jsonify({"success": False, "error": "Failed to delete word. Word may not exist."}), 404
         
         return jsonify({"success": True})
     
     except Exception as e:
+        print(f"Error deleting word {word_id}: {e}")
         return jsonify({"success": False, "error": "Failed to delete word. Please try again."}), 500
 
 # ADMIN REQUESTS
