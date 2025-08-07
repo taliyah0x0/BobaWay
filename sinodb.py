@@ -98,41 +98,24 @@ class SinoDB(DB):
   def create_word(self, romanization, language, character_ids):
     """Create a new word entry"""
     try:
-      result = self.execute(
-        "INSERT INTO words (romanization, language, characters) VALUES (%s, %s, %s) RETURNING id", 
+      self.execute(
+        "INSERT INTO words (romanization, language, characters) VALUES (%s, %s, %s)", 
         (romanization, language, character_ids)
       )
-      return result if result else None
+      return True
     except Exception as e:
       print(f"Error creating word: {e}")
-      return None
+      return False
 
-  def get_words(self, language=None, limit=None, offset=None):
+  def get_words(self, language=None):
     """Get words with character details"""
-    base_query = """
-      SELECT w.id, w.romanization, w.language, w.characters
-      FROM words w
-    """
+    base_query = "SELECT id, romanization, language, characters FROM words"
     
-    conditions = []
     params = []
     
-    if language:
-      conditions.append("w.language = %s")
+    if language: 
+      base_query += " WHERE language = %s"
       params.append(language)
-    
-    if conditions:
-      base_query += " WHERE " + " AND ".join(conditions)
-    
-    base_query += " ORDER BY w.id DESC"
-    
-    if limit:
-      base_query += " LIMIT %s"
-      params.append(limit)
-    
-    if offset:
-      base_query += " OFFSET %s" 
-      params.append(offset)
     
     try:
       words_result = self.execute(base_query, params)
@@ -150,12 +133,15 @@ class SinoDB(DB):
         if character_ids:
           try:
             placeholders = ','.join(['%s'] * len(character_ids))
-            char_query = f"SELECT id, hanzi FROM characters WHERE id IN ({placeholders}) ORDER BY array_position(%s, id)"
-            char_result = self.execute(char_query, character_ids + [character_ids])
+            char_query = f"SELECT id, hanzi FROM characters WHERE id IN ({placeholders})"
+            char_result = self.execute(char_query, character_ids)
             if char_result:
-              character_details = [{'id': r[0], 'character': r[1]} for r in char_result]
+              # Create a mapping for ordering
+              char_map = {r[0]: {'id': r[0], 'character': r[1]} for r in char_result}
+              # Order according to the character_ids array
+              character_details = [char_map[char_id] for char_id in character_ids if char_id in char_map]
           except Exception as e:
-            print(f"Error getting character details: {e}")
+            print(f"Error getting character details for word {word_id}: {e}")
             # Still add the word but without character details
             character_details = []
         

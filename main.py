@@ -266,7 +266,7 @@ def admin_words():
     """Display the words management interface"""
     try:
         db = SinoDB()
-        words = db.get_words(limit=50)
+        words = db.get_words()
         languages = db.get_all_languages()
         
         # Ensure words is always a list
@@ -307,10 +307,8 @@ def get_words_api():
     try:
         db = SinoDB()
         language = request.args.get('language')
-        limit = request.args.get('limit', type=int)
-        offset = request.args.get('offset', type=int)
         
-        words = db.get_words(language=language, limit=limit, offset=offset)
+        words = db.get_words(language=language)
         
         # Ensure words is always a list
         if words is None:
@@ -359,9 +357,7 @@ def create_word():
         if not result:
             return jsonify({"success": False, "error": "Failed to save word. Please try again."}), 500
         
-        word_id = result[0][0] if result and result[0] else None
-        
-        return jsonify({"success": True, "word_id": word_id})
+        return jsonify({"success": True})
     
     except Exception as e:
         print(f"Error creating word: {e}")
