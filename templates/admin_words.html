@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% set title = "Words Management - BobaWay Admin" %}
+{% set og_description = "Admin portal for managing word database" %}
+{% set additional_css = ['styles/admin_portal.css', 'styles/admin_words.css'] %}
+{% set additional_js = ['scripts/admin-words.js'] %}
+
+{% block content %}
+    <div class="admin-section words-management">
+        <section class="admin-hero">
+            <div class="hero-content">
+                <h2 class="admin-hero-title">📝 Words Management</h2>
+                <p class="admin-hero-description">
+                    Create and manage words composed of characters with romanizations across different languages.
+                </p>
+                <div class="nav-buttons">
+                    <a href="/sino-type/admin-portal" class="back-button">← Back to Portal</a>
+                    <a href="logout" class="logout-button">Logout</a>
+                </div>
+            </div>
+        </section>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for msg in messages %}
+                        <div class="flash-message">{{ msg }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Character Search Section -->
+        <section class="character-search-section">
+            <div class="search-controls">
+                <div class="form-group">
+                    <label for="language-select">Language:</label>
+                    <select id="language-select" class="language-dropdown">
+                        {% for lang in languages %}
+                            <option value="{{ lang }}" {% if lang == 'shanghainese' %}selected{% endif %}>
+                                {{ lang|title }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="character-code">Character Code:</label>
+                    <input type="number" id="character-code" placeholder="Enter character ID" class="character-input">
+                    <button type="button" id="search-character" class="search-button">Search</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Character Display Section -->
+        <section class="character-display-section" id="character-display" style="display: none;">
+            <h3>Current Character</h3>
+            <div class="character-info">
+                <div class="character-details">
+                    <span id="character-display-hanzi" class="character-hanzi"></span>
+                    <span id="character-display-id" class="character-id"></span>
+                </div>
+                
+                <div class="romanizations-section">
+                    <h4>Available Romanizations:</h4>
+                    <div id="romanizations-list" class="romanizations-list">
+                        <!-- Romanizations will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Word Construction Section -->
+        <section class="word-construction-section">
+            <h3>Word Construction</h3>
+            
+            <div class="selected-characters">
+                <h4>Selected Characters:</h4>
+                <div id="character-sequence" class="character-sequence">
+                    <div class="empty-character-slot">Click "Add Character" to start building a word</div>
+                </div>
+                <button type="button" id="add-character" class="add-character-button" disabled>+ Add Character</button>
+            </div>
+
+            <div class="word-details">
+                <div class="form-group">
+                    <label for="word-romanization">Romanization:</label>
+                    <input type="text" id="word-romanization" placeholder="Romanization will be generated automatically" class="word-romanization-input">
+                </div>
+                
+                <div class="form-group">
+                    <label for="word-language">Language:</label>
+                    <select id="word-language" class="word-language-select">
+                        {% for lang in languages %}
+                            <option value="{{ lang }}" {% if lang == 'shanghainese' %}selected{% endif %}>
+                                {{ lang|title }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="word-actions">
+                <button type="button" id="save-word" class="save-button" disabled>Save Word</button>
+                <button type="button" id="clear-word" class="clear-button">Clear</button>
+            </div>
+        </section>
+
+        <!-- All Words Display Section -->
+        <section class="words-display-section">
+            <h3>All Words</h3>
+            
+            <div class="words-filter">
+                <label for="filter-language">Filter by language:</label>
+                <select id="filter-language" class="filter-select">
+                    <option value="">All Languages</option>
+                    {% for lang in languages %}
+                        <option value="{{ lang }}">{{ lang|title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="words-list" id="words-list">
+                {% if words %}
+                    {% for word in words %}
+                        <div class="word-item" data-word-id="{{ word.id }}" data-language="{{ word.language }}">
+                            <div class="word-content">
+                                <span class="word-characters">
+                                    {% for char_detail in word.character_details %}
+                                        {{ char_detail.character }}
+                                    {% endfor %}
+                                </span>
+                                <span class="word-romanization">({{ word.romanization }})</span>
+                                <span class="word-language">- {{ word.language|title }}</span>
+                            </div>
+                            <div class="word-actions">
+                                <button type="button" class="edit-word-button" data-word='{{ word|tojson }}'>Edit</button>
+                                <button type="button" class="delete-word-button" data-word-id="{{ word.id }}">Delete</button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-words">No words found. Create your first word above!</div>
+                {% endif %}
+            </div>
+        </section>
+
+        <section class="contact-info">
+            <p>If any issues arise, please email yao.tong2018@outlook.com</p>
+        </section>
+    </div>
+
+    <!-- Error/Success Messages -->
+    <div id="message-container" class="message-container"></div>
+
+    <!-- Edit Word Modal -->
+    <div id="edit-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Edit Word</h3>
+            <div class="form-group">
+                <label for="edit-romanization">Romanization:</label>
+                <input type="text" id="edit-romanization" class="modal-input">
+            </div>
+            <div class="form-group">
+                <label for="edit-language">Language:</label>
+                <select id="edit-language" class="modal-select">
+                    {% for lang in languages %}
+                        <option value="{{ lang }}">{{ lang|title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button type="button" id="save-edit" class="save-button">Save Changes</button>
+                <button type="button" id="cancel-edit" class="cancel-button">Cancel</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
