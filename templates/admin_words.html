@@ -30,56 +30,57 @@
             {% endif %}
         {% endwith %}
 
-        <!-- Character Search Section -->
-        <section class="character-search-section">
-            <div class="search-controls">
-                <div class="form-group">
-                    <label for="language-select">Language:</label>
-                    <select id="language-select" class="language-dropdown">
-                        {% for lang in languages %}
-                            <option value="{{ lang }}" {% if lang == 'shanghainese' %}selected{% endif %}>
-                                {{ lang|title }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="character-code">Character Code:</label>
-                    <input type="number" id="character-code" placeholder="Enter character ID" class="character-input">
-                    <button type="button" id="search-character" class="search-button">Search</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Character Display Section -->
-        <section class="character-display-section" id="character-display" style="display: none;">
-            <h3>Current Character</h3>
-            <div class="character-info">
-                <div class="character-details">
-                    <span id="character-display-hanzi" class="character-hanzi"></span>
-                    <span id="character-display-id" class="character-id"></span>
-                </div>
-                
-                <div class="romanizations-section">
-                    <h4>Available Romanizations:</h4>
-                    <div id="romanizations-list" class="romanizations-list">
-                        <!-- Romanizations will be populated by JavaScript -->
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- Word Construction Section -->
         <section class="word-construction-section">
             <h3>Word Construction</h3>
             
+            <!-- Character Search and Addition -->
+            <div class="character-search-addition">
+                <h4>Find and Add Characters:</h4>
+                <div class="search-controls">
+                    <div class="form-group">
+                        <label for="language-select">Language:</label>
+                        <select id="language-select" class="language-dropdown">
+                            {% for lang in languages %}
+                                <option value="{{ lang }}" {% if lang == 'shanghainese' %}selected{% endif %}>
+                                    {{ lang|title }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="character-code">Character Code:</label>
+                        <input type="number" id="character-code" placeholder="Enter character ID" class="character-input">
+                        <button type="button" id="search-character" class="search-button">Search</button>
+                    </div>
+                </div>
+
+                <!-- Character Display -->
+                <div class="character-display-section" id="character-display" style="display: none;">
+                    <div class="character-info">
+                        <div class="character-details">
+                            <span id="character-display-hanzi" class="character-hanzi"></span>
+                            <span id="character-display-id" class="character-id"></span>
+                        </div>
+                        
+                        <div class="romanizations-section">
+                            <h5>Available Romanizations:</h5>
+                            <div id="romanizations-list" class="romanizations-list">
+                                <!-- Romanizations will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <button type="button" id="add-character" class="add-character-button" disabled>+ Add This Character</button>
+                    </div>
+                </div>
+            </div>
+            
             <div class="selected-characters">
                 <h4>Selected Characters:</h4>
                 <div id="character-sequence" class="character-sequence">
-                    <div class="empty-character-slot">Click "Add Character" to start building a word</div>
+                    <div class="empty-character-slot">Search and add characters above to start building a word</div>
                 </div>
-                <button type="button" id="add-character" class="add-character-button" disabled>+ Add Character</button>
             </div>
 
             <div class="word-details">

@@ -153,7 +153,7 @@ class WordsManager {
         const sequenceDiv = document.getElementById('character-sequence');
         
         if (this.selectedCharacters.length === 0) {
-            sequenceDiv.innerHTML = '<div class="empty-character-slot">Click "Add Character" to start building a word</div>';
+            sequenceDiv.innerHTML = '<div class="empty-character-slot">Search for a character to start building a word</div>';
             return;
         }
 

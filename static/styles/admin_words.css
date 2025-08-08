@@ -78,13 +78,22 @@
     margin-bottom: 1rem;
 }
 
-/* Character search section */
+/* Character search and addition section */
+.character-search-addition {
+    background-color: rgba(23, 162, 184, 0.05);
+    border: 2px solid rgba(23, 162, 184, 0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
 .search-controls {
     display: flex;
     gap: 2rem;
     align-items: end;
     justify-content: center;
     flex-wrap: wrap;
+    margin-bottom: 1rem;
 }
 
 .form-group {
@@ -158,6 +167,8 @@
     background-color: #17a2b8;
     color: white;
     margin-top: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
 }
 
 .add-character-button:hover:not(:disabled) {
@@ -222,6 +233,10 @@ button:disabled {
 /* Character display section */
 .character-display-section {
     border: 2px solid rgba(60, 20, 0, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: rgba(60, 20, 0, 0.02);
+    margin-top: 1rem;
 }
 
 .character-info {
